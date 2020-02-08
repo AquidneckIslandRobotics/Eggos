@@ -9,15 +9,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
-
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -89,7 +84,7 @@ public class Chassis extends SubsystemBase {
 
   public void curvatureDrive(double speed, double rotation, boolean quickTurn){
     double leftSpeed = (quickTurn?-rotation:speed - (speed != 0?rotation:0));
-    double rightSpeed = (quickTurn?rotation:speed + (speed != 0 ?rotation:0));
+    double rightSpeed = (quickTurn?rotation:speed + (speed != 0?rotation:0));
 
     leftLead.set(ControlMode.PercentOutput,leftSpeed);
     rightLead.set(ControlMode.PercentOutput,rightSpeed);

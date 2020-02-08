@@ -27,6 +27,7 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
   private static XboxController drivingJoystick1 = new XboxController(1);
   private Button button = new JoystickButton(drivingJoystick1, 6);
+  private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
   
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -48,7 +49,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
+    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button, driverYeet));
+  
   }
 
 
