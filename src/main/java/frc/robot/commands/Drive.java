@@ -16,14 +16,16 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class Drive extends CommandBase {
   Chassis m_subsystem;
   XboxController m_joystick;
-  Button m_button;
+  Button m_button, m_buttonY;
+
   /**
    * Creates a new Drive.
    */
-  public Drive(Chassis subsystem, XboxController joy, Button butt) {
+  public Drive(Chassis subsystem, XboxController joy, Button butt, Button butY) {
     m_subsystem = subsystem;
     m_joystick = joy;
     m_button = butt;
+    m_buttonY = butY;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -36,7 +38,13 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.curvatureDrive(m_joystick.getY(GenericHID.Hand.kLeft),(m_joystick.getX(GenericHID.Hand.kRight) *-1), m_button.get());
+    double speed = (Math.abs(m_joystick.getY(GenericHID.Hand.kLeft)) < 0.1)?0:m_joystick.getY(GenericHID.Hand.kLeft);
+    double rotation = (Math.abs(m_joystick.getX(GenericHID.Hand.kRight)) < 0.1)?0:m_joystick.getX(GenericHID.Hand.kRight) *-1;
+    if (!m_buttonY.get()){
+      speed = speed * 0.5;
+      //rotation = rotation * 0.5;
+    }
+    m_subsystem.curvatureDrive(speed, rotation, m_button.get());
   }
 
   // Called once the command ends or is interrupted.
