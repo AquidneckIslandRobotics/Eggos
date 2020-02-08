@@ -16,4 +16,32 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //Driving Motors 
+    public static final int LeftLeader = 14; 
+    public static final int LeftFollower = 15; 
+    public static final int RightLeader = 1; 
+    public static final int RightFollower = 16; // PDP port 0
+
+    //Shooter Motors 
+    public static final int RightShooter = 2; 
+    public static final int LeftShooter = 3; 
+    public static final int HoodAngle = 4; 
+    public static final int TurretRotate = 5; 
+    //Limelight does not get its own motor port, but it is plugged into PDP
+
+    //Hopper Motors 
+    public static final int HopperRight = 6; 
+    public static final int HopperLeft = 9; 
+    public static final int Feed = 10; 
+
+    //Intake Motors
+    public static final int RightIntake = 7; 
+    public static final int LeftIntake = 8; 
+
+    //Control Panel 
+    public static final int ControlPanel = 11; 
+  
+    //Climbing 
+    public static final int Climber = 13; 
+ 
 }
