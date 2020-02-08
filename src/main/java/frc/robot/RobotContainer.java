@@ -10,11 +10,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive;
+import frc.robot.commands.HopperIntake;
 import frc.robot.commands.MotionMagic;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Shooter;
+import frc.robot.Constants;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.HopperOuttake;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,6 +32,10 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
   private static XboxController drivingJoystick1 = new XboxController(1);
   private Button button = new JoystickButton(drivingJoystick1, 6);
+  private Button X = new JoystickButton(drivingJoystick1, 3);
+  private Button Y = new JoystickButton(drivingJoystick1, 4);
+
+  public final Shooter m_shooter = new Shooter();
   
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -49,6 +58,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
+    
+    X.whileHeld(new HopperIntake(m_shooter));
+    Y.whileHeld(new HopperOuttake(m_shooter));
   }
 
 
