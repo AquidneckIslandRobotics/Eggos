@@ -15,6 +15,11 @@ import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Turret;
+import frc.robot.commands.TurretTurn;
+import frc.robot.commands.TurretTarget;
+import frc.robot.commands.SpinWheel;
+import frc.robot.commands.TurretLimelight;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,8 +30,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Chassis m_chassis = new Chassis();
+  private static XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
   private Button button = new JoystickButton(drivingJoystick1, 6);
+  private Button RT = new JoystickButton(drivingJoystick1, 7);
+  private Button limeTime = new JoystickButton(drivingJoystick1, 4);
+
+  Button driverA = new JoystickButton(drivingJoystick1, 1); 
+  Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
+  Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
+
+  public final Turret m_turret = new Turret();
   
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -49,6 +63,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
+    driverA.whileHeld(new TurretTarget(m_turret));
+
+    manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
+    manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
+    RT.whileHeld(new SpinWheel(m_turret));
+    limeTime.whileHeld(new TurretLimelight(m_turret));
   }
 
 
