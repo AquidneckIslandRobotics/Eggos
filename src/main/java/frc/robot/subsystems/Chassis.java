@@ -13,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -22,7 +24,8 @@ public class Chassis extends SubsystemBase {
   private TalonFX rightLead;
   private BaseMotorController rightFollow;
 
-  public TalonFXConfiguration _motion_magic = new TalonFXConfiguration();
+  public TalonFXConfiguration _motion_magic = new TalonFXConfiguration(); 
+  
   /**
    * Creates a new Chassis.
    */
@@ -50,18 +53,10 @@ public class Chassis extends SubsystemBase {
 
     leftLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
     leftLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
-    //leftLead.configNominalOutputForward(0, 30);
-    //leftLead.configNominalOutputReverse(0, 30);
-    //leftLead.configPeakOutputForward(1, 30);
-    //leftLead.configPeakOutputReverse(-1, 30);
-    //leftLead.selectProfileSlot(0, 0);
-    //leftLead.config_kF(0, 0.2, 30);
-    //leftLead.config_kP(0, 0.2, 30);
-    //leftLead.config_kI(0, 0, 30);
-    //leftLead.config_kD(0, 0, 30);
-    //leftLead.configMotionCruiseVelocity(15000, 30);
-    //leftLead.configMotionAcceleration(6000, 30);
-    //leftLead.setSelectedSensorPosition(0, 0, 30);
+
+    rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30); 
+    rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30); 
+
 
     _motion_magic.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
     _motion_magic.neutralDeadband = 0.001;
@@ -79,6 +74,8 @@ public class Chassis extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Left Lead Direction", leftLead.getInverted()); 
+    SmartDashboard.putBoolean("Right Lead Direction", rightLead.getInverted()); 
     // This method will be called once per scheduler run
   }
 
@@ -106,4 +103,19 @@ public class Chassis extends SubsystemBase {
   public void resetEncoder(){
     leftLead.setSelectedSensorPosition(0);
   }
+  public void switchDirection(){
+   
+    leftLead.setInverted(!leftLead.getInverted());
+    leftFollow.setInverted(!leftFollow.getInverted());
+    rightLead.setInverted(!rightLead.getInverted());
+    rightFollow.setInverted(!rightFollow.getInverted());
+    
+  }
 }
+// " hey buddy if you could just switch these motors to the other dirction that'd be great"
+
+/* if(programmers == tired){
+  println("NAP"); 
+ }else {
+   println("Keep programming"); 
+ }; */
