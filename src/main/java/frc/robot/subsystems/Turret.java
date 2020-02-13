@@ -105,7 +105,7 @@ public class Turret extends SubsystemBase {
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
     SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightX", y);
+    SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
    // SmartDashboard.putNumber("Turret Encoder", turretEncoder); 
     // This method will be called once per scheduler run

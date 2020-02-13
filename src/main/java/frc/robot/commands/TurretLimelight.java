@@ -38,27 +38,26 @@ public class TurretLimelight extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightX", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+    double y = turret.getLimelightX();
 
-    if (x > 0) {
+    if (y > 0) {
       turret.setSpeed(.5);
+      SmartDashboard.putString("direction", "right");
     }
-    else if (x < 0) {
+    else if (y < 0) {
       turret.setSpeed(-.5);
+      SmartDashboard.putString("direction", "left");
     }
     else {
       turret.stopTurret();
+      SmartDashboard.putString("direction", "straight");
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turret.stopTurret();
   }
 
   // Returns true when the command should end.
