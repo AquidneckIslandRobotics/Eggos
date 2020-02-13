@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive;
 import frc.robot.commands.MotionMagic;
+import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -28,6 +29,7 @@ public class RobotContainer {
   private static XboxController drivingJoystick1 = new XboxController(1);
   private Button button = new JoystickButton(drivingJoystick1, 6);
   private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
+  private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
   
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -50,6 +52,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button, driverYeet));
+    flipDirectionButton.whenPressed(new switchDirection(m_chassis)); 
+
   
   }
 
