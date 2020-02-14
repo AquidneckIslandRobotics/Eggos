@@ -9,33 +9,33 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.ControlMode; 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot; 
+import frc.robot.Robot;
+import frc.robot.subsystems.ColorSensor;
 
 public class AutoColor extends CommandBase {
-  public String dColor = "unknown"; 
-  public String chosenColor = "unknown"; 
+  public String dColor = "unknown";
+  public String chosenColor = "unknown";
 
   /**
    * Creates a new AutoColor.
    */
   public AutoColor(String color) {
-    this.chosenColor = color; 
+    this.chosenColor = color;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    dColor = Robot.m_colorsensor.getDetectedColor(); 
+    dColor = Robot.m_colorsensor.getDetectedColor();
   }
-
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    dColor = Robot.m_colorsensor.getDetectedColor(); 
-    SmartDashboard.putString("Auto Detected Color", dColor); 
-    Robot.m_colorsensor.controlPanel.set(ControlMode.PercentOutput, .2); 
+    dColor = Robot.m_colorsensor.getDetectedColor();
+    SmartDashboard.putString("Auto Detected Color", dColor);
+    ColorSensor.controlPanel.set(ControlMode.PercentOutput, .2);
 
   }
 

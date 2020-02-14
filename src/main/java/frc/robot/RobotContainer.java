@@ -9,12 +9,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoColor;
+import frc.robot.commands.ColorSpinFour;
+import frc.robot.commands.ColorSpinTarget;
 import frc.robot.commands.Drive;
 import frc.robot.commands.MotionMagic;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.ColorSensor; 
+import edu.wpi.first.wpilibj.GenericHID.Hand; 
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,18 +30,35 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Chassis m_chassis = new Chassis();
-  private static XboxController drivingJoystick1 = new XboxController(1);
+  
   private Button button = new JoystickButton(drivingJoystick1, 6);
   
+private static XboxController drivingJoystick1 = new XboxController(1);
+public static XboxController colorJoystick = new XboxController(2); 
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+  public final ColorSensor m_colorSensor = new ColorSensor(); 
 
+  public static double getRightX() {
+    double rightX = colorJoystick.getX(Hand.kRight); 
+    if(Math.abs(rightX) < 0.05) {
+      rightX = 0; 
+    }
+    return rightX; 
+  }
 
+  Button colorA = new JoystickButton(colorJoystick, 1); 
+  Button colorB = new JoystickButton(colorJoystick, 2); 
+  Button colorX = new JoystickButton(colorJoystick, 3); 
+  Button colorY = new JoystickButton(colorJoystick, 4); 
+  Button colorLB = new JoystickButton(colorJoystick, 5); 
+  Button colorRB = new JoystickButton(colorJoystick, 6); 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -49,6 +71,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
+
+    //Color Controller Buttons 
+    colorA.whenPressed(new AutoColor("Green")); 
+    colorB.whenPressed(new AutoColor("Red")); 
+    colorX.whenPressed(new AutoColor("Blue")); 
+    colorY.whenPressed(new AutoColor("Yellow")); 
+    colorLB.whileHeld(new ColorSpinTarget()); 
+    colorRB.whenPressed(new ColorSpinFour()); 
   }
 
 
