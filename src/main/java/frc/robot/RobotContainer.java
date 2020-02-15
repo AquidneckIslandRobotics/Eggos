@@ -15,6 +15,8 @@ import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeInward;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,7 +29,9 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
   private static XboxController drivingJoystick1 = new XboxController(1);
   private Button button = new JoystickButton(drivingJoystick1, 6);
+  private Button X = new JoystickButton(drivingJoystick1, 3);
   
+  Intake intake;
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
 
@@ -49,6 +53,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
+    X.whileHeld(new IntakeInward(intake));
   }
 
 
