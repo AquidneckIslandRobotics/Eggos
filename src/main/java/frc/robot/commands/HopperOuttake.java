@@ -38,6 +38,7 @@ public class HopperOuttake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.stopHopper();
   }
 
   // Returns true when the command should end.
