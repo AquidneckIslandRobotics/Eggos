@@ -31,7 +31,7 @@ public class RobotContainer {
   private Button button = new JoystickButton(drivingJoystick1, 6);
   private Button X = new JoystickButton(drivingJoystick1, 3);
   
-  Intake intake;
+  private final Intake m_intake = new Intake();
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
 
@@ -53,7 +53,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
-    X.whileHeld(new IntakeInward(intake));
+    X.whileHeld(new IntakeInward(m_intake));
   }
 
 
