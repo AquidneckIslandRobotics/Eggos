@@ -50,7 +50,7 @@ public class DriveDistanceAuto extends CommandBase {
     if(currentVelocity > 0.5) {
       currentVelocity = 0.5; 
     } else {
-      double halfClicks = 0.5 * m_distance + initialRightEncoderPosition; 
+      double halfClicks = 0.5 * m_clicks + initialRightEncoderPosition; 
       if (halfClicks > Robot.m_chassis.getRightEncoder()) {
         currentVelocity = ((Robot.m_chassis.getRightEncoder()-initialRightEncoderPosition)/195.66879) * 0.09+0.2 ; // I dont know why the 0.09 or the .2 is there, maybe someone else does 
       } else {
@@ -70,7 +70,7 @@ public class DriveDistanceAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.m_chassis.getRightEncoder() > initialRightEncoderPosition + m_distance) {
+    if (Robot.m_chassis.getRightEncoder() > initialRightEncoderPosition + m_clicks) {
       SmartDashboard.putNumber("Velocity", 0); 
       return true; 
     }

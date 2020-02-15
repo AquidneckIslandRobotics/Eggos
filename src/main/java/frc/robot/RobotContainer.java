@@ -57,7 +57,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button, driverYeet));
     flipDirectionButton.whenPressed(new switchDirection(m_chassis)); 
-    AutoAButton.whenPressed(new DriveDistanceAuto(m_chassis, 100)); 
+    AutoAButton.whenPressed(new DriveDistanceAuto(m_chassis, 100));
   
   }
 

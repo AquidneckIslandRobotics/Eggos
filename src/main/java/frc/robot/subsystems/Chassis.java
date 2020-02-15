@@ -26,8 +26,8 @@ public class Chassis extends SubsystemBase {
   private TalonFX rightLead;
   private BaseMotorController rightFollow;
 
-  public Encoder rightEncoder = new Encoder(Constants.encoderRA, Constants.encoderRB);
-  public Encoder leftEncoder = new Encoder(Constants.encoderLA, Constants.encoderLB);
+  public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
+  public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
   public TalonFXConfiguration _motion_magic = new TalonFXConfiguration();
 
   /**
