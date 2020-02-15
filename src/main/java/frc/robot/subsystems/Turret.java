@@ -16,11 +16,13 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Turret extends SubsystemBase {
-    public static TalonSRX turretRotate = new TalonSRX(Constants.TurretRotate);
+    public static CANSparkMax turretRotate = new CANSparkMax(Constants.TurretRotate, MotorType.kBrushless);
     public static WPI_TalonFX turretWheel1 = new WPI_TalonFX(Constants.LeftShooter);
     public static WPI_TalonFX turretWheel2 = new WPI_TalonFX(Constants.RightShooter);
     //public static Encoder turretEncoder = new Encoder(Constants.TurretEncoder); 
@@ -34,9 +36,7 @@ public class Turret extends SubsystemBase {
    * Creates a new Turret.
    */
   public Turret() {
-    turretRotate.setSensorPhase(false);
     turretRotate.setInverted(false);
-    turretRotate.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     
    // m_analogSensor = turretServo.;
 
@@ -94,8 +94,8 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Turret Set Point", rotations); 
    // SmartDashboard.putNumber("Process Variable Conversion", m_analogSensor.getPositionConversionFactor()); 
    //SmartDashboard.putNumber("Process Variable Get Pos only", m_analogSensor()); 
-    SmartDashboard.putNumber("Sensor Velocity", turretRotate.getSelectedSensorVelocity()); 
-    SmartDashboard.putNumber("Sensor Position", turretRotate.getSelectedSensorPosition()); 
+    //SmartDashboard.putNumber("Sensor Velocity", turretRotate.getSelectedSensorVelocity()); 
+    //SmartDashboard.putNumber("Sensor Position", turretRotate.getSelectedSensorPosition()); 
     
     
    
@@ -111,13 +111,13 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
   }
     public void setSpeed(double speed) {
-    turretRotate.set(ControlMode.PercentOutput, speed);
+    turretRotate.set(speed);
     SmartDashboard.putNumber("Turret Speed", speed);
     //turretServo.getFaults(_faults); 
   
   }
     public void stopTurret(){
-    turretRotate.set(ControlMode.PercentOutput, 0);
+    turretRotate.set(0);
     SmartDashboard.putNumber("Turret Speed", 0);
   }
 
