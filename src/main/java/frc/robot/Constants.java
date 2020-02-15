@@ -16,6 +16,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+<<<<<<< HEAD
     //Shooter Motors
     public static final int RightShooter = 2;
     public static final int LeftShooter = 3;
@@ -23,6 +24,9 @@ public final class Constants {
     public static final int TurretRotate = 5;
     public static final int talonsrxturret = 7;
   
+=======
+ 
+>>>>>>> 857c7c608cdea98afd086049ad6c5c015eba49f4
     //Driving Motors 
     public static final int LeftLeader = 14; 
     public static final int LeftFollower = 15; 
@@ -50,4 +54,13 @@ public final class Constants {
   
     //Climbing 
     public static final int Climber = 13; 
+<<<<<<< HEAD
+=======
+
+    //Encoders 
+    public static final int EncoderLA = 888; 
+    public static final int EncoderLB = 777;
+    public static final int EncoderRA = 555; 
+    public static final int EncoderRB = 333; 
+>>>>>>> 857c7c608cdea98afd086049ad6c5c015eba49f4
 }
