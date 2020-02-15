@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.MotionMagic;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
@@ -30,9 +31,12 @@ public class RobotContainer {
   private Button button = new JoystickButton(drivingJoystick1, 6);
   private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
   private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
+  private Button AutoAButton = new JoystickButton(drivingJoystick1, 1); 
   
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+
+  //Robot.m_drive.setDefaultCommand(new DefaultCommand); 
 
 
 
@@ -43,7 +47,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
-
+  
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -53,7 +57,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button, driverYeet));
     flipDirectionButton.whenPressed(new switchDirection(m_chassis)); 
-
+    AutoAButton.whenPressed(new DriveDistanceAuto(m_chassis, 100)); 
   
   }
 

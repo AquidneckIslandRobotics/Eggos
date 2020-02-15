@@ -14,9 +14,11 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
   private TalonFX leftLead;
@@ -24,8 +26,10 @@ public class Chassis extends SubsystemBase {
   private TalonFX rightLead;
   private BaseMotorController rightFollow;
 
-  public TalonFXConfiguration _motion_magic = new TalonFXConfiguration(); 
-  
+  public Encoder rightEncoder = new Encoder(Constants.encoderRA, Constants.encoderRB);
+  public Encoder leftEncoder = new Encoder(Constants.encoderLA, Constants.encoderLB);
+  public TalonFXConfiguration _motion_magic = new TalonFXConfiguration();
+
   /**
    * Creates a new Chassis.
    */
@@ -34,7 +38,6 @@ public class Chassis extends SubsystemBase {
     leftFollow = new TalonFX(15);
     rightLead = new TalonFX(1);
     rightFollow = new TalonFX(16);
-
 
     leftFollow.configFactoryDefault();
     leftFollow.follow(leftLead);
@@ -54,9 +57,8 @@ public class Chassis extends SubsystemBase {
     leftLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
     leftLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
 
-    rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30); 
-    rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30); 
-
+    rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
+    rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
 
     _motion_magic.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
     _motion_magic.neutralDeadband = 0.001;
@@ -74,22 +76,41 @@ public class Chassis extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Left Lead Direction", leftLead.getInverted()); 
-    SmartDashboard.putBoolean("Right Lead Direction", rightLead.getInverted()); 
+    SmartDashboard.putBoolean("Left Lead Direction", leftLead.getInverted());
+    SmartDashboard.putBoolean("Right Lead Direction", rightLead.getInverted());
     // This method will be called once per scheduler run
   }
 
-  public void curvatureDrive(double speed, double rotation, boolean quickTurn){
-    double leftSpeed = (quickTurn?-rotation:speed - (speed != 0?rotation:0));
-    double rightSpeed = (quickTurn?rotation:speed + (speed != 0?rotation:0));
+  public void curvatureDrive(double speed, double rotation, boolean quickTurn) {
+    double leftSpeed = (quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
+    double rightSpeed = (quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
 
-    leftLead.set(ControlMode.PercentOutput,leftSpeed);
-    rightLead.set(ControlMode.PercentOutput,rightSpeed);
+    leftLead.set(ControlMode.PercentOutput, leftSpeed);
+    rightLead.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   public void setConfig(TalonFXConfiguration config) {
     leftLead.configAllSettings(config);
   }
+
+  public double getRightEncoder() {
+    return rightEncoder.get();
+  }
+
+  public double getLeftEncoder() {
+    return leftEncoder.get();
+  }
+
+  public void resetEncoders() {
+    rightEncoder.reset();
+    leftEncoder.reset();
+  }
+
+public void stopDriveMotors() {
+  leftLead.set(ControlMode.PercentOutput, 0); 
+  rightLead.set(ControlMode.PercentOutput, 0); 
+}
+
 
   public void setSetpoint(double setpoint) {
     System.out.println("Out: " + leftLead.getMotorOutputPercent());
@@ -110,6 +131,10 @@ public class Chassis extends SubsystemBase {
     rightLead.setInverted(!rightLead.getInverted());
     rightFollow.setInverted(!rightFollow.getInverted());
     
+  }
+  public void stop() {
+    leftLead.set(ControlMode.PercentOutput, 0); 
+    rightLead.set(ControlMode.PercentOutput, 0); 
   }
 }
 // " hey buddy if you could just switch these motors to the other dirction that'd be great"
