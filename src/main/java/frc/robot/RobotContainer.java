@@ -69,6 +69,8 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    final Chassis m_chassis = new Chassis();
+    final Turret m_turret = new Turret(); 
     // Configure the button bindings
     configureButtonBindings();
   }
