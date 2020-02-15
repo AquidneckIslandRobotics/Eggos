@@ -33,7 +33,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   // Subsystems
-  private final Chassis m_chassis = new Chassis();
+  
   private final Turret m_turret = new Turret();
   
   // Joysticks
@@ -56,15 +56,9 @@ public class RobotContainer {
   private Button AutoAButton = new JoystickButton(drivingJoystick1, 1); 
   
   // Commands
-  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+  private final MotionMagic c_MotionMagic = new MotionMagic(Robot.m_chassis, 10);
 
-<<<<<<< HEAD
   // ------------------------------------------
-=======
-  //Robot.m_drive.setDefaultCommand(new DefaultCommand); 
-
-
->>>>>>> 857c7c608cdea98afd086049ad6c5c015eba49f4
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -82,24 +76,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Default commands
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button, driverYeet));
-<<<<<<< HEAD
+    Robot.m_chassis.setDefaultCommand(new Drive(Robot.m_chassis, drivingJoystick1, button, driverYeet));
     
     // Button Setup
     //  Driver Buttons
     driverA.whileHeld(new TurretTarget(m_turret));
-    flipDirectionButton.whenPressed(new switchDirection(m_chassis));
+    flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
     RT.whileHeld(new SpinWheel(m_turret));
     limeTime.whileHeld(new TurretLimelight(m_turret));
-=======
-    flipDirectionButton.whenPressed(new switchDirection(m_chassis)); 
-    AutoAButton.whenPressed(new DriveDistanceAuto(m_chassis, 100));
+    flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
+    AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 100));
   
->>>>>>> 857c7c608cdea98afd086049ad6c5c015eba49f4
   }
 
 
