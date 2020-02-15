@@ -47,4 +47,11 @@ public class Shooter extends SubsystemBase {
     hopperRight.set(-.5);
     hopperLeft.set(-.5);
   }
+  public void stopHopper(){
+    hopperRight.set(0);
+    hopperLeft.set(0);
+    feed.set(0);
+
+
+  }
 }
