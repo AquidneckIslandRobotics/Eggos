@@ -19,6 +19,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
@@ -37,15 +38,17 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("L Hopper", hopperLeft.get());
+    SmartDashboard.putNumber("R Hopper", hopperRight.get());
   }
   public void HopperIntake() {
-    hopperRight.set(-.5);
-    hopperLeft.set(.5);
+    hopperRight.set(0.5);
+    hopperLeft.set(-0.5);
     feed.set(.5);
   }
   public void HopperOuttake() {
-    hopperRight.set(.5);
-    hopperLeft.set(-.5);
+    hopperRight.set(-0.5);
+    hopperLeft.set(0.5);
   }
   public void stopHopper(){
     hopperRight.set(0);
