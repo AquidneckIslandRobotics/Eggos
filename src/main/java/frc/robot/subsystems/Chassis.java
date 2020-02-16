@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -26,9 +27,12 @@ public class Chassis extends SubsystemBase {
   private TalonFX rightLead;
   private BaseMotorController rightFollow;
 
-  public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
-  public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
+  // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
+  // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
   public TalonFXConfiguration _motion_magic = new TalonFXConfiguration();
+
+  public TalonFXConfiguration _leftConfig = new TalonFXConfiguration(); 
+  public TalonFXConfiguration _rightConfig = new TalonFXConfiguration(); 
 
   /**
    * Creates a new Chassis.
@@ -60,7 +64,7 @@ public class Chassis extends SubsystemBase {
     rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
     rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
 
-    _motion_magic.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
+    _motion_magic.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
     _motion_magic.neutralDeadband = 0.001;
     _motion_magic.nominalOutputForward = 0;
     _motion_magic.nominalOutputReverse = 0;
@@ -72,13 +76,50 @@ public class Chassis extends SubsystemBase {
     _motion_magic.slot0.kD = 0.0;
     _motion_magic.motionAcceleration = 6000;
     _motion_magic.motionCruiseVelocity = 15000;
+
+    _leftConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; 
+    _rightConfig.remoteFilter0.remoteSensorDeviceID = leftLead.getDeviceID(); 
+    _rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; 
+
+   // setRobotConfigs(_rightInvert, _rightConfig); 
+    _rightConfig.slot0.kF = Constants.kGains_Distanc.kF; 
+    _rightConfig.slot0.kP = Constants.kGains_Distanc.kP;
+		_rightConfig.slot0.kI = Constants.kGains_Distanc.kI;
+		_rightConfig.slot0.kD = Constants.kGains_Distanc.kD;
+		_rightConfig.slot0.integralZone = Constants.kGains_Distanc.kIzone;
+    _rightConfig.slot0.closedLoopPeakOutput = Constants.kGains_Distanc.kPeakOutput;
+   // _rightConfig.remoteFilter1.remoteSensorDeviceID = _pidgey.getDeviceID();    //Pigeon Device ID
+	///	_rightConfig.remoteFilter1.remoteSensorSource = RemoteSensorSource.Pigeon_Yaw; //This is for a Pigeon over CAN
+	//	_rightConfig.auxiliaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor1; //Set as the Aux Sensor
+    //_rightConfig.auxiliaryPID.selectedFeedbackCoefficient = 3600.0 / Constants.kPigeonUnitsPerRotation;
+    
+    _leftConfig.neutralDeadband = Constants.kNeutralDeadband;
+    _rightConfig.neutralDeadband = Constants.kNeutralDeadband;
+
+    _rightConfig.motionAcceleration = 2000; //(distance units per 100 ms) per second
+    _rightConfig.motionCruiseVelocity = 2000; //distance units per 100 ms
+    
+    _leftConfig.motionAcceleration = 2000; //(distance units per 100 ms) per second
+		_leftConfig.motionCruiseVelocity = 2000; //distance units per 100 ms
+
+    leftLead.configAllSettings(_leftConfig);
+		rightLead.configAllSettings(_rightConfig); 
+    
   }
+
 
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Left Lead Direction", leftLead.getInverted());
     SmartDashboard.putBoolean("Right Lead Direction", rightLead.getInverted());
+
+    SmartDashboard.putNumber("Left Encoder Count", leftLead.getSelectedSensorPosition()); 
+    SmartDashboard.putNumber("Right Encoder COUNT", rightLead.getSelectedSensorPosition()); 
+
+    SmartDashboard.putNumber("ENCODER Encoder Count", leftLead.getSelectedSensorVelocity()); 
     // This method will be called once per scheduler run
+
+
   }
 
   public void curvatureDrive(double speed, double rotation, boolean quickTurn) {
@@ -92,18 +133,17 @@ public class Chassis extends SubsystemBase {
   public void setConfig(TalonFXConfiguration config) {
     leftLead.configAllSettings(config);
   }
-
+  public void setConfig(TalonFXConfiguration leftConfig, TalonFXConfiguration rightConfig) {
+    leftLead.configAllSettings(leftConfig); 
+    rightLead.configAllSettings(rightConfig); 
+    }
+  
   public double getRightEncoder() {
-    return rightEncoder.get();
+    return rightLead.getSelectedSensorPosition();
   }
 
   public double getLeftEncoder() {
-    return leftEncoder.get();
-  }
-
-  public void resetEncoders() {
-    rightEncoder.reset();
-    leftEncoder.reset();
+    return leftLead.getSelectedSensorPosition();
   }
 
 public void stopDriveMotors() {
@@ -112,18 +152,22 @@ public void stopDriveMotors() {
 }
 
 
+
   public void setSetpoint(double setpoint) {
     System.out.println("Out: " + leftLead.getMotorOutputPercent());
     System.out.println("Cur: " + leftLead.getSelectedSensorPosition(0));
     System.out.println("Vel: " + leftLead.getSelectedSensorVelocity(0));
     System.out.println("Err: " + leftLead.getClosedLoopError(0));
     System.out.println("Trg: " + setpoint);
+
     leftLead.set(ControlMode.MotionMagic, setpoint);
+    rightLead.set(ControlMode.MotionMagic, setpoint); 
   }
 
   public void resetEncoder(){
-    leftLead.setSelectedSensorPosition(0);
-  }
+  leftLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 
+  rightLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 
+ }
   public void switchDirection(){
    
     leftLead.setInverted(!leftLead.getInverted());

@@ -50,10 +50,11 @@ public final class Constants {
   
     //Climbing 
     public static final int Climber = 13; 
-
-    //Encoders
-    public static final int EncoderRA = 20;
-    public static final int EncoderRB = 22; 
-    public static final int EncoderLA = 23;
-    public static final int EncoderLB = 24; 
+//Gains stuff
+	public final static Gains kGains_Distanc = new Gains( 0.1, 0.0,  0.0, 0.0,            100,  0.50 );
+	public final static Gains kGains_Turning = new Gains( 2.0, 0.0,  4.0, 0.0,            200,  1.00 );
+	public final static Gains kGains_Velocit = new Gains( 0.1, 0.0, 20.0, 1023.0/6800.0,  300,  0.50 );
+	public final static Gains kGains_MotProf = new Gains( 1.0, 0.0,  0.0, 1023.0/6800.0,  400,  1.00 );
+  
+    public final static double kNeutralDeadband = 0.001;
 }

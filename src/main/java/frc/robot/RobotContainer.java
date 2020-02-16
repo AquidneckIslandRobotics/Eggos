@@ -43,6 +43,7 @@ public class RobotContainer {
   // Buttons
   private Button button = new JoystickButton(drivingJoystick1, 6);
   
+  private Button MotionMagicButton = new JoystickButton(drivingJoystick1, 3); //button x 
   private Button RT = new JoystickButton(manipulatorJoystick, 7);
   private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
 
@@ -90,7 +91,7 @@ public class RobotContainer {
     limeTime.whileHeld(new TurretLimelight(m_turret));
     flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
     AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 100));
-  
+    MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
   }
 
 
