@@ -35,7 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   // Subsystems
-  private final Chassis m_chassis = new Chassis();
+  public final static Chassis m_chassis = new Chassis();
   private final Turret m_turret = new Turret();
   
   // Joysticks
@@ -69,8 +69,6 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    final Chassis m_chassis = new Chassis();
-    final Turret m_turret = new Turret(); 
     // Configure the button bindings
     configureButtonBindings();
   }

@@ -19,6 +19,6 @@ public class SixCellAuto extends SequentialCommandGroup {
   public SixCellAuto() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    //super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
+   // super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
   }
 }

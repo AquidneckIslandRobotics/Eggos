@@ -39,12 +39,12 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void HopperIntake() {
-    hopperRight.set(.5);
+    hopperRight.set(-.5);
     hopperLeft.set(.5);
     feed.set(.5);
   }
   public void HopperOuttake() {
-    hopperRight.set(-.5);
+    hopperRight.set(.5);
     hopperLeft.set(-.5);
   }
   public void stopHopper(){
