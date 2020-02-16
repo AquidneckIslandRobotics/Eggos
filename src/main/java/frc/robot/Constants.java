@@ -30,8 +30,8 @@ public final class Constants {
     //Limelight does not get its own motor port, but it is plugged into PDP
 
     //Hopper Motors 
-    public static final int HopperRight = 6; 
-    public static final int HopperLeft = 9; 
+    public static final int HopperRight = 9; 
+    public static final int HopperLeft = 6;   
     public static final int Feed = 10; 
 
     //Intake Motors
@@ -43,5 +43,4 @@ public final class Constants {
   
     //Climbing 
     public static final int Climber = 13; 
- 
 }
