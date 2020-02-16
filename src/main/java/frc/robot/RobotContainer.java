@@ -90,7 +90,7 @@ public class RobotContainer {
     RT.whileHeld(new SpinWheel(m_turret));
     limeTime.whileHeld(new TurretLimelight(m_turret));
     flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
-    AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 100));
+    AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
     MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
   }
 

@@ -57,4 +57,9 @@ public final class Constants {
 	public final static Gains kGains_MotProf = new Gains( 1.0, 0.0,  0.0, 1023.0/6800.0,  400,  1.00 );
   
     public final static double kNeutralDeadband = 0.001;
+
+    public final static int pidgey = 22; 
+    public final static int kPigeonUnitsPerRotation = 8192; 
+    public final static int kTimeoutMs = 30; 
+// these numbers might not be correct. I just copied from online so they might need to be changed
 }

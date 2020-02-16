@@ -14,6 +14,8 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
+  private BaseMotorController pidgey;
   private TalonFX leftLead;
   private BaseMotorController leftFollow;
   private TalonFX rightLead;
@@ -63,6 +66,8 @@ public class Chassis extends SubsystemBase {
 
     rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
     rightLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
+  
+    //pidgey.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR, 05, 30);
 
     _motion_magic.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
     _motion_magic.neutralDeadband = 0.001;
@@ -80,6 +85,7 @@ public class Chassis extends SubsystemBase {
     _leftConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; 
     _rightConfig.remoteFilter0.remoteSensorDeviceID = leftLead.getDeviceID(); 
     _rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; 
+    pidgey.configFactoryDefault();
 
    // setRobotConfigs(_rightInvert, _rightConfig); 
     _rightConfig.slot0.kF = Constants.kGains_Distanc.kF; 
@@ -88,19 +94,28 @@ public class Chassis extends SubsystemBase {
 		_rightConfig.slot0.kD = Constants.kGains_Distanc.kD;
 		_rightConfig.slot0.integralZone = Constants.kGains_Distanc.kIzone;
     _rightConfig.slot0.closedLoopPeakOutput = Constants.kGains_Distanc.kPeakOutput;
-   // _rightConfig.remoteFilter1.remoteSensorDeviceID = _pidgey.getDeviceID();    //Pigeon Device ID
-	///	_rightConfig.remoteFilter1.remoteSensorSource = RemoteSensorSource.Pigeon_Yaw; //This is for a Pigeon over CAN
-	//	_rightConfig.auxiliaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor1; //Set as the Aux Sensor
-    //_rightConfig.auxiliaryPID.selectedFeedbackCoefficient = 3600.0 / Constants.kPigeonUnitsPerRotation;
-    
+    _rightConfig.remoteFilter1.remoteSensorDeviceID = pidgey.getDeviceID();    //Pigeon Device ID
+	  _rightConfig.remoteFilter1.remoteSensorSource = RemoteSensorSource.Pigeon_Yaw; //This is for a Pigeon over CAN
+	  _rightConfig.auxiliaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor1; //Set as the Aux Sensor
+    _rightConfig.auxiliaryPID.selectedFeedbackCoefficient = 3600.0 / Constants.kPigeonUnitsPerRotation;
+
+    _rightConfig.auxPIDPolarity = false;
+
+    _rightConfig.slot1.kF = Constants.kGains_Turning.kF;
+    _rightConfig.slot1.kP = Constants.kGains_Turning.kP;
+    _rightConfig.slot1.kI = Constants.kGains_Turning.kI;
+    _rightConfig.slot1.kD = Constants.kGains_Turning.kD;
+    _rightConfig.slot1.integralZone = Constants.kGains_Turning.kIzone;
+    _rightConfig.slot1.closedLoopPeakOutput = Constants.kGains_Turning.kPeakOutput;
+
     _leftConfig.neutralDeadband = Constants.kNeutralDeadband;
     _rightConfig.neutralDeadband = Constants.kNeutralDeadband;
 
-    _rightConfig.motionAcceleration = 2000; //(distance units per 100 ms) per second
-    _rightConfig.motionCruiseVelocity = 2000; //distance units per 100 ms
+    _rightConfig.motionAcceleration = 6000; //(distance units per 100 ms) per second
+    _rightConfig.motionCruiseVelocity = 15000; //distance units per 100 ms
     
-    _leftConfig.motionAcceleration = 2000; //(distance units per 100 ms) per second
-		_leftConfig.motionCruiseVelocity = 2000; //distance units per 100 ms
+    _leftConfig.motionAcceleration = 6000; //(distance units per 100 ms) per second
+		_leftConfig.motionCruiseVelocity = 15000; //distance units per 100 ms
 
     leftLead.configAllSettings(_leftConfig);
 		rightLead.configAllSettings(_rightConfig); 

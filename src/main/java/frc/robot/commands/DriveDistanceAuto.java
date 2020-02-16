@@ -38,7 +38,6 @@ public class DriveDistanceAuto extends CommandBase {
     m_drive.setConfig(m_drive._leftConfig, m_drive._rightConfig); 
      m_drive.resetEncoder();
 
-    // I HAVE NO CLUE IF THIS MATH IS RIGHT BUT WHATEVER //Math is in git hub under frc robot command driveAuto i believe.
     
     }
 
