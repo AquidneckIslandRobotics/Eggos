@@ -19,6 +19,8 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeInward;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
@@ -35,8 +37,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   // Subsystems
-  public final static Chassis m_chassis = new Chassis();
-  private final Turret m_turret = new Turret();
+  private final static Chassis m_chassis = new Chassis();
+  private final static Turret m_turret = new Turret();
+  private final static Intake m_intake = new Intake();
+  private final static Shooter m_shooter = new Shooter();
   
   // Joysticks
   private static XboxController manipulatorJoystick = new XboxController(0);
@@ -45,21 +49,16 @@ public class RobotContainer {
   // Buttons
   private Button button = new JoystickButton(drivingJoystick1, 6);
   private Button X = new JoystickButton(drivingJoystick1, 3);
-  private Button Y = new JoystickButton(drivingJoystick1, 4);
-
-  public final Shooter m_shooter = new Shooter();
+  private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
+  private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5);
   
+  private Button Y = new JoystickButton(manipulatorJoystick, 4);
   private Button RT = new JoystickButton(manipulatorJoystick, 7);
-  private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
-
+  private Button limeTime = new JoystickButton(manipulatorJoystick, 5);
   private Button driverA = new JoystickButton(manipulatorJoystick, 1); 
   private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
   private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
 
-  
-  private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
-  private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
-  
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
 
@@ -87,6 +86,7 @@ public class RobotContainer {
     //  Driver Buttons
     driverA.whileHeld(new TurretTarget(m_turret));
     flipDirectionButton.whenPressed(new switchDirection(m_chassis));
+    X.whileHeld(new IntakeInward(m_intake));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
@@ -95,7 +95,7 @@ public class RobotContainer {
     limeTime.whileHeld(new TurretLimelight(m_turret));
 
     //Shooter Buttons
-    X.whileHeld(new HopperIntake(m_shooter));
+    manipulatorX.whileHeld(new HopperIntake(m_shooter));
     Y.whileHeld(new HopperOuttake(m_shooter));
   }
 
