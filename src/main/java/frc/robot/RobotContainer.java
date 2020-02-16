@@ -10,9 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive;
+import frc.robot.commands.HopperIntake;
+import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -32,7 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   // Subsystems
-  private final Chassis m_chassis = new Chassis();
+  public final static Chassis m_chassis = new Chassis();
   private final Turret m_turret = new Turret();
   
   // Joysticks
@@ -41,6 +44,10 @@ public class RobotContainer {
   
   // Buttons
   private Button button = new JoystickButton(drivingJoystick1, 6);
+  private Button X = new JoystickButton(drivingJoystick1, 3);
+  private Button Y = new JoystickButton(drivingJoystick1, 4);
+
+  public final Shooter m_shooter = new Shooter();
   
   private Button RT = new JoystickButton(manipulatorJoystick, 7);
   private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
@@ -86,6 +93,10 @@ public class RobotContainer {
     manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
     RT.whileHeld(new SpinWheel(m_turret));
     limeTime.whileHeld(new TurretLimelight(m_turret));
+
+    //Shooter Buttons
+    X.whileHeld(new HopperIntake(m_shooter));
+    Y.whileHeld(new HopperOuttake(m_shooter));
   }
 
 
