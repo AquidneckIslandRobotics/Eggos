@@ -128,8 +128,8 @@ public class Turret extends SubsystemBase {
     }
 
   public void startWheel() {
-  turretWheel1.set(ControlMode.PercentOutput, .5);
-  turretWheel2.set(ControlMode.PercentOutput, .5);
+  turretWheel1.set(ControlMode.PercentOutput, -0.85);
+  turretWheel2.set(ControlMode.PercentOutput, 0.85);
 }
   public void stopWheel() {
   turretWheel1.set(ControlMode.PercentOutput, 0);

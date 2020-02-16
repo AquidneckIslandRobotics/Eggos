@@ -41,11 +41,11 @@ public class TurretLimelight extends CommandBase {
     double y = turret.getLimelightX();
 
     if (y > 0) {
-      turret.setSpeed(.5);
+      turret.setSpeed(-.5);
       SmartDashboard.putString("direction", "right");
     }
     else if (y < 0) {
-      turret.setSpeed(-.5);
+      turret.setSpeed(.5);
       SmartDashboard.putString("direction", "left");
     }
     else {
