@@ -47,17 +47,18 @@ public class RobotContainer {
   private static XboxController drivingJoystick1 = new XboxController(1);
   
   // Buttons
-  private Button button = new JoystickButton(drivingJoystick1, 6);
-  private Button X = new JoystickButton(drivingJoystick1, 3);
+  private Button driverX = new JoystickButton(drivingJoystick1, 3);
   private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
-  private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5);
+  private Button driverLB = new JoystickButton(drivingJoystick1, 5);
+  private Button driverRB = new JoystickButton(drivingJoystick1, 6);
   
-  private Button Y = new JoystickButton(manipulatorJoystick, 4);
-  private Button RT = new JoystickButton(manipulatorJoystick, 7);
-  private Button limeTime = new JoystickButton(manipulatorJoystick, 5);
-  private Button driverA = new JoystickButton(manipulatorJoystick, 1); 
+  private Button manipulatorA = new JoystickButton(manipulatorJoystick, 1); 
   private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
   private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
+  private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
+  private Button manipulatorY = new JoystickButton(manipulatorJoystick, 4);
+  private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
+  
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -80,23 +81,23 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Default commands
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button, driverYeet));
+    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
     
     // Button Setup
     //  Driver Buttons
-    driverA.whileHeld(new TurretTarget(m_turret));
-    flipDirectionButton.whenPressed(new switchDirection(m_chassis));
-    X.whileHeld(new IntakeInward(m_intake));
+    manipulatorA.whileHeld(new TurretTarget(m_turret));
+    driverLB.whenPressed(new switchDirection(m_chassis));
+    driverX.whileHeld(new IntakeInward(m_intake));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
-    RT.whileHeld(new SpinWheel(m_turret));
-    limeTime.whileHeld(new TurretLimelight(m_turret));
+    manipulatorRB.whileHeld(new SpinWheel(m_turret));
+    manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
 
     //Shooter Buttons
     manipulatorX.whileHeld(new HopperIntake(m_shooter));
-    Y.whileHeld(new HopperOuttake(m_shooter));
+    manipulatorY.whileHeld(new HopperOuttake(m_shooter));
   }
 
 
