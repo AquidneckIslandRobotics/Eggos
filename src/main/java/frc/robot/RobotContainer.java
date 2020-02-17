@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
@@ -52,6 +53,18 @@ public class RobotContainer {
   private Button driverLB = new JoystickButton(drivingJoystick1, 5);
   private Button driverRB = new JoystickButton(drivingJoystick1, 6);
   
+  //private Button MotionMagicButton = new JoystickButton(drivingJoystick1, 3); //button x 
+  //private Button RT = new JoystickButton(manipulatorJoystick, 7);
+  //private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
+
+  //private Button driverA = new JoystickButton(manipulatorJoystick, 1); 
+  //private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
+  //private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
+
+  
+  //private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
+  //private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
+  //private Button AutoAButton = new JoystickButton(drivingJoystick1, 1); 
   private Button manipulatorA = new JoystickButton(manipulatorJoystick, 1); 
   private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
   private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
@@ -61,7 +74,7 @@ public class RobotContainer {
   
 
   // Commands
-  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+  private final MotionMagic c_MotionMagic = new MotionMagic(Robot.m_chassis, 10);
 
   // ------------------------------------------
 
@@ -72,7 +85,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
-
+  
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -81,6 +94,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Default commands
+    
+    // Button Setup
+    //  Driver Buttons
+    //driverA.whileHeld(new TurretTarget(m_turret));
+    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
     
     // Button Setup
@@ -92,6 +110,11 @@ public class RobotContainer {
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
+    //RT.whileHeld(new SpinWheel(m_turret));
+    //limeTime.whileHeld(new TurretLimelight(m_turret));
+    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
+    //AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
+    //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
     manipulatorRB.whileHeld(new SpinWheel(m_turret));
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
 

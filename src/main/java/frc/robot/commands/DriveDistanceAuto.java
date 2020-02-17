@@ -10,12 +10,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
+//import frc.robot.RobotContainer;
 import frc.robot.subsystems.Chassis;
 
 public class DriveDistanceAuto extends CommandBase {
   public Chassis m_drive; 
   private double m_distance; 
+  //private double m_clicks;
+  //public double currentVelocity; 
+  //public double initialLeftEncoderPosition; 
+  //public double initialRightEncoderPosition; 
+  /**
+   * Creates a new DriveDistanceAuto.
+   */
+  //public DriveDistanceAuto(Chassis chassis, double distance) {
+   // m_drive = drive; 
+    //m_distance = distance; //distance must be done in inches 
+   // addRequirements(chassis);
+   // m_drive = chassis;    
+   //  m_clicks = (distance * 3138.8535); // (inch) * (clicks/inch) = click as a final unit 
+   // m_drive.resetEncoder();
   private double m_clicks; 
   public double currentVelocity; 
   public double initialLeftEncoderPosition; 
@@ -35,6 +49,8 @@ public class DriveDistanceAuto extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //m_drive.setConfig(m_drive._leftConfig, m_drive._rightConfig); 
+     //m_drive.resetEncoder();
    // initialLeftEncoderPosition = Robot.m_chassis.getLeftEncoder(); 
    // initialRightEncoderPosition = Robot.m_chassis.getRightEncoder(); 
     SmartDashboard.putNumber("Initial Encoder", initialRightEncoderPosition); 
@@ -44,6 +60,11 @@ public class DriveDistanceAuto extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+   // m_drive.setSetpoint(m_clicks);
+    //System.out.println("clicks" + m_clicks); 
+    //m_drive.setSetpoint(m_clicks);
+
+    //}
     if(currentVelocity > 0.5) {
       currentVelocity = 0.5; 
     } else {
@@ -67,6 +88,7 @@ public class DriveDistanceAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //return false; 
    // if (Robot.m_chassis.getRightEncoder() > initialRightEncoderPosition + m_distance) {
       SmartDashboard.putNumber("Velocity", 0); 
       return true; 
@@ -75,4 +97,5 @@ public class DriveDistanceAuto extends CommandBase {
   //    return false; 
   //  }
   }
-}
+} // im just trying to get this to commit
+
