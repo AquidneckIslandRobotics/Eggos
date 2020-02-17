@@ -7,26 +7,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.subsystems.Shooter;
 
-
-public class TurretLimelight extends CommandBase {
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-  Turret turret;
+public class HopperIntake extends CommandBase {
+  private Shooter shooter;
   /**
-   * Creates a new TurretLimelight.
+   * Creates a new HopperIntake.
    */
-  public TurretLimelight(Turret turret) {
-    this.turret = turret;
-    addRequirements(turret);
+  public HopperIntake(Shooter shooter) {
+    this.shooter = shooter;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -38,26 +29,13 @@ public class TurretLimelight extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double y = turret.getLimelightX();
-
-    if (y > 0) {
-      turret.setSpeed(-.5);
-      SmartDashboard.putString("direction", "right");
-    }
-    else if (y < 0) {
-      turret.setSpeed(.5);
-      SmartDashboard.putString("direction", "left");
-    }
-    else {
-      turret.stopTurret();
-      SmartDashboard.putString("direction", "straight");
-    }
+    shooter.HopperIntake();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.stopTurret();
+    shooter.stopHopper();
   }
 
   // Returns true when the command should end.

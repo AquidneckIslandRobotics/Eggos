@@ -7,56 +7,49 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 
-public class TurretLimelight extends CommandBase {
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-  Turret turret;
+
+public class ShooterAuto extends CommandBase {
+ private Shooter shooter;
+ private Turret turret;
+
   /**
-   * Creates a new TurretLimelight.
+   * Creates a new ShooterAuto.
    */
-  public TurretLimelight(Turret turret) {
+  public ShooterAuto(Shooter shooter, Turret turret) {
+    this.shooter = shooter;
     this.turret = turret;
-    addRequirements(turret);
+    addRequirements(shooter, turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //start at rotation 0
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double y = turret.getLimelightX();
+    
+    turret.aim();
+    turret.startWheel();
+    shooter.HopperIntake();
+    //shoot 3 balls at beginning(initiation line)
 
-    if (y > 0) {
-      turret.setSpeed(-.5);
-      SmartDashboard.putString("direction", "right");
-    }
-    else if (y < 0) {
-      turret.setSpeed(.5);
-      SmartDashboard.putString("direction", "left");
-    }
-    else {
-      turret.stopTurret();
-      SmartDashboard.putString("direction", "straight");
-    }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.stopHopper();
+    turret.stopWheel();
     turret.stopTurret();
   }
 

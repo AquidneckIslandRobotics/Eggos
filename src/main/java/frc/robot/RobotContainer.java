@@ -11,12 +11,17 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistanceAuto;
+import frc.robot.commands.HopperIntake;
+import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeInward;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
@@ -33,29 +38,41 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   // Subsystems
-  
-  private final Turret m_turret = new Turret();
+  private final static Chassis m_chassis = new Chassis();
+  private final static Turret m_turret = new Turret();
+  private final static Intake m_intake = new Intake();
+  private final static Shooter m_shooter = new Shooter();
   
   // Joysticks
   private static XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
   
   // Buttons
-  private Button button = new JoystickButton(drivingJoystick1, 6);
+  private Button driverX = new JoystickButton(drivingJoystick1, 3);
+  private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
+  private Button driverLB = new JoystickButton(drivingJoystick1, 5);
+  private Button driverRB = new JoystickButton(drivingJoystick1, 6);
   
-  private Button MotionMagicButton = new JoystickButton(drivingJoystick1, 3); //button x 
-  private Button RT = new JoystickButton(manipulatorJoystick, 7);
-  private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
+  //private Button MotionMagicButton = new JoystickButton(drivingJoystick1, 3); //button x 
+  //private Button RT = new JoystickButton(manipulatorJoystick, 7);
+  //private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
 
-  private Button driverA = new JoystickButton(manipulatorJoystick, 1); 
+  //private Button driverA = new JoystickButton(manipulatorJoystick, 1); 
+  //private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
+  //private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
+
+  
+  //private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
+  //private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
+  //private Button AutoAButton = new JoystickButton(drivingJoystick1, 1); 
+  private Button manipulatorA = new JoystickButton(manipulatorJoystick, 1); 
   private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
   private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
+  private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
+  private Button manipulatorY = new JoystickButton(manipulatorJoystick, 4);
+  private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
+  
 
-  
-  private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
-  private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
-  private Button AutoAButton = new JoystickButton(drivingJoystick1, 1); 
-  
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(Robot.m_chassis, 10);
 
@@ -77,21 +94,33 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Default commands
-    Robot.m_chassis.setDefaultCommand(new Drive(Robot.m_chassis, drivingJoystick1, button, driverYeet));
     
     // Button Setup
     //  Driver Buttons
-    driverA.whileHeld(new TurretTarget(m_turret));
-    flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
+    //driverA.whileHeld(new TurretTarget(m_turret));
+    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
+    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
+    
+    // Button Setup
+    //  Driver Buttons
+    manipulatorA.whileHeld(new TurretTarget(m_turret));
+    driverLB.whenPressed(new switchDirection(m_chassis));
+    driverX.whileHeld(new IntakeInward(m_intake));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
-    RT.whileHeld(new SpinWheel(m_turret));
-    limeTime.whileHeld(new TurretLimelight(m_turret));
-    flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
-    AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
-    MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
+    //RT.whileHeld(new SpinWheel(m_turret));
+    //limeTime.whileHeld(new TurretLimelight(m_turret));
+    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
+    //AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
+    //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
+    manipulatorRB.whileHeld(new SpinWheel(m_turret));
+    manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
+
+    //Shooter Buttons
+    manipulatorX.whileHeld(new HopperIntake(m_shooter));
+    manipulatorY.whileHeld(new HopperOuttake(m_shooter));
   }
 
 

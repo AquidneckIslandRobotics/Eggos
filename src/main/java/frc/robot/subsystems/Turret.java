@@ -71,6 +71,7 @@ public class Turret extends SubsystemBase {
     table.getEntry("ledMode").setNumber(3);
   }
 
+
   public void lightsOff() {
     table.getEntry("ledMode").setNumber(1);
   }
@@ -120,15 +121,21 @@ public class Turret extends SubsystemBase {
     turretRotate.set(0);
     SmartDashboard.putNumber("Turret Speed", 0);
   }
+    public void aim(){
+      double xValue = getLimelightX();
+      double speed = xValue * -0.035;
+      setSpeed(speed);
+    }
 
   public void startWheel() {
-  turretWheel1.set(ControlMode.PercentOutput, .5);
-  turretWheel2.set(ControlMode.PercentOutput, .5);
+  turretWheel1.set(ControlMode.PercentOutput, -0.85);
+  turretWheel2.set(ControlMode.PercentOutput, 0.85);
 }
   public void stopWheel() {
   turretWheel1.set(ControlMode.PercentOutput, 0);
   turretWheel2.set(ControlMode.PercentOutput, 0);
 }
+
 
   
     // This method will be called once per scheduler run
