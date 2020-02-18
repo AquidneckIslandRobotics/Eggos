@@ -46,6 +46,7 @@ public class RobotContainer {
   // Joysticks
   private static XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
+  private static XboxController extraJoystick = new XboxController(3); 
   
   // Buttons
   private Button driverX = new JoystickButton(drivingJoystick1, 3);
@@ -71,7 +72,15 @@ public class RobotContainer {
   private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
   private Button manipulatorY = new JoystickButton(manipulatorJoystick, 4);
   private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
+  private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);
+  private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);
   
+
+  private Button extraButtonA = new JoystickButton(extraJoystick, 1); 
+  private Button extraButtonB = new JoystickButton(extraJoystick, 2); 
+  private Button extraButtonX = new JoystickButton(extraJoystick, 3); 
+  private Button extraButtonY = new JoystickButton(extraJoystick, 4); 
+
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(Robot.m_chassis, 10);
@@ -106,10 +115,17 @@ public class RobotContainer {
     manipulatorA.whileHeld(new TurretTarget(m_turret));
     driverLB.whenPressed(new switchDirection(m_chassis));
     driverX.whileHeld(new IntakeInward(m_intake));
+    driverRB.whileHeld(new IntakeInward(m_intake));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
-    manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
+    //manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
+    manipulatorR3.whileHeld(new TurretTurn(m_turret, .5));
+    manipulatorL3.whileHeld(new TurretTurn(m_turret, -0.5));
+    extraButtonA.whenPressed(new DriveDistanceAuto(m_chassis, 100)); 
+    extraButtonB.whenPressed(new DriveDistanceAuto(m_chassis, -100)); 
+    extraButtonX.whenPressed(new DriveDistanceAuto(m_chassis, 12)); 
+    extraButtonY.whenPressed(new DriveDistanceAuto(m_chassis, -12)); 
     //RT.whileHeld(new SpinWheel(m_turret));
     //limeTime.whileHeld(new TurretLimelight(m_turret));
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 

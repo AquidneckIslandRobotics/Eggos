@@ -60,7 +60,7 @@ public class DriveDistanceAuto extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   // m_drive.setSetpoint(m_clicks);
+    //m_drive.setSetpoint(m_clicks);
     //System.out.println("clicks" + m_clicks); 
     //m_drive.setSetpoint(m_clicks);
 

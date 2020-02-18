@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
-  private BaseMotorController pidgey;
+  private PigeonIMU pidgey = new PigeonIMU(20);
   private TalonFX leftLead;
   private BaseMotorController leftFollow;
   private TalonFX rightLead;
@@ -60,6 +60,13 @@ public class Chassis extends SubsystemBase {
     rightLead.setInverted(false);
     rightLead.setSensorPhase(false);
     rightFollow.setInverted(false);
+
+    leftLead.configOpenloopRamp(0.8);
+    leftFollow.configOpenloopRamp(0.8);
+    rightLead.configOpenloopRamp(0.8);
+    rightFollow.configOpenloopRamp(0.8);
+
+
 
     leftLead.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
     leftLead.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
@@ -138,8 +145,8 @@ public class Chassis extends SubsystemBase {
   }
 
   public void curvatureDrive(double speed, double rotation, boolean quickTurn) {
-    double leftSpeed = (quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
-    double rightSpeed = (quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
+    double leftSpeed = speed - rotation;//(quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
+    double rightSpeed = speed + rotation;//(quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
 
     leftLead.set(ControlMode.PercentOutput, leftSpeed);
     rightLead.set(ControlMode.PercentOutput, rightSpeed);
