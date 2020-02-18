@@ -8,16 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Shooter;
 
 public class SpinWheel extends CommandBase {
-  Turret turret;
+  Shooter m_shooter;
   /**
    * Creates a new SpinWheel.
    */
-  public SpinWheel(Turret turret) {
-    this.turret = turret;
-    addRequirements(turret);
+  public SpinWheel(Shooter shooter) {
+    this.m_shooter = shooter;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,13 +29,13 @@ public class SpinWheel extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.startWheel();
+    m_shooter.startWheel();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.stopWheel();
+    m_shooter.stopWheel();
   }
 
   // Returns true when the command should end.

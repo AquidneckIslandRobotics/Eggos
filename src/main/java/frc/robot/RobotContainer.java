@@ -131,7 +131,7 @@ public class RobotContainer {
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
     //AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
     //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
-    manipulatorRB.whileHeld(new SpinWheel(m_turret));
+    manipulatorRB.whileHeld(new SpinWheel(m_shooter));
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
 
     //Shooter Buttons

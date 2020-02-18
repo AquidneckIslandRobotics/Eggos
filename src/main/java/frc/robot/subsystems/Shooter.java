@@ -25,6 +25,9 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
+  
+  private static WPI_TalonFX shooterWheel1 = new WPI_TalonFX(Constants.LeftShooter);
+  private static WPI_TalonFX shooterWheel2 = new WPI_TalonFX(Constants.RightShooter);
   CANSparkMax hopperRight = new CANSparkMax(Constants.HopperRight, MotorType.kBrushless);
   CANSparkMax hopperLeft = new CANSparkMax(Constants.HopperLeft, MotorType.kBrushless);
   CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
@@ -54,7 +57,13 @@ public class Shooter extends SubsystemBase {
     hopperRight.set(0);
     hopperLeft.set(0);
     feed.set(0);
-
-
+  }
+  public void startWheel() {
+    shooterWheel1.set(ControlMode.PercentOutput, -0.85);
+    shooterWheel2.set(ControlMode.PercentOutput, 0.85);
+  }
+  public void stopWheel() {
+    shooterWheel1.set(ControlMode.PercentOutput, 0);
+    shooterWheel2.set(ControlMode.PercentOutput, 0);
   }
 }

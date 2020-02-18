@@ -38,7 +38,7 @@ public class ShooterAuto extends CommandBase {
   public void execute() {
     
     turret.aim();
-    turret.startWheel();
+    shooter.startWheel();
     shooter.HopperIntake();
     //shoot 3 balls at beginning(initiation line)
 
@@ -49,7 +49,7 @@ public class ShooterAuto extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopHopper();
-    turret.stopWheel();
+    shooter.stopWheel();
     turret.stopTurret();
   }
 

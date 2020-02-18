@@ -23,8 +23,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Turret extends SubsystemBase {
     public static CANSparkMax turretRotate = new CANSparkMax(Constants.TurretRotate, MotorType.kBrushless);
-    public static WPI_TalonFX turretWheel1 = new WPI_TalonFX(Constants.LeftShooter);
-    public static WPI_TalonFX turretWheel2 = new WPI_TalonFX(Constants.RightShooter);
     //public static Encoder turretEncoder = new Encoder(Constants.TurretEncoder); 
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     public NetworkTableEntry tx = table.getEntry("tx");
@@ -127,17 +125,6 @@ public class Turret extends SubsystemBase {
       setSpeed(speed);
     }
 
-  public void startWheel() {
-  turretWheel1.set(ControlMode.PercentOutput, -0.85);
-  turretWheel2.set(ControlMode.PercentOutput, 0.85);
-}
-  public void stopWheel() {
-  turretWheel1.set(ControlMode.PercentOutput, 0);
-  turretWheel2.set(ControlMode.PercentOutput, 0);
-}
-
-
-  
     // This method will be called once per scheduler run
   }
 
