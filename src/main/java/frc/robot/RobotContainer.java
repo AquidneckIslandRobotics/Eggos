@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.HopperIntake;
@@ -131,7 +132,7 @@ public class RobotContainer {
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
     //AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
     //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
-    manipulatorRB.whileHeld(new SpinWheel(m_shooter));
+    manipulatorRB.whileHeld(new AutoShootVelocity(m_shooter, m_turret, 5000));//SpinWheel(m_shooter));
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
 
     //Shooter Buttons
