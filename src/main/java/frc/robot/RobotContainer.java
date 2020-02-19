@@ -15,6 +15,7 @@ import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
+import frc.robot.commands.Music;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Shooter;
@@ -110,6 +111,7 @@ public class RobotContainer {
     //driverA.whileHeld(new TurretTarget(m_turret));
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
+    m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     
     // Button Setup
     //  Driver Buttons

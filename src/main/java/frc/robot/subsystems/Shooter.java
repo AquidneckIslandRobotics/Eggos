@@ -9,11 +9,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.music.Orchestra;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +35,9 @@ public class Shooter extends SubsystemBase {
 
   private int hopperCount;
   private boolean hopperDir = true; // true = forwards, false = reverse
+
+  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
+  public Orchestra _orchestra;
   /**
    * Creates a new Shooter.
    */
@@ -64,6 +70,12 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.slot0.kD = 20;
 
     shooterWheel1.configAllSettings(_velocity_closed);
+
+    // Music
+    _instruments.add(shooterWheel1);
+    _instruments.add(shooterWheel2);
+    _orchestra = new Orchestra(_instruments);
+    _orchestra.loadMusic("SWIM.chrp");
   }
 
   @Override
