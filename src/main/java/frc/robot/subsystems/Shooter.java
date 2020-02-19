@@ -92,8 +92,10 @@ public class Shooter extends SubsystemBase {
     if (hopperDir) {
       HopperIntake();
       if (feed.getOutputCurrent() > 2) {
-        hopperDir = false;
-        hopperCount = 0;
+        if (hopperCount++ > 100) {
+          hopperDir = false;
+          hopperCount = 0;
+        }
       }
     } else {
       if (hopperCount++ < 250)
