@@ -147,7 +147,6 @@ public class Chassis extends SubsystemBase {
   public void curvatureDrive(double speed, double rotation, boolean quickTurn) {
     double leftSpeed = speed - rotation;//(quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
     double rightSpeed = speed + rotation;//(quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
-
     leftLead.set(ControlMode.PercentOutput, leftSpeed);
     rightLead.set(ControlMode.PercentOutput, rightSpeed);
   }
