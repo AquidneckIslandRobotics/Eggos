@@ -9,9 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.Drive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Climb;
 import frc.robot.commands.MotionMagic;
+import frc.robot.commands.UnClimb;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,9 +28,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Chassis m_chassis = new Chassis();
+  private final Climber m_climber = new Climber();
   private static XboxController drivingJoystick1 = new XboxController(1);
   private Button button = new JoystickButton(drivingJoystick1, 6);
-  
 
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
 
@@ -48,7 +51,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, button));
+    button.whileHeld(new Climb(m_climber));
+    SmartDashboard.putData(new UnClimb(m_climber));
   }
 
 
