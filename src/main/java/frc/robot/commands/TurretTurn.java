@@ -7,26 +7,27 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Turret;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import edu.wpi.first.wpilibj.XboxController;
 
-public class Drive extends CommandBase {
-  Chassis m_subsystem;
-  XboxController m_joystick;
-  Button m_button, m_buttonY;
-
+public class TurretTurn extends CommandBase {
+  private XboxController m_joystick;
+  private Turret m_turret;
+  private double speed;
   /**
-   * Creates a new Drive.
+   * Creates a new TurretTurn.
    */
-  public Drive(Chassis subsystem, XboxController joy, Button butt, Button butY) {
-    m_subsystem = subsystem;
-    m_joystick = joy;
-    m_button = butt;
-    m_buttonY = butY;
-    addRequirements(subsystem);
+  public TurretTurn(Turret subsystems, double speed) {
+    addRequirements(subsystems);
+    m_turret = subsystems;
+    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -38,18 +39,13 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = (Math.abs(m_joystick.getY(GenericHID.Hand.kLeft)) < 0.1)?0:m_joystick.getY(GenericHID.Hand.kLeft);
-    double rotation = (Math.abs(m_joystick.getX(GenericHID.Hand.kRight)) < 0.1)?0:m_joystick.getX(GenericHID.Hand.kRight) *-1;
-    if (!m_buttonY.get()){
-      speed = speed * 0.5;
-      //rotation = rotation * 0.5;
-    }
-    m_subsystem.curvatureDrive(speed, rotation, m_button.get());
+    m_turret.setSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_turret.stopTurret();
   }
 
   // Returns true when the command should end.
@@ -57,7 +53,4 @@ public class Drive extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
-
 }
-

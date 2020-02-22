@@ -30,8 +30,8 @@ public final class Constants {
     //Limelight does not get its own motor port, but it is plugged into PDP
 
     //Hopper Motors 
-    public static final int HopperRight = 6; 
-    public static final int HopperLeft = 9; 
+    public static final int HopperRight = 9; 
+    public static final int HopperLeft = 6;   
     public static final int Feed = 10; 
 
     //Intake Motors
@@ -43,5 +43,16 @@ public final class Constants {
   
     //Climbing 
     public static final int Climber = 13; 
- 
+//Gains stuff
+	public final static Gains kGains_Distanc = new Gains( 0.1, 0.0,  0.0, 0.0,            100,  0.50 );
+	public final static Gains kGains_Turning = new Gains( 2.0, 0.0,  4.0, 0.0,            200,  1.00 );
+	public final static Gains kGains_Velocit = new Gains( 0.1, 0.0, 20.0, 1023.0/6800.0,  300,  0.50 );
+	public final static Gains kGains_MotProf = new Gains( 1.0, 0.0,  0.0, 1023.0/6800.0,  400,  1.00 );
+  
+    public final static double kNeutralDeadband = 0.001;
+
+    public final static int pidgey = 22; 
+    public final static int kPigeonUnitsPerRotation = 8192; 
+    public final static int kTimeoutMs = 30; 
+// these numbers might not be correct. I just copied from online so they might need to be changed
 }

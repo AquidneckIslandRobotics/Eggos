@@ -7,26 +7,26 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Chassis;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.subsystems.Turret;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class Drive extends CommandBase {
-  Chassis m_subsystem;
-  XboxController m_joystick;
-  Button m_button, m_buttonY;
 
+public class TurretLimelight extends CommandBase {
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTableEntry tx = table.getEntry("tx");
+  NetworkTableEntry ty = table.getEntry("ty");
+  NetworkTableEntry ta = table.getEntry("ta");
+  Turret turret;
   /**
-   * Creates a new Drive.
+   * Creates a new TurretLimelight.
    */
-  public Drive(Chassis subsystem, XboxController joy, Button butt, Button butY) {
-    m_subsystem = subsystem;
-    m_joystick = joy;
-    m_button = butt;
-    m_buttonY = butY;
-    addRequirements(subsystem);
+  public TurretLimelight(Turret turret) {
+    this.turret = turret;
+    addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -38,18 +38,26 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = (Math.abs(m_joystick.getY(GenericHID.Hand.kLeft)) < 0.1)?0:m_joystick.getY(GenericHID.Hand.kLeft);
-    double rotation = (Math.abs(m_joystick.getX(GenericHID.Hand.kRight)) < 0.1)?0:m_joystick.getX(GenericHID.Hand.kRight) *-1;
-    if (!m_buttonY.get()){
-      speed = speed * 0.5;
-      //rotation = rotation * 0.5;
+    double y = turret.getLimelightX();
+
+    if (y > 0) {
+      turret.setSpeed(-.5);
+      SmartDashboard.putString("direction", "right");
     }
-    m_subsystem.curvatureDrive(speed, rotation, m_button.get());
+    else if (y < 0) {
+      turret.setSpeed(.5);
+      SmartDashboard.putString("direction", "left");
+    }
+    else {
+      turret.stopTurret();
+      SmartDashboard.putString("direction", "straight");
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turret.stopTurret();
   }
 
   // Returns true when the command should end.
@@ -57,7 +65,4 @@ public class Drive extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
-
 }
-
