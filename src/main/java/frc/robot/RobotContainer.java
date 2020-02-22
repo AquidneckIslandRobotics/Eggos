@@ -9,12 +9,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Climb;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
+import frc.robot.commands.UnClimb;
 import frc.robot.commands.switchDirection;
+import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,12 +41,12 @@ import frc.robot.commands.TurretLimelight;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
   // Subsystems
   private final static Chassis m_chassis = new Chassis();
   private final static Turret m_turret = new Turret();
   private final static Intake m_intake = new Intake();
   private final static Shooter m_shooter = new Shooter();
+  private final static Climber m_climber = new Climber();
   
   // Joysticks
   private static XboxController manipulatorJoystick = new XboxController(0);
@@ -53,6 +58,8 @@ public class RobotContainer {
   private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
   private Button driverLB = new JoystickButton(drivingJoystick1, 5);
   private Button driverRB = new JoystickButton(drivingJoystick1, 6);
+  private Button driverBack = new JoystickButton(drivingJoystick1, 7);
+  private Button driverStart = new JoystickButton(drivingJoystick1, 8);
   
   //private Button MotionMagicButton = new JoystickButton(drivingJoystick1, 3); //button x 
   //private Button RT = new JoystickButton(manipulatorJoystick, 7);
@@ -79,7 +86,7 @@ public class RobotContainer {
   private Button extraButtonA = new JoystickButton(extraJoystick, 1); 
   private Button extraButtonB = new JoystickButton(extraJoystick, 2); 
   private Button extraButtonX = new JoystickButton(extraJoystick, 3); 
-  private Button extraButtonY = new JoystickButton(extraJoystick, 4); 
+  private Button extraButtonY = new JoystickButton(extraJoystick, 4);
 
 
   // Commands
@@ -92,6 +99,9 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, quickTurn));
+    
+    SmartDashboard.putBoolean("Prime Climb Reset", m_climber.unclimb);
     configureButtonBindings();
   }
   
@@ -116,6 +126,8 @@ public class RobotContainer {
     driverLB.whenPressed(new switchDirection(m_chassis));
     driverX.whileHeld(new IntakeInward(m_intake));
     driverRB.whileHeld(new IntakeInward(m_intake));
+    buttonBack.whileHeld(new Climb(m_climber, 0.5));
+    buttonStart.whileHeld(new Climb(m_climber, 0.75));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
@@ -137,6 +149,9 @@ public class RobotContainer {
     //Shooter Buttons
     manipulatorX.whileHeld(new HopperIntake(m_shooter));
     manipulatorY.whileHeld(new HopperOuttake(m_shooter));
+    
+    // SmartDashboard Buttons
+    SmartDashboard.putData(new UnClimb(m_climber));
   }
 
 
