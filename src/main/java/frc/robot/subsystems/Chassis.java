@@ -91,8 +91,8 @@ public class Chassis extends SubsystemBase {
     double leftSpeed = (quickTurn?-rotation:speed - (speed != 0?rotation:0));
     double rightSpeed = (quickTurn?rotation:speed + (speed != 0 ?rotation:0));
 
-    leftLead.set(ControlMode.PercentOutput,leftSpeed);
-    rightLead.set(ControlMode.PercentOutput,rightSpeed);
+    leftLead.set(ControlMode.PercentOutput,leftSpeed*0.25);
+    rightLead.set(ControlMode.PercentOutput,rightSpeed*0.25);
   }
 
   public void setConfig(TalonFXConfiguration config) {

@@ -12,11 +12,13 @@ import frc.robot.subsystems.Climber;
 
 public class Climb extends CommandBase {
   Climber m_climber;
+  double m_power;
   /**
    * Creates a new Climb.
    */
-  public Climb(Climber climber) {
+  public Climb(Climber climber, double power) {
     m_climber = climber;
+    m_power = power;
     addRequirements(climber);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,7 +31,7 @@ public class Climb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.startClimb();
+    m_climber.startClimb(m_power);
   }
 
   // Called once the command ends or is interrupted.

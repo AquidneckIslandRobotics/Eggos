@@ -28,8 +28,8 @@ public class Climber extends SubsystemBase {
     climbMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
   }
-  public void startClimb(){
-    climbMotor.set(ControlMode.PercentOutput, .15);
+  public void startClimb(double power){
+    climbMotor.set(ControlMode.PercentOutput, Math.abs(power));
   }
 
   public void stopClimb(){
