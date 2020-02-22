@@ -22,16 +22,14 @@ import com.revrobotics.CANSparkMax;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Turret extends SubsystemBase {
-    public static CANSparkMax turretRotate = new CANSparkMax(Constants.TurretRotate, MotorType.kBrushless);
-    public static WPI_TalonFX turretWheel1 = new WPI_TalonFX(Constants.LeftShooter);
-    public static WPI_TalonFX turretWheel2 = new WPI_TalonFX(Constants.RightShooter);
+    private static CANSparkMax turretRotate = new CANSparkMax(Constants.TurretRotate, MotorType.kBrushless);
     //public static Encoder turretEncoder = new Encoder(Constants.TurretEncoder); 
-    public NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    public NetworkTableEntry tx = table.getEntry("tx");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
+    private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    private static NetworkTableEntry tx = table.getEntry("tx");
+    private static NetworkTableEntry ty = table.getEntry("ty");
+    private static NetworkTableEntry ta = table.getEntry("ta");
 
-    public static Turret m_turret = new Turret();
+    //public static Turret m_turret = new Turret();
   /**
    * Creates a new Turret.
    */
@@ -97,11 +95,6 @@ public class Turret extends SubsystemBase {
    //SmartDashboard.putNumber("Process Variable Get Pos only", m_analogSensor()); 
     //SmartDashboard.putNumber("Sensor Velocity", turretRotate.getSelectedSensorVelocity()); 
     //SmartDashboard.putNumber("Sensor Position", turretRotate.getSelectedSensorPosition()); 
-    
-    
-   
-
-
     double x = tx.getDouble(0.0);
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
@@ -127,17 +120,6 @@ public class Turret extends SubsystemBase {
       setSpeed(speed);
     }
 
-  public void startWheel() {
-  turretWheel1.set(ControlMode.PercentOutput, -0.85);
-  turretWheel2.set(ControlMode.PercentOutput, 0.85);
-}
-  public void stopWheel() {
-  turretWheel1.set(ControlMode.PercentOutput, 0);
-  turretWheel2.set(ControlMode.PercentOutput, 0);
-}
-
-
-  
     // This method will be called once per scheduler run
   }
 

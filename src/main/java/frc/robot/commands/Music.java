@@ -7,16 +7,19 @@
 
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class SpinWheel extends CommandBase {
-  Shooter m_shooter;
+public class Music extends CommandBase {
+  public static Shooter m_shooter;
+  public static String m_name;
   /**
-   * Creates a new SpinWheel.
+   * Creates a new Music.
    */
-  public SpinWheel(Shooter shooter) {
-    this.m_shooter = shooter;
+  public Music(Shooter shooter, String name) {
+    m_shooter = shooter;
+    m_name = name;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,23 +27,23 @@ public class SpinWheel extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_shooter._orchestra.play();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.startWheel();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopWheel();
+    m_shooter._orchestra.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !(m_shooter._orchestra.isPlaying());
   }
 }

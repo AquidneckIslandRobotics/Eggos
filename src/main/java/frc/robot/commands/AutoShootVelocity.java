@@ -9,15 +9,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
-public class SpinWheel extends CommandBase {
-  Shooter m_shooter;
+public class AutoShootVelocity extends CommandBase {
+
+  private static Shooter m_shooter;
+  private static Turret m_turret;
+  private static double m_velocity;
+
   /**
-   * Creates a new SpinWheel.
+   * Creates a new AutoShootVelocity.
    */
-  public SpinWheel(Shooter shooter) {
-    this.m_shooter = shooter;
-    addRequirements(shooter);
+  public AutoShootVelocity(Shooter shooter, Turret turret, double velocity) {
+    m_shooter = shooter;
+    m_turret = turret;
+    addRequirements(shooter);//,turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,13 +35,20 @@ public class SpinWheel extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.startWheel();
+    m_shooter.startWheel(m_velocity);
+
+    // If shooter is on target speed start intake
+    if (m_shooter.getVelocityOnTarget())
+      m_shooter.autoHopper();
+    else
+      m_shooter.stopHopper();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_shooter.stopWheel();
+    m_shooter.stopHopper();
   }
 
   // Returns true when the command should end.
