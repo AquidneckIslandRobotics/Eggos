@@ -22,7 +22,6 @@ import frc.robot.commands.UnClimb;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -101,7 +100,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, quickTurn));
     
     SmartDashboard.putBoolean("Prime Climb Reset", m_climber.unclimb);
     configureButtonBindings();
@@ -129,8 +127,8 @@ public class RobotContainer {
     driverLB.whenPressed(new switchDirection(m_chassis));
     driverX.whileHeld(new IntakeInward(m_intake));
     driverRB.whileHeld(new IntakeInward(m_intake));
-    buttonBack.whileHeld(new Climb(m_climber, 0.5));
-    buttonStart.whileHeld(new Climb(m_climber, 0.75));
+    driverBack.whileHeld(new Climb(m_climber, 0.5));
+    driverStart.whileHeld(new Climb(m_climber, 0.75));
 
     // Manipulator Buttons
     manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
