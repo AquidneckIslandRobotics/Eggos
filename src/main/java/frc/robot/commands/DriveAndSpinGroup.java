@@ -24,7 +24,7 @@ public final Chassis m_chassis = new Chassis(); // is this being static okay
   public DriveAndSpinGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    //super(new DriveDistanceAuto(m_drive, 100), new SpinWheel(m_turret));// SpinWheel may be wrong command
+    super(new DriveDistanceAuto(, 100), new SpinWheel(m_turret));// SpinWheel may be wrong command
     //100 is probably too much
   }
 }
