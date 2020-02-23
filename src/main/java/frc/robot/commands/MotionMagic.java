@@ -20,7 +20,7 @@ public class MotionMagic extends CommandBase {
     addRequirements(chassis);
 
     m_subsystem = chassis;
-    m_clicks = (distance * 3138.8535); // per inch presumably 
+    m_clicks = (distance * 1564.5); // per inch presumably 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
