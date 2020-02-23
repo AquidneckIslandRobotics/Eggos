@@ -91,7 +91,8 @@ public class RobotContainer {
 
 
   // Commands
-  private final MotionMagic c_MotionMagic = new MotionMagic(Robot.m_chassis, 10);
+  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+  private final Music c_Music = new Music(m_shooter, "");
 
   // ------------------------------------------
 
@@ -119,7 +120,7 @@ public class RobotContainer {
     //driverA.whileHeld(new TurretTarget(m_turret));
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
-    m_shooter.setDefaultCommand(new Music(m_shooter, ""));
+    //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     
     // Button Setup
     //  Driver Buttons
@@ -163,6 +164,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return c_MotionMagic;
+    return c_Music;
   }
 }
