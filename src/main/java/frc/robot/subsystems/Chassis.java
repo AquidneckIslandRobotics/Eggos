@@ -139,6 +139,9 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putNumber("Right Encoder COUNT", rightLead.getSelectedSensorPosition()); 
 
     SmartDashboard.putNumber("ENCODER Encoder Count", leftLead.getSelectedSensorVelocity()); 
+
+    SmartDashboard.putBoolean("On Target", onTarget()); 
+    SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
     // This method will be called once per scheduler run
 
 
@@ -189,6 +192,14 @@ public void stopDriveMotors() {
 
     leftLead.set(ControlMode.MotionMagic, setpoint);
    // rightLead.set(ControlMode.MotionMagic, setpoint); 
+  }
+
+  public boolean onTarget() {
+    return Math.abs(leftLead.getClosedLoopError()) < 1000;
+  }
+
+  public int getError() {
+    return leftLead.getClosedLoopError();
   }
 
   public void resetEncoder(){

@@ -12,13 +12,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Climb;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveAndSpinGroup;
+//import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
 import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.Music;
+import frc.robot.commands.ShootAndDrive;
 import frc.robot.commands.ShooterAuto;
 import frc.robot.commands.SixCellAuto;
 import frc.robot.commands.UnClimb;
@@ -80,11 +81,13 @@ public class RobotContainer {
   private Button extraButtonY = new JoystickButton(extraJoystick, 4);
   private Button extraButtonLB = new JoystickButton(extraJoystick, 5); 
   private Button extraButtonRB = new JoystickButton(extraJoystick, 6); 
+  private Button extraBack = new JoystickButton(extraJoystick, 7); 
   private Button extraStart = new JoystickButton(extraJoystick, 8); 
+  
 
 
   // Commands
-  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+ // private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
   private final Music c_Music = new Music(m_shooter, "");
 
   // ------------------------------------------
@@ -139,9 +142,10 @@ public class RobotContainer {
     extraButtonB.whenPressed(new DriveDistanceAuto(m_chassis, -100)); 
     extraButtonX.whenPressed(new DriveDistanceAuto(m_chassis, 12)); 
     extraButtonY.whenPressed(new DriveDistanceAuto(m_chassis, -12)); 
-    extraButtonRB.whenPressed(new MotionMagic(m_chassis, 100)); 
-    extraButtonLB.whenPressed(new DriveAndSpinGroup(m_chassis, m_intake)); 
+   // extraButtonRB.whenPressed(new MotionMagic(m_chassis, 100)); 
+    //extraButtonLB.whenPressed(new DriveAndSpinGroup(m_chassis, m_intake)); 
     extraStart.whenPressed(new ShooterAuto(m_shooter)); 
+    extraBack.whenPressed(new ShootAndDrive(m_chassis, m_intake, m_shooter)); 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
   }

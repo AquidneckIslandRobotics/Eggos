@@ -8,6 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,9 +19,9 @@ public class ShootAndDrive extends SequentialCommandGroup {
   /**
    * Creates a new ShootAndDrive.
    */
-  public ShootAndDrive() {
+  public ShootAndDrive(Chassis chassis, Intake takeInCells, Shooter shooter) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super();
+    super(new ShooterAuto(shooter), new MotionMagic(chassis, -180, takeInCells));
   }
 }

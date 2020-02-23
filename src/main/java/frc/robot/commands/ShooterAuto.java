@@ -60,7 +60,7 @@ public class ShooterAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(Timer.getFPGATimestamp() > startTime + 7); 
+    return(Timer.getFPGATimestamp() > startTime + 5); 
     
   }
 }
