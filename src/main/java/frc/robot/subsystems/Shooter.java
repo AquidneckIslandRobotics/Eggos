@@ -46,13 +46,13 @@ public class Shooter extends SubsystemBase {
     shooterWheel1.configFactoryDefault();
     shooterWheel2.configFactoryDefault();
     // Have second motor follow first
-    shooterWheel2.follow(shooterWheel1);
-    shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
+    //shooterWheel2.follow(shooterWheel1);
+    //shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
 
     // Set correct motor direction and sensor orientation
-    shooterWheel1.setInverted(false);
-    shooterWheel1.setSensorPhase(true);
-    shooterWheel2.setInverted(true);
+    //shooterWheel1.setInverted(false);
+    //shooterWheel1.setSensorPhase(true);
+    //shooterWheel2.setInverted(true);
 
     // Make sure motors are in coast mode
     shooterWheel1.setNeutralMode(NeutralMode.Coast);
@@ -69,13 +69,13 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.slot0.kI = 0.001;
     _velocity_closed.slot0.kD = 20;
 
-    shooterWheel1.configAllSettings(_velocity_closed);
+    //shooterWheel1.configAllSettings(_velocity_closed);
 
     // Music
-    _instruments.add(shooterWheel1);
-    _instruments.add(shooterWheel2);
-    _orchestra = new Orchestra(_instruments);
-    _orchestra.loadMusic("SWIM.chrp");
+    //_instruments.add(shooterWheel1);
+    //_instruments.add(shooterWheel2);
+    //_orchestra = new Orchestra(_instruments);
+    //_orchestra.loadMusic("SWIM.chrp");
   }
 
   @Override
@@ -106,7 +106,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperIntake() {
-    hopperRight.set(0.5);
+    hopperRight.set(-0.5);
     hopperLeft.set(-0.5);
     feed.set(.5);
   }
@@ -142,7 +142,7 @@ public class Shooter extends SubsystemBase {
    */
   public void startWheel() {
     shooterWheel1.set(ControlMode.PercentOutput, -0.85);
-    //shooterWheel2.set(ControlMode.PercentOutput, 0.85);
+    shooterWheel2.set(ControlMode.PercentOutput, 0.85);
   }
 
   /**
@@ -150,6 +150,6 @@ public class Shooter extends SubsystemBase {
    */
   public void stopWheel() {
     shooterWheel1.set(ControlMode.PercentOutput, 0);
-    //shooterWheel2.set(ControlMode.PercentOutput, 0);
+    shooterWheel2.set(ControlMode.PercentOutput, 0);
   }
 }

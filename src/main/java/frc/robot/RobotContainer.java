@@ -119,7 +119,7 @@ public class RobotContainer {
     //driverA.whileHeld(new TurretTarget(m_turret));
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
-    m_shooter.setDefaultCommand(new Music(m_shooter, ""));
+    //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     
     // Button Setup
     //  Driver Buttons
@@ -144,7 +144,7 @@ public class RobotContainer {
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
     //AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
     //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
-    manipulatorRB.whileHeld(new AutoShootVelocity(m_shooter, m_turret, 5000));//SpinWheel(m_shooter));
+    manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
 
     //Shooter Buttons

@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -17,12 +18,12 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
   CANSparkMax rightIntake = new CANSparkMax(Constants.RightIntake, MotorType.kBrushless);
   CANSparkMax leftIntake = new CANSparkMax(Constants.LeftIntake, MotorType.kBrushless);
-  DoubleSolenoid solenoid = new DoubleSolenoid(0,1);
+  Solenoid solenoid = new Solenoid(0);
   /**
    * Creates a new Intake.
    */
   public Intake() {
-    solenoid.set(Value.kForward);
+    solenoid.set(true);
     }
 
   @Override
@@ -32,12 +33,12 @@ public class Intake extends SubsystemBase {
   public void IntakeInward() {
     rightIntake.set(0.75);
     leftIntake.set(-0.75);
-    solenoid.set(Value.kReverse);
+    solenoid.set(false);
   }
   public void StopIntake() {
     rightIntake.set(0);
     leftIntake.set(0);
-    solenoid.set(Value.kForward);
+    solenoid.set(true);
   }
 }
 // Just trying to get this to commit

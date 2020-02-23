@@ -25,7 +25,7 @@ public final class Constants {
     //Shooter Motors 
     public static final int RightShooter = 2; 
     public static final int LeftShooter = 3; 
-    public static final int HoodAngle = 4; 
+    public static final int HoodAngle = 13; 
     public static final int TurretRotate = 5; 
     //Limelight does not get its own motor port, but it is plugged into PDP
 
@@ -42,7 +42,7 @@ public final class Constants {
     public static final int ControlPanel = 11; 
   
     //Climbing 
-    public static final int Climber = 13; 
+    public static final int Climber = 12; 
 
     //Gains stuff
 	public final static Gains kGains_Distanc = new Gains( 0.1, 0.0,  0.0, 0.0,            100,  0.50 );
