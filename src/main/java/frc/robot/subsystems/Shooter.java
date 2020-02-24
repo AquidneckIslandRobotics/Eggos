@@ -150,4 +150,8 @@ public class Shooter extends SubsystemBase {
     shooterWheel1.set(ControlMode.PercentOutput, 0);
     shooterWheel2.set(ControlMode.PercentOutput, 0);
   }
+  
+  public ArrayList<TalonFX> getInstruments() {
+    return _instruments;
+  }
 }
