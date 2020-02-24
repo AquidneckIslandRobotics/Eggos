@@ -96,7 +96,7 @@ public class RobotContainer {
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
-  private final Music c_Music = new Music(m_shooter, "");
+  private final Music c_Music = new Music(m_chassis, m_shooter, "");
 
   // ------------------------------------------
 
