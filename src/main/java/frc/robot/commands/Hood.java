@@ -40,6 +40,7 @@ public class Hood extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // End when the controller is at the reference.
+    return getController().atSetpoint();
   }
 }
