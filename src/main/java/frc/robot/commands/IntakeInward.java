@@ -12,11 +12,13 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeInward extends CommandBase {
   private Intake intake;
+ 
   /**
    * Creates a new IntakeInward.
    */
   public IntakeInward(Intake intake) {
     this.intake = intake;
+ 
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -41,6 +43,6 @@ public class IntakeInward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+   return false; 
   }
 }

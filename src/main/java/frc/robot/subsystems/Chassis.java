@@ -147,6 +147,9 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putNumber("Right Encoder COUNT", rightLead.getSelectedSensorPosition()); 
 
     SmartDashboard.putNumber("ENCODER Encoder Count", leftLead.getSelectedSensorVelocity()); 
+
+    SmartDashboard.putBoolean("On Target", onTarget()); 
+    SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
     // This method will be called once per scheduler run
 
 
@@ -161,6 +164,12 @@ public class Chassis extends SubsystemBase {
 
   public void setConfig(TalonFXConfiguration config) {
     leftLead.configAllSettings(config);
+    leftFollow.follow(leftLead); 
+    leftFollow.configNeutralDeadband(0); 
+    rightLead.follow(leftLead);
+    rightLead.configNeutralDeadband(0);
+    rightFollow.follow(leftLead); 
+    rightFollow.configNeutralDeadband(0); 
   }
   public void setConfig(TalonFXConfiguration leftConfig, TalonFXConfiguration rightConfig) {
     leftLead.configAllSettings(leftConfig); 
@@ -190,7 +199,15 @@ public void stopDriveMotors() {
     System.out.println("Trg: " + setpoint);
 
     leftLead.set(ControlMode.MotionMagic, setpoint);
-    rightLead.set(ControlMode.MotionMagic, setpoint); 
+   // rightLead.set(ControlMode.MotionMagic, setpoint); 
+  }
+
+  public boolean onTarget() {
+    return Math.abs(leftLead.getClosedLoopError()) < 1000;
+  }
+
+  public int getError() {
+    return leftLead.getClosedLoopError();
   }
 
   public void resetEncoder(){
