@@ -7,27 +7,37 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
 
+import com.ctre.phoenix.music.Orchestra;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 public class Music extends CommandBase {
-  public static Shooter m_shooter;
-  public static String m_name;
+  private static Shooter m_shooter;
+  private static Chassis m_chassis;
+  private static String m_name;
+  private Orchestra _orchestra;
+  private ArrayList<TalonFX> _instruments;
   /**
    * Creates a new Music.
    */
-  public Music(Shooter shooter, String name) {
+  public Music(Chassis chassis, Shooter shooter, String name) {
+    m_chassis = chassis
     m_shooter = shooter;
     m_name = name;
-    addRequirements(shooter);
+    addRequirements(chassis, shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter._orchestra.play();
+    _instruments = m_chassis.getInstruments();
+    _instruments.addAll(m_shooter.getInstruments());
+    _orchestra = new Orchestra(_instruments);
+    _orchestra.loadMusic("SWIM.chrp");
+    _orchestra.play();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

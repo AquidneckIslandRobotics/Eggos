@@ -36,6 +36,8 @@ public class Chassis extends SubsystemBase {
 
   public TalonFXConfiguration _leftConfig = new TalonFXConfiguration(); 
   public TalonFXConfiguration _rightConfig = new TalonFXConfiguration(); 
+	
+  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
 
   /**
    * Creates a new Chassis.
@@ -126,7 +128,13 @@ public class Chassis extends SubsystemBase {
 
     leftLead.configAllSettings(_leftConfig);
 		rightLead.configAllSettings(_rightConfig); 
-    
+	  
+	  
+    // Music
+    _instruments.add(leftLead);
+    _instruments.add(leftFollow);
+    _instruments.add(rightLead);
+    _instruments.add(rightFollow);
   }
 
 
@@ -217,6 +225,10 @@ public void stopDriveMotors() {
   public void stop() {
     leftLead.set(ControlMode.PercentOutput, 0); 
     rightLead.set(ControlMode.PercentOutput, 0); 
+  }
+	
+  public ArrayList<TalonFX> getInstruments() {
+	return _instruments;	  
   }
 }
 // " hey buddy if you could just switch these motors to the other dirction that'd be great"
