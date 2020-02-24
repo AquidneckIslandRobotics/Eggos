@@ -9,9 +9,11 @@ package frc.robot.commands;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.music.Orchestra;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Chassis;
 
 public class Music extends CommandBase {
   private static Shooter m_shooter;
@@ -23,7 +25,7 @@ public class Music extends CommandBase {
    * Creates a new Music.
    */
   public Music(Chassis chassis, Shooter shooter, String name) {
-    m_chassis = chassis
+    m_chassis = chassis;
     m_shooter = shooter;
     m_name = name;
     addRequirements(chassis, shooter);
@@ -48,12 +50,12 @@ public class Music extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter._orchestra.stop();
+    _orchestra.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !(m_shooter._orchestra.isPlaying());
+    return !(_orchestra.isPlaying());
   }
 }

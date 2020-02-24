@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -132,9 +134,9 @@ public class Chassis extends SubsystemBase {
 	  
     // Music
     _instruments.add(leftLead);
-    _instruments.add(leftFollow);
+    _instruments.add((TalonFX)leftFollow);
     _instruments.add(rightLead);
-    _instruments.add(rightFollow);
+    _instruments.add((TalonFX)rightFollow);
   }
 
 
