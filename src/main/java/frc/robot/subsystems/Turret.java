@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Turret extends SubsystemBase {
@@ -36,6 +36,8 @@ public class Turret extends SubsystemBase {
    */
   public Turret() {
     turretRotate.setInverted(false);
+
+    turretRotate.setIdleMode(IdleMode.kBrake);
     
    // m_analogSensor = turretServo.;
 
