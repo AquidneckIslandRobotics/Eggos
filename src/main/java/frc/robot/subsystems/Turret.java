@@ -28,7 +28,8 @@ public class Turret extends SubsystemBase {
     private static NetworkTableEntry tx = table.getEntry("tx");
     private static NetworkTableEntry ty = table.getEntry("ty");
     private static NetworkTableEntry ta = table.getEntry("ta");
-
+    //public double
+    WPI_TalonFX hood = new WPI_TalonFX(Constants.HoodAngle);
     //public static Turret m_turret = new Turret();
   /**
    * Creates a new Turret.
@@ -122,6 +123,17 @@ public class Turret extends SubsystemBase {
       setSpeed(speed);
     }
 
+    public double getHoodAngle() {
+      hood.getSelectedSensorPosition();
+      return hood.getSelectedSensorPosition();
+    }
+
+    public void setHoodAngle(double hoodAngle) {
+      hood.set(ControlMode.PercentOutput, hoodAngle);
+    }
+    public void resetEncoder(){ 
+      hood.getSensorCollection().setIntegratedSensorPosition(0, 0); 
+     }
     // This method will be called once per scheduler run
   }
 

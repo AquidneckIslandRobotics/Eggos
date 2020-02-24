@@ -14,6 +14,7 @@ import frc.robot.commands.Climb;
 import frc.robot.commands.Drive;
 //import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
+import frc.robot.commands.Hood;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
@@ -65,6 +66,15 @@ public class RobotContainer {
   private Button driverRB = new JoystickButton(drivingJoystick1, 6);
   private Button driverBack = new JoystickButton(drivingJoystick1, 7);
   private Button driverStart = new JoystickButton(drivingJoystick1, 8);
+  private Button driverA = new JoystickButton(drivingJoystick1, 1);
+  private Button driverB = new JoystickButton(drivingJoystick1, 2);
+  //private Button MotionMagicButton = new JoystickButton(drivingJoystick1, 3); //button x 
+  //private Button RT = new JoystickButton(manipulatorJoystick, 7);
+  //private Button limeTime = new JoystickButton(manipulatorJoystick, 4);
+
+  //private Button driverA = new JoystickButton(manipulatorJoystick, 1); 
+  //private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
+  //private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
 
   private Button manipulatorA = new JoystickButton(manipulatorJoystick, 1); 
   private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
@@ -148,6 +158,10 @@ public class RobotContainer {
     extraBack.whenPressed(new ShootAndDrive(m_chassis, m_intake, m_shooter)); 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
+
+    //stuff
+    driverA.whenPressed(new Hood(0, m_turret));
+    driverB.whenPressed(new Hood(100, m_turret));
   }
 
   /**
