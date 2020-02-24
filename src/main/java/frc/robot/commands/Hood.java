@@ -19,7 +19,6 @@ import frc.robot.subsystems.Turret;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class Hood extends PIDCommand {
-  WPI_TalonFX Hood = new WPI_TalonFX(Constants.HoodAngle);
   /**
    * Creates a new Hood.
    */
