@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
@@ -19,7 +16,6 @@ import frc.robot.subsystems.Turret;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurretPID extends PIDCommand {
-  WPI_TalonFX Hood = new WPI_TalonFX(Constants.HoodAngle);
   /**
    * Creates a new Hood.
    */
