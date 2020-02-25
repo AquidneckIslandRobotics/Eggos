@@ -9,8 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Climb;
+import frc.robot.commands.DeployIntake;
 import frc.robot.commands.Drive;
 //import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
@@ -18,8 +20,8 @@ import frc.robot.commands.Hood;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
+//import frc.robot.commands.Music;
 import frc.robot.commands.AutoShootVelocity;
-import frc.robot.commands.Music;
 import frc.robot.commands.ShootAndDrive;
 import frc.robot.commands.ShooterAuto;
 import frc.robot.commands.SixCellAuto;
@@ -31,6 +33,7 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IntakeInward;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
@@ -85,20 +88,12 @@ public class RobotContainer {
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
-  private Button extraButtonA = new JoystickButton(extraJoystick, 1); 
-  private Button extraButtonB = new JoystickButton(extraJoystick, 2); 
-  private Button extraButtonX = new JoystickButton(extraJoystick, 3); 
-  private Button extraButtonY = new JoystickButton(extraJoystick, 4);
-  private Button extraButtonLB = new JoystickButton(extraJoystick, 5); 
-  private Button extraButtonRB = new JoystickButton(extraJoystick, 6); 
-  private Button extraBack = new JoystickButton(extraJoystick, 7); 
-  private Button extraStart = new JoystickButton(extraJoystick, 8); 
+  private Trigger climbTrigger;
   
-
 
   // Commands
  // private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
-  private final Music c_Music = new Music(m_shooter, "");
+  private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
 
   // ------------------------------------------
 
@@ -123,45 +118,31 @@ public class RobotContainer {
     
     // Button Setup
     //  Driver Buttons
-    //driverA.whileHeld(new TurretTarget(m_turret));
-    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
     //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     
     // Button Setup
     //  Driver Buttons
+   // driverA.whenPressed(new Hood(0, m_turret));
+   // driverB.whenPressed(new Hood(100, m_turret));
     driverLB.whenPressed(new switchDirection(m_chassis));
-    //driverX.whileHeld(new);
-    driverRB.whileHeld(new IntakeInward(m_intake));
-    driverBack.whileHeld(new Climb(m_climber, 0.5));
-    driverStart.whileHeld(new Climb(m_climber, 0.75));
+    //driverBack.whileHeld(new Climb(m_climber, 0.5));
+    //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
     // Manipulator Buttons
-    manipulatorA.whileHeld(new TurretTarget(m_turret));
-    manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
-    //manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
-    manipulatorX.whileHeld(new HopperIntake(m_shooter));
-    manipulatorY.whileHeld(new HopperOuttake(m_shooter));
+    manipulatorA.whileHeld(new HopperOuttake(m_shooter));
+    manipulatorX.whileHeld(new IntakeInward(m_intake));
+    manipulatorY.whileHeld(new DeployIntake(m_intake));
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
-    manipulatorR3.whileHeld(new TurretTurn(m_turret, .5));
-    manipulatorL3.whileHeld(new TurretTurn(m_turret, -0.5));
 
-    extraButtonA.whenPressed(new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret));
-   // extraButtonA.whenPressed(new DriveDistanceAuto(m_chassis, 100)); 
-    extraButtonB.whenPressed(new DriveDistanceAuto(m_chassis, -100)); 
-    extraButtonX.whenPressed(new DriveDistanceAuto(m_chassis, 12)); 
-    extraButtonY.whenPressed(new DriveDistanceAuto(m_chassis, -12)); 
-   // extraButtonRB.whenPressed(new MotionMagic(m_chassis, 100)); 
-    //extraButtonLB.whenPressed(new DriveAndSpinGroup(m_chassis, m_intake)); 
-    extraStart.whenPressed(new ShooterAuto(m_shooter)); 
-    extraBack.whenPressed(new ShootAndDrive(m_chassis, m_intake, m_shooter)); 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
 
-    //stuff
-    driverA.whenPressed(new Hood(0, m_turret));
-    driverB.whenPressed(new Hood(100, m_turret));
+    //Triggers
+    //boolean test = drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5;
+    //climbTrigger.;
+
   }
 
   /**
@@ -171,6 +152,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return c_Music;
+    return m_sixCellAuto;
   }
 }

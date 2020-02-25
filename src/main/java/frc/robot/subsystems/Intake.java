@@ -35,6 +35,11 @@ public class Intake extends SubsystemBase {
     leftIntake.set(-1);
     solenoid.set(false);
   }
+
+  public void DeployIntake() {
+    solenoid.set(false);
+  }
+
   public void StopIntake() {
     rightIntake.set(0);
     leftIntake.set(0);

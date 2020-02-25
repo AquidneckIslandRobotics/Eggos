@@ -15,13 +15,13 @@ import frc.robot.subsystems.Turret;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LimeAndSpin extends SequentialCommandGroup {
+public class LimeAndShoot extends SequentialCommandGroup {
   /**
    * Creates a new LimeAndSpin.
    */
-  public LimeAndSpin(Shooter shooter, Turret turret) {
+  public LimeAndShoot(Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new TurretLimelight(turret), new ShooterAuto(shooter)); 
+    super(new TurretPID(turret), new Hood(0, turret), new ShooterAuto(shooter)); 
     }
 }

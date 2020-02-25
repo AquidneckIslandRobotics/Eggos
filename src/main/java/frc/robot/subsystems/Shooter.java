@@ -110,8 +110,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperOuttake() {
-    hopperRight.set(-0.5);
-    hopperLeft.set(0.5);
+    hopperRight.set(-0.3);
+    hopperLeft.set(0.3);
+    feed.set(-1);
   }
 
   public void stopHopper(){

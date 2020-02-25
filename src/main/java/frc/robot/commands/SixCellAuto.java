@@ -22,7 +22,7 @@ public class SixCellAuto extends SequentialCommandGroup {
    */
   public SixCellAuto(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
-    super(new ShooterAuto(shooter), new MotionMagic(chassis, -180, takeInCells), new LimeAndSpin(shooter, turret)); 
+    super(new ShooterAuto(shooter), new MotionMagic(chassis, -180, takeInCells), new LimeAndShoot(shooter, turret)); 
     // super(new FooCommand(), new BarCommand());
    // super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
   }
