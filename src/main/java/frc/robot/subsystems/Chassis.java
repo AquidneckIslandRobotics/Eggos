@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -36,6 +38,8 @@ public class Chassis extends SubsystemBase {
 
   public TalonFXConfiguration _leftConfig = new TalonFXConfiguration(); 
   public TalonFXConfiguration _rightConfig = new TalonFXConfiguration(); 
+	
+  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
 
   /**
    * Creates a new Chassis.
@@ -126,7 +130,13 @@ public class Chassis extends SubsystemBase {
 
     leftLead.configAllSettings(_leftConfig);
 		rightLead.configAllSettings(_rightConfig); 
-    
+	  
+	  
+    // Music
+    _instruments.add(leftLead);
+    _instruments.add((TalonFX)leftFollow);
+    _instruments.add(rightLead);
+    _instruments.add((TalonFX)rightFollow);
   }
 
 
@@ -217,6 +227,10 @@ public void stopDriveMotors() {
   public void stop() {
     leftLead.set(ControlMode.PercentOutput, 0); 
     rightLead.set(ControlMode.PercentOutput, 0); 
+  }
+	
+  public ArrayList<TalonFX> getInstruments() {
+	return _instruments;	  
   }
 }
 // " hey buddy if you could just switch these motors to the other dirction that'd be great"
