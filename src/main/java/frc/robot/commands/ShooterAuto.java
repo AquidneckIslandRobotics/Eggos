@@ -40,7 +40,7 @@ public class ShooterAuto extends CommandBase {
   public void execute() {
     
   //  turret.aim();
-    shooter.startWheel();
+    shooter.startWheel(5000);
    if( Timer.getFPGATimestamp() > startTime + 2 )
        shooter.HopperIntake();
 
