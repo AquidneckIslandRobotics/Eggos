@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.music.Orchestra;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -37,7 +38,6 @@ public class Shooter extends SubsystemBase {
   private boolean hopperDir = true; // true = forwards, false = reverse
 
   private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
-  public Orchestra _orchestra;
   /**
    * Creates a new Shooter.
    */
@@ -46,13 +46,13 @@ public class Shooter extends SubsystemBase {
     shooterWheel1.configFactoryDefault();
     shooterWheel2.configFactoryDefault();
     // Have second motor follow first
-    //shooterWheel2.follow(shooterWheel1);
-    //shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
+    shooterWheel2.follow(shooterWheel1);
+    shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
 
     // Set correct motor direction and sensor orientation
-    //shooterWheel1.setInverted(false);
-    //shooterWheel1.setSensorPhase(true);
-    //shooterWheel2.setInverted(true);
+    shooterWheel1.setInverted(TalonFXInvertType.CounterClockwise);
+    shooterWheel1.setSensorPhase(false);
+    shooterWheel2.setInverted(TalonFXInvertType.Clockwise);
 
     // Make sure motors are in coast mode
     shooterWheel1.setNeutralMode(NeutralMode.Coast);
@@ -69,13 +69,11 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.slot0.kI = 0.001;
     _velocity_closed.slot0.kD = 20;
 
-    //shooterWheel1.configAllSettings(_velocity_closed);
+    shooterWheel1.configAllSettings(_velocity_closed);
 
     // Music
-    //_instruments.add(shooterWheel1);
-    //_instruments.add(shooterWheel2);
-    //_orchestra = new Orchestra(_instruments);
-    //_orchestra.loadMusic("SWIM.chrp");
+    _instruments.add(shooterWheel1);
+    _instruments.add(shooterWheel2);
   }
 
   @Override
@@ -106,14 +104,15 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperIntake() {
-    hopperRight.set(-0.5);
-    hopperLeft.set(-0.5);
-    feed.set(.5);
+    hopperRight.set(-0.3);
+    hopperLeft.set(-0.3);
+    feed.set(1);
   }
 
   public void HopperOuttake() {
-    hopperRight.set(-0.5);
-    hopperLeft.set(0.5);
+    hopperRight.set(-0.3);
+    hopperLeft.set(0.3);
+    feed.set(-1);
   }
 
   public void stopHopper(){
@@ -151,5 +150,9 @@ public class Shooter extends SubsystemBase {
   public void stopWheel() {
     shooterWheel1.set(ControlMode.PercentOutput, 0);
     shooterWheel2.set(ControlMode.PercentOutput, 0);
+  }
+  
+  public ArrayList<TalonFX> getInstruments() {
+    return _instruments;
   }
 }

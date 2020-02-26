@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -36,6 +38,8 @@ public class Chassis extends SubsystemBase {
 
   public TalonFXConfiguration _leftConfig = new TalonFXConfiguration(); 
   public TalonFXConfiguration _rightConfig = new TalonFXConfiguration(); 
+	
+  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
 
   /**
    * Creates a new Chassis.
@@ -126,7 +130,13 @@ public class Chassis extends SubsystemBase {
 
     leftLead.configAllSettings(_leftConfig);
 		rightLead.configAllSettings(_rightConfig); 
-    
+	  
+	  
+    // Music
+    _instruments.add(leftLead);
+    _instruments.add((TalonFX)leftFollow);
+    _instruments.add(rightLead);
+    _instruments.add((TalonFX)rightFollow);
   }
 
 
@@ -139,6 +149,9 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putNumber("Right Encoder COUNT", rightLead.getSelectedSensorPosition()); 
 
     SmartDashboard.putNumber("ENCODER Encoder Count", leftLead.getSelectedSensorVelocity()); 
+
+    SmartDashboard.putBoolean("On Target", onTarget()); 
+    SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
     // This method will be called once per scheduler run
 
 
@@ -153,6 +166,12 @@ public class Chassis extends SubsystemBase {
 
   public void setConfig(TalonFXConfiguration config) {
     leftLead.configAllSettings(config);
+    leftFollow.follow(leftLead); 
+    leftFollow.configNeutralDeadband(0); 
+    rightLead.follow(leftLead);
+    rightLead.configNeutralDeadband(0);
+    rightFollow.follow(leftLead); 
+    rightFollow.configNeutralDeadband(0); 
   }
   public void setConfig(TalonFXConfiguration leftConfig, TalonFXConfiguration rightConfig) {
     leftLead.configAllSettings(leftConfig); 
@@ -182,7 +201,15 @@ public void stopDriveMotors() {
     System.out.println("Trg: " + setpoint);
 
     leftLead.set(ControlMode.MotionMagic, setpoint);
-    rightLead.set(ControlMode.MotionMagic, setpoint); 
+   // rightLead.set(ControlMode.MotionMagic, setpoint); 
+  }
+
+  public boolean onTarget() {
+    return Math.abs(leftLead.getClosedLoopError()) < 1000;
+  }
+
+  public int getError() {
+    return leftLead.getClosedLoopError();
   }
 
   public void resetEncoder(){
@@ -200,6 +227,10 @@ public void stopDriveMotors() {
   public void stop() {
     leftLead.set(ControlMode.PercentOutput, 0); 
     rightLead.set(ControlMode.PercentOutput, 0); 
+  }
+	
+  public ArrayList<TalonFX> getInstruments() {
+	return _instruments;	  
   }
 }
 // " hey buddy if you could just switch these motors to the other dirction that'd be great"

@@ -41,11 +41,11 @@ public class TurretLimelight extends CommandBase {
     double y = turret.getLimelightX();
 
     if (y > 0) {
-      turret.setSpeed(-.5);
+      turret.setSpeed(-.3);
       SmartDashboard.putString("direction", "right");
     }
     else if (y < 0) {
-      turret.setSpeed(.5);
+      turret.setSpeed(.3);
       SmartDashboard.putString("direction", "left");
     }
     else {
@@ -63,6 +63,8 @@ public class TurretLimelight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (Math.abs(turret.getLimelightX()) < 2)
+    return true;
+    else return false; 
   }
 }

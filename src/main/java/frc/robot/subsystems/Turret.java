@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Turret extends SubsystemBase {
@@ -28,13 +28,16 @@ public class Turret extends SubsystemBase {
     private static NetworkTableEntry tx = table.getEntry("tx");
     private static NetworkTableEntry ty = table.getEntry("ty");
     private static NetworkTableEntry ta = table.getEntry("ta");
-
+    //public double
+    WPI_TalonFX hood = new WPI_TalonFX(Constants.HoodAngle);
     //public static Turret m_turret = new Turret();
   /**
    * Creates a new Turret.
    */
   public Turret() {
     turretRotate.setInverted(false);
+
+    turretRotate.setIdleMode(IdleMode.kBrake);
     
    // m_analogSensor = turretServo.;
 
@@ -120,6 +123,17 @@ public class Turret extends SubsystemBase {
       setSpeed(speed);
     }
 
+    public double getHoodAngle() {
+      hood.getSelectedSensorPosition();
+      return hood.getSelectedSensorPosition();
+    }
+
+    public void setHoodAngle(double hoodAngle) {
+      hood.set(ControlMode.PercentOutput, hoodAngle);
+    }
+    public void resetEncoder(){ 
+      hood.getSensorCollection().setIntegratedSensorPosition(0, 0); 
+     }
     // This method will be called once per scheduler run
   }
 
