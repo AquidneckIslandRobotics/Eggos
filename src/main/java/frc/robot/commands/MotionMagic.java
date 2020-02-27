@@ -32,8 +32,8 @@ public class MotionMagic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setConfig(m_subsystem._motion_magic);
-    m_subsystem.resetEncoder();
+    //m_subsystem.setConfig(m_subsystem._motion_magic);
+    m_subsystem.zeroAllSensors();
     driveTimer = Timer.getFPGATimestamp(); 
   }
 

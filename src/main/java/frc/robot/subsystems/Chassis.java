@@ -10,8 +10,11 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -28,10 +31,7 @@ import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
   private PigeonIMU pidgey;
-  private TalonFX leftLead;
-  private BaseMotorController leftFollow;
-  private TalonFX rightLead;
-  private BaseMotorController rightFollow;
+  private TalonFX leftLead, leftFollow, rightLead, rightFollow;
 
   // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
   // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
@@ -50,7 +50,7 @@ public class Chassis extends SubsystemBase {
     leftFollow = new TalonFX(15);
     rightLead = new TalonFX(1);
     rightFollow = new TalonFX(16);
-    pidgey = new PigeonIMU(20)
+    pidgey = new PigeonIMU(20);
 
     leftFollow.configFactoryDefault();
     leftFollow.follow(leftLead);
@@ -62,10 +62,10 @@ public class Chassis extends SubsystemBase {
     pidgey.configFactoryDefault();
 
     leftLead.setInverted(TalonFXInvertType.Clockwise);
-    leftLead.setSensorPhase(false);
+    //leftLead.setSensorPhase(false);
     leftFollow.setInverted(TalonFXInvertType.Clockwise);
     rightLead.setInverted(TalonFXInvertType.CounterClockwise);
-    rightLead.setSensorPhase(false);
+    //rightLead.setSensorPhase(false);
     rightFollow.setInverted(TalonFXInvertType.CounterClockwise);
 
     leftLead.configOpenloopRamp(0.8);
@@ -203,7 +203,9 @@ public class Chassis extends SubsystemBase {
 
 public void stopDriveMotors() {
   leftLead.set(ControlMode.PercentOutput, 0); 
+  leftFollow.set(ControlMode.PercentOutput, 0);
   rightLead.set(ControlMode.PercentOutput, 0); 
+  rightFollow.set(ControlMode.PercentOutput, 0);
 }
 
 
