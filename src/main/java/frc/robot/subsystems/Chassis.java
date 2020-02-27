@@ -31,6 +31,7 @@ public class Chassis extends SubsystemBase {
   private BaseMotorController leftFollow;
   private TalonFX rightLead;
   private BaseMotorController rightFollow;
+  private int dir = 1;
 
   // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
   // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
@@ -158,10 +159,12 @@ public class Chassis extends SubsystemBase {
   }
 
   public void curvatureDrive(double speed, double rotation, boolean quickTurn) {
-    double leftSpeed = speed - rotation;//(quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
-    double rightSpeed = speed + rotation;//(quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
+    double leftSpeed = speed - rotation * dir;//(quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
+    double rightSpeed = speed + rotation *dir;//(quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
     leftLead.set(ControlMode.PercentOutput, leftSpeed);
     rightLead.set(ControlMode.PercentOutput, rightSpeed);
+    leftFollow.set(ControlMode.PercentOutput, leftSpeed);
+    rightFollow.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   public void setConfig(TalonFXConfiguration config) {
@@ -217,6 +220,7 @@ public void stopDriveMotors() {
   rightLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 
  }
   public void switchDirection(){
+    dir*= -1;
    
     leftLead.setInverted(!leftLead.getInverted());
     leftFollow.setInverted(!leftFollow.getInverted());

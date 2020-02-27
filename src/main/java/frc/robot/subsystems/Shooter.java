@@ -92,17 +92,19 @@ public class Shooter extends SubsystemBase {
   public void autoHopper() {
     if (hopperDir) {
       HopperIntake();
-      if (feed.getOutputCurrent() > 10) {
-        if (hopperCount++ > 100) {
+      if (feed.getOutputCurrent() > 15) {
+        if (hopperCount++ > 18) {
           hopperDir = false;
           hopperCount = 0;
         }
       }
     } else {
-      if (hopperCount++ < 250)
+      if (hopperCount++ < 70)
         HopperOuttake();
-      else
+      else {
         hopperDir = true;
+        hopperCount = 0;
+      }
     }
   }
 

@@ -43,6 +43,7 @@ import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TurretLimelight;
+import frc.robot.commands.TurretPID;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -62,7 +63,6 @@ public class RobotContainer {
   // Joysticks
   private static XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
-  private static XboxController extraJoystick = new XboxController(3); 
   
   // Buttons
   private Button driverX = new JoystickButton(drivingJoystick1, 3);
