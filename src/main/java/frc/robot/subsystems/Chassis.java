@@ -143,7 +143,9 @@ public class Chassis extends SubsystemBase {
 
     leftLead.configAllSettings(_leftConfig);
     rightLead.configAllSettings(_rightConfig); 
-	  
+
+    rightLead.selectProfileSlot(0,0);
+    rightLead.selectProfileSlot(1,1);
 	  
     // Music
     _instruments.add(leftLead);
@@ -215,6 +217,14 @@ public void stopDriveMotors() {
 
     leftLead.set(ControlMode.MotionMagic, setpoint);
    // rightLead.set(ControlMode.MotionMagic, setpoint); 
+  }
+	
+  public void setSetpoint(double distance, double heading) {
+    // assumes distance is in clicks
+    rightLead.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, heading);
+    leftLead.follow(rightLead, FollowerType.AuxOutput1);
+    rightFollow.follow(rightLead);
+    leftFollow.follow(rightLead);
   }
 
   public boolean onTarget() {
