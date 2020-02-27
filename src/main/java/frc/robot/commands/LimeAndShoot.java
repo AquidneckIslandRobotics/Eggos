@@ -22,6 +22,6 @@ public class LimeAndShoot extends SequentialCommandGroup {
   public LimeAndShoot(Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new TurretPID(turret), new Hood(0, turret), new ShooterAuto(shooter)); 
+    super(new TurretLimelight(turret), new ShooterAuto(shooter)); 
     }
 }
