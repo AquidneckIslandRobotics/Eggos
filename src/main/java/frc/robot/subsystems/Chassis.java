@@ -248,9 +248,9 @@ public void stopDriveMotors() {
   }
 	
   public double getAngle() {
-    double[] ypr = new double[3];
-    pidgey.getYawPitchRoll(ypr);
-    return ypr[0];
+    //double[] ypr = new double[3];
+    //pidgey.getYawPitchRoll(ypr);
+    return rightLead.getSelectedSensorPosition(1);
   }
 	
   public void switchDirection(){
