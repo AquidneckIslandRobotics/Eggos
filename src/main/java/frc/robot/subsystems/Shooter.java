@@ -22,6 +22,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.commands.HopperIntake;
 
 public class Shooter extends SubsystemBase {
 
@@ -50,9 +51,9 @@ public class Shooter extends SubsystemBase {
     shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
 
     // Set correct motor direction and sensor orientation
-    shooterWheel1.setInverted(TalonFXInvertType.CounterClockwise);
+    shooterWheel1.setInverted(TalonFXInvertType.Clockwise);
     shooterWheel1.setSensorPhase(false);
-    shooterWheel2.setInverted(TalonFXInvertType.Clockwise);
+    shooterWheel2.setInverted(TalonFXInvertType.CounterClockwise);
 
     // Make sure motors are in coast mode
     shooterWheel1.setNeutralMode(NeutralMode.Coast);
@@ -81,6 +82,8 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("L Hopper", hopperLeft.get());
     SmartDashboard.putNumber("R Hopper", hopperRight.get());
+    SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
   }
 
   /**
@@ -89,17 +92,19 @@ public class Shooter extends SubsystemBase {
   public void autoHopper() {
     if (hopperDir) {
       HopperIntake();
-      if (feed.getOutputCurrent() > 2) {
-        if (hopperCount++ > 100) {
+      if (feed.getOutputCurrent() > 15) {
+        if (hopperCount++ > 18) {
           hopperDir = false;
           hopperCount = 0;
         }
       }
     } else {
-      if (hopperCount++ < 250)
+      if (hopperCount++ < 70)
         HopperOuttake();
-      else
+      else {
         hopperDir = true;
+        hopperCount = 0;
+      }
     }
   }
 
