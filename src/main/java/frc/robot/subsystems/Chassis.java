@@ -247,6 +247,12 @@ public void stopDriveMotors() {
     pidgey.setAccumZAngle(0, 30);
   }
 	
+  public double getAngle() {
+    double[] ypr = new double[3];
+    pidgey.getYawPitchRoll(ypr);
+    return ypr[0];
+  }
+	
   public void switchDirection(){
    
     leftLead.setInverted(!leftLead.getInverted());
