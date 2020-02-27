@@ -59,6 +59,7 @@ public class Turret extends SubsystemBase {
 
     SmartDashboard.putNumber("Turret Rotations", 0); 
 
+
     //turretServo.setNeutralMode(NeutralMode.Brake);
    // turretServo.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
    //this won't work bc turret servo is a Neo 550

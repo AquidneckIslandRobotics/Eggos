@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -88,8 +90,8 @@ public class RobotContainer {
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
-  private Trigger climbTrigger;
-  
+  public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> (drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5));
+  public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> (drivingJoystick1.getTriggerAxis(Hand.kRight) > .5));
 
   // Commands
  // private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -129,13 +131,17 @@ public class RobotContainer {
     //driverBack.whileHeld(new Climb(m_climber, 0.5));
     //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
+    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.75));
+
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));
+    manipulatorB.whileHeld(new HopperIntake(m_shooter));
     manipulatorX.whileHeld(new IntakeInward(m_intake));
     manipulatorY.whileHeld(new DeployIntake(m_intake));
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
-
+    manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
+    manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
 

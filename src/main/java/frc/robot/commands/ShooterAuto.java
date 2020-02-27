@@ -42,7 +42,7 @@ public class ShooterAuto extends CommandBase {
   //  turret.aim();
     shooter.startWheel(5000);
    if( Timer.getFPGATimestamp() > startTime + 2 )
-       shooter.HopperIntake();
+       shooter.autoHopper();
 
     //shoot 3 balls at beginning(initiation line)
 
