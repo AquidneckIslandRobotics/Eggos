@@ -10,37 +10,43 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class HopperIntake extends CommandBase {
-  private Shooter shooter;
+public class ShootToggle extends CommandBase {
+  private Shooter m_shooter;
+  private boolean m_forward;
   /**
-   * Creates a new HopperIntake.
+   * Creates a new ShootToggle.
    */
-  public HopperIntake(Shooter shooter) {
-    this.shooter = shooter;
-    //addRequirements(shooter);
+  public ShootToggle(Shooter shooter, boolean forward) {
+    m_shooter = shooter;
+    m_forward = forward;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(m_forward){
+      if (m_shooter.shootLocate >= 3) m_shooter.shootLocate = 3;
+      else m_shooter.shootLocate++;
+    }else{
+      if(m_shooter.shootLocate <=0) m_shooter.shootLocate = 0;
+      else m_shooter.shootLocate--;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.autoHopper();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopHopper();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

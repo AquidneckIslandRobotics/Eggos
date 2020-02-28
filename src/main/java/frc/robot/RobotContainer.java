@@ -7,19 +7,28 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Climb;
+import frc.robot.commands.DeployIntake;
 import frc.robot.commands.Drive;
+//import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.Hood;
 import frc.robot.commands.Hood2;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
+//import frc.robot.commands.Music;
 import frc.robot.commands.AutoShootVelocity;
-import frc.robot.commands.Music;
+import frc.robot.commands.ShootAndDrive;
+import frc.robot.commands.ShootToggle;
+import frc.robot.commands.ShooterAuto;
+import frc.robot.commands.SixCellAuto;
 import frc.robot.commands.UnClimb;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
@@ -28,6 +37,7 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IntakeInward;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
@@ -35,6 +45,7 @@ import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TurretLimelight;
+import frc.robot.commands.TurretPID;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -46,15 +57,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // Subsystems
   private final static Chassis m_chassis = new Chassis();
-  private final static Turret m_turret = new Turret();
+  private final static Climber m_climber = new Climber();
   private final static Intake m_intake = new Intake();
   private final static Shooter m_shooter = new Shooter();
-  private final static Climber m_climber = new Climber();
+  private final static Turret m_turret = new Turret();
   
   // Joysticks
-  private static XboxController manipulatorJoystick = new XboxController(0);
+  public  XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
-  private static XboxController extraJoystick = new XboxController(3); 
   
   // Buttons
   private Button driverX = new JoystickButton(drivingJoystick1, 3);
@@ -73,32 +83,25 @@ public class RobotContainer {
   //private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
   //private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
 
-  
-  //private Button driverYeet = new JoystickButton(drivingJoystick1, 4);
-  //private Button flipDirectionButton = new JoystickButton(drivingJoystick1, 5); 
-  //private Button AutoAButton = new JoystickButton(drivingJoystick1, 1); 
   private Button manipulatorA = new JoystickButton(manipulatorJoystick, 1); 
   private Button manipulatorB = new JoystickButton(manipulatorJoystick, 2);
   private Button manipulatorX = new JoystickButton(manipulatorJoystick, 3);
-  private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
   private Button manipulatorY = new JoystickButton(manipulatorJoystick, 4);
+  private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
   private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
-  private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);
-  private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);
-  //private Button manipulatorDU = new JoystickButton(manipulatorJoystick, );
-  //private Button manipulatorDD = new JoystickButton(manipulatorJoystick, );
-  
+  private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
+  private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
-  private Button extraButtonA = new JoystickButton(extraJoystick, 1); 
-  private Button extraButtonB = new JoystickButton(extraJoystick, 2); 
-  private Button extraButtonX = new JoystickButton(extraJoystick, 3); 
-  private Button extraButtonY = new JoystickButton(extraJoystick, 4);
-  private Button extraButtonLB = new JoystickButton(extraJoystick, 5);
-  private Button extraButtonRB = new JoystickButton(extraJoystick, 6);
+  // Triggers for inputs that are not buttons
+  public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
+  public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
+  public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
+  public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
+
 
   // Commands
-  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
-  private final Music c_Music = new Music(m_shooter, "");
+  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
+  private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
 
   // ------------------------------------------
 
@@ -123,52 +126,41 @@ public class RobotContainer {
     
     // Button Setup
     //  Driver Buttons
-    //driverA.whileHeld(new TurretTarget(m_turret));
-    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis));
     m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
     //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     
     // Button Setup
     //  Driver Buttons
-    manipulatorA.whileHeld(new TurretTarget(m_turret));
+   // driverA.whenPressed(new Hood(0, m_turret));
+   // driverB.whenPressed(new Hood(100, m_turret));
     driverLB.whenPressed(new switchDirection(m_chassis));
-    driverX.whileHeld(new IntakeInward(m_intake));
-    driverRB.whileHeld(new IntakeInward(m_intake));
-    driverBack.whileHeld(new Climb(m_climber, 0.5));
-    driverStart.whileHeld(new Climb(m_climber, 0.75));
+    //driverBack.whileHeld(new Climb(m_climber, 0.5));
+    //driverStart.whileHeld(new Climb(m_climber, 0.75));
+
+    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.75));
 
     // Manipulator Buttons
-    manipulatorB.whileHeld(new TurretTurn(m_turret, .5));
-    //manipulatorX.whileHeld(new TurretTurn(m_turret, -.5));
-    manipulatorR3.whileHeld(new TurretTurn(m_turret, .5));
-    manipulatorL3.whileHeld(new TurretTurn(m_turret, -0.5));
-    extraButtonA.whenPressed(new DriveDistanceAuto(m_chassis, 100)); 
-    extraButtonB.whenPressed(new DriveDistanceAuto(m_chassis, -100)); 
-    extraButtonX.whenPressed(new DriveDistanceAuto(m_chassis, 12)); 
-    extraButtonY.whenPressed(new DriveDistanceAuto(m_chassis, -12)); 
-    extraButtonLB.whenPressed(new Hood2(m_turret, -15881));
-    extraButtonRB.whenPressed(new Hood2(m_turret, -31048));
-    //RT.whileHeld(new SpinWheel(m_turret));
-    //limeTime.whileHeld(new TurretLimelight(m_turret));
-    //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
-    //AutoAButton.whenPressed(new DriveDistanceAuto(Robot.m_chassis, 12));
-    //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
-    manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
+    manipulatorA.whileHeld(new HopperOuttake(m_shooter));
+    manipulatorB.whileHeld(new HopperIntake(m_shooter));
+    manipulatorX.whileHeld(new IntakeInward(m_intake));
+    manipulatorY.whileHeld(new DeployIntake(m_intake));
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
-    
+    manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
+    manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
+    manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
+    advancePosition.whenActive(new ShootToggle(m_shooter, false));
+    reteatPosition.whenActive(new ShootToggle(m_shooter, true));
 
-    //Shooter Buttons
-    manipulatorX.whileHeld(new HopperIntake(m_shooter));
-    manipulatorY.whileHeld(new HopperOuttake(m_shooter));
-    
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
+    SmartDashboard.putData(new ShootToggle(m_shooter, false));
+    SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, true));
 
-    //stuff
-    driverA.whenPressed(new Hood(0, m_turret));
-    driverB.whenPressed(new Hood(100, m_turret));
+    //Triggers
+    //boolean test = drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5;
+    //climbTrigger.;
+
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -177,6 +169,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return c_Music;
+    return c_MotionMagic;//m_sixCellAuto;
   }
 }

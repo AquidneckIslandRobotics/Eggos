@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
@@ -18,23 +15,21 @@ import frc.robot.subsystems.Turret;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class Hood extends PIDCommand {
+public class TurretPID extends PIDCommand {
   /**
    * Creates a new Hood.
    */
-  public Hood(int hoodAngle, Turret turret) {
+  public TurretPID(Turret turret) {
     super(
         // The controller that the command will use
-        new PIDController(0.25, 0.1, 0.1),
+        new PIDController(0.5, 0.5, 0.5),
         // This should return the measurement
-        turret::getHoodAngle,
+        turret::getLimelightX,
         // This should return the setpoint (can also be a constant)
-        hoodAngle,
+        0,
         // This uses the output
-        output -> turret.setHoodAngle(output),
+        output -> turret.setSpeed(output),
         turret);
-        addRequirements(turret);
-        turret.resetEncoder();
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }

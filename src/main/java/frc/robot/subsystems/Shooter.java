@@ -16,11 +16,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.music.Orchestra;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.commands.HopperIntake;
 
 public class Shooter extends SubsystemBase {
 
@@ -31,13 +33,17 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax hopperLeft = new CANSparkMax(Constants.HopperLeft, MotorType.kBrushless);
   private static CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
 
+
   private static TalonFXConfiguration _velocity_closed = new TalonFXConfiguration();
 
   private int hopperCount;
   private boolean hopperDir = true; // true = forwards, false = reverse
 
+  public int shootLocate = 0;
+  public int [] shooterSpeed = {3800, 4100, 4550, 5500};
+  public int [] hoodLocate = {-15881, -24628, -31408, -33000};
+
   private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
-  public Orchestra _orchestra;
   /**
    * Creates a new Shooter.
    */
@@ -46,13 +52,13 @@ public class Shooter extends SubsystemBase {
     shooterWheel1.configFactoryDefault();
     shooterWheel2.configFactoryDefault();
     // Have second motor follow first
-    //shooterWheel2.follow(shooterWheel1);
-    //shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
+    shooterWheel2.follow(shooterWheel1);
+    shooterWheel2.configNeutralDeadband(0); // This is needed to not overhead leader
 
     // Set correct motor direction and sensor orientation
-    //shooterWheel1.setInverted(false);
-    //shooterWheel1.setSensorPhase(true);
-    //shooterWheel2.setInverted(true);
+    shooterWheel1.setInverted(TalonFXInvertType.Clockwise);
+    shooterWheel1.setSensorPhase(false);
+    shooterWheel2.setInverted(TalonFXInvertType.CounterClockwise);
 
     // Make sure motors are in coast mode
     shooterWheel1.setNeutralMode(NeutralMode.Coast);
@@ -64,18 +70,16 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.nominalOutputReverse = 0;
     _velocity_closed.peakOutputForward = 1;
     _velocity_closed.peakOutputReverse = 0; // Should never go in reverse
-    _velocity_closed.slot0.kF = 0.047;
-    _velocity_closed.slot0.kP = 0.25;
+    _velocity_closed.slot0.kF = 0;
+    _velocity_closed.slot0.kP = 0.20;
     _velocity_closed.slot0.kI = 0.001;
     _velocity_closed.slot0.kD = 20;
 
-    //shooterWheel1.configAllSettings(_velocity_closed);
+    shooterWheel1.configAllSettings(_velocity_closed);
 
     // Music
-    //_instruments.add(shooterWheel1);
-    //_instruments.add(shooterWheel2);
-    //_orchestra = new Orchestra(_instruments);
-    //_orchestra.loadMusic("SWIM.chrp");
+    _instruments.add(shooterWheel1);
+    _instruments.add(shooterWheel2);
   }
 
   @Override
@@ -83,6 +87,9 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("L Hopper", hopperLeft.get());
     SmartDashboard.putNumber("R Hopper", hopperRight.get());
+    SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
+    SmartDashboard.putNumber("shootLocate", shootLocate+1);
   }
 
   /**
@@ -91,29 +98,32 @@ public class Shooter extends SubsystemBase {
   public void autoHopper() {
     if (hopperDir) {
       HopperIntake();
-      if (feed.getOutputCurrent() > 2) {
-        if (hopperCount++ > 100) {
+      if (feed.getOutputCurrent() > 15) {
+        if (hopperCount++ > 18) {
           hopperDir = false;
           hopperCount = 0;
         }
       }
     } else {
-      if (hopperCount++ < 250)
+      if (hopperCount++ < 70)
         HopperOuttake();
-      else
+      else {
         hopperDir = true;
+        hopperCount = 0;
+      }
     }
   }
 
   public void HopperIntake() {
-    hopperRight.set(-0.5);
-    hopperLeft.set(-0.5);
-    feed.set(.5);
+    hopperRight.set(-0.3);
+    hopperLeft.set(-0.3);
+    feed.set(1);
   }
 
   public void HopperOuttake() {
-    hopperRight.set(-0.5);
-    hopperLeft.set(0.5);
+    hopperRight.set(-0.3);
+    hopperLeft.set(0.3);
+    feed.set(-1);
   }
 
   public void stopHopper(){
@@ -151,5 +161,9 @@ public class Shooter extends SubsystemBase {
   public void stopWheel() {
     shooterWheel1.set(ControlMode.PercentOutput, 0);
     shooterWheel2.set(ControlMode.PercentOutput, 0);
+  }
+  
+  public ArrayList<TalonFX> getInstruments() {
+    return _instruments;
   }
 }

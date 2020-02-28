@@ -18,12 +18,12 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
   CANSparkMax rightIntake = new CANSparkMax(Constants.RightIntake, MotorType.kBrushless);
   CANSparkMax leftIntake = new CANSparkMax(Constants.LeftIntake, MotorType.kBrushless);
-  Solenoid solenoid = new Solenoid(0);
+  DoubleSolenoid solenoid = new DoubleSolenoid(0,1);
   /**
    * Creates a new Intake.
    */
   public Intake() {
-    solenoid.set(true);
+    solenoid.set(Value.kReverse);
     }
 
   @Override
@@ -31,14 +31,19 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void IntakeInward() {
-    rightIntake.set(0.75);
-    leftIntake.set(-0.75);
-    solenoid.set(false);
+    rightIntake.set(0.85);
+    leftIntake.set(-0.85);
+    solenoid.set(Value.kForward);
   }
+
+  public void DeployIntake() {
+    solenoid.set(Value.kForward);
+  }
+
   public void StopIntake() {
     rightIntake.set(0);
     leftIntake.set(0);
-    solenoid.set(true);
+    solenoid.set(Value.kReverse);
   }
 }
 // Just trying to get this to commit
