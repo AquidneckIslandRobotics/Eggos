@@ -33,6 +33,8 @@ public class Turret extends SubsystemBase {
     private static NetworkTableEntry ta = table.getEntry("ta");
     //public double
     WPI_TalonFX hood = new WPI_TalonFX(Constants.HoodAngle);
+    
+    public int hoodLocate = 0;
     //public static Turret m_turret = new Turret();
   /**
    * Creates a new Turret.
