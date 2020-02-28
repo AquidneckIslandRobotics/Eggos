@@ -32,8 +32,8 @@ public class MotionMagic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setConfig(m_subsystem._motion_magic);
-    m_subsystem.resetEncoder();
+    //m_subsystem.setConfig(m_subsystem._motion_magic);
+    m_subsystem.zeroAllSensors();
     driveTimer = Timer.getFPGATimestamp(); 
   }
 
@@ -41,7 +41,7 @@ public class MotionMagic extends CommandBase {
   @Override
   public void execute() {
     intake.IntakeInward();
-    m_subsystem.setSetpoint(m_clicks);
+    m_subsystem.setSetpoint(m_clicks, 0);
    if(Timer.getFPGATimestamp() > driveTimer + 5)
     firstRun = false; 
   }
@@ -56,7 +56,6 @@ public class MotionMagic extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return !firstRun && m_subsystem.onTarget(); 
 
   }

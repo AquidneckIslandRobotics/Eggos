@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,6 +41,11 @@ public class Turret extends SubsystemBase {
     turretRotate.setInverted(false);
 
     turretRotate.setIdleMode(IdleMode.kBrake);
+
+    hood.setInverted(TalonFXInvertType.CounterClockwise);
+    hood.setNeutralMode(NeutralMode.Coast);
+    hood.setSensorPhase(true);
+    resetEncoder();
     
    // m_analogSensor = turretServo.;
 
@@ -105,6 +113,8 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
+
+    SmartDashboard.putNumber("Hood Position", hood.getSelectedSensorPosition());
    // SmartDashboard.putNumber("Turret Encoder", turretEncoder); 
     // This method will be called once per scheduler run
   }
@@ -134,6 +144,10 @@ public class Turret extends SubsystemBase {
     }
     public void resetEncoder(){ 
       hood.getSensorCollection().setIntegratedSensorPosition(0, 0); 
+     }
+
+     public void setHoodSpeed(double speed) {
+      hood.set(TalonFXControlMode.PercentOutput, speed);
      }
     // This method will be called once per scheduler run
   }
