@@ -57,8 +57,8 @@ public final class Constants {
     public final static int kTimeoutMs = 30; 
 	
     // Shooter and hood constants
-    public int [] shooterSpeed = {3800, 4100, 4550, 5500};
-    public int [] hoodLocate = {-15881, -24628, -31408, -33000};
+    public final static int [] shooterSpeed = {3800, 4100, 4550, 5500};
+    public final static int [] hoodLocate = {-15881, -24628, -31408, -33000};
 
     // Deadbands
     public final static double kVelocityDeadband = ((100 * 2048) / 600); // 100 RPM to Click Per 100ms
