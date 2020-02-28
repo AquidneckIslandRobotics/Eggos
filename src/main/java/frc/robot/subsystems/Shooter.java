@@ -39,11 +39,7 @@ public class Shooter extends SubsystemBase {
   private int hopperCount;
   private boolean hopperDir = true; // true = forwards, false = reverse
 
-  public int shootLocate = 0;
-  public int [] shooterSpeed = {3800, 4100, 4550, 5500};
-  public int [] hoodLocate = {-15881, -24628, -31408, -33000};
-
-  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
+    private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
   /**
    * Creates a new Shooter.
    */
