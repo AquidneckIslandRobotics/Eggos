@@ -25,6 +25,7 @@ import frc.robot.commands.MotionMagic;
 //import frc.robot.commands.Music;
 import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.ShootAndDrive;
+import frc.robot.commands.ShootToggle;
 import frc.robot.commands.ShooterAuto;
 import frc.robot.commands.SixCellAuto;
 import frc.robot.commands.UnClimb;
@@ -61,7 +62,7 @@ public class RobotContainer {
   private final static Turret m_turret = new Turret();
   
   // Joysticks
-  private static XboxController manipulatorJoystick = new XboxController(0);
+  public  XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
   
   // Buttons
@@ -90,11 +91,13 @@ public class RobotContainer {
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
-  public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> (drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5));
-  public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> (drivingJoystick1.getTriggerAxis(Hand.kRight) > .5));
+  public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
+  public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
+  public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
+  public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
 
   // Commands
- // private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
+  private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
 
   // ------------------------------------------
@@ -142,8 +145,12 @@ public class RobotContainer {
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
+    advancePosition.whenActive(new ShootToggle(m_shooter, false));
+    reteatPosition.whenActive(new ShootToggle(m_shooter, true));
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
+    SmartDashboard.putData(new ShootToggle(m_shooter, false));
+    SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, true));
 
     //Triggers
     //boolean test = drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5;
@@ -158,6 +165,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_sixCellAuto;
+    return c_MotionMagic;//m_sixCellAuto;
   }
 }

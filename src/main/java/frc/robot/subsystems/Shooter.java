@@ -33,10 +33,15 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax hopperLeft = new CANSparkMax(Constants.HopperLeft, MotorType.kBrushless);
   private static CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
 
+
   private static TalonFXConfiguration _velocity_closed = new TalonFXConfiguration();
 
   private int hopperCount;
   private boolean hopperDir = true; // true = forwards, false = reverse
+
+  public int shootLocate = 0;
+  public int [] shooterSpeed = {3800, 4100, 4550, 5500};
+  public int [] hoodLocate = {-15881, -24628, -31408, -33000};
 
   private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
   /**
@@ -65,8 +70,8 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.nominalOutputReverse = 0;
     _velocity_closed.peakOutputForward = 1;
     _velocity_closed.peakOutputReverse = 0; // Should never go in reverse
-    _velocity_closed.slot0.kF = 0.047;
-    _velocity_closed.slot0.kP = 0.25;
+    _velocity_closed.slot0.kF = 0;
+    _velocity_closed.slot0.kP = 0.20;
     _velocity_closed.slot0.kI = 0.001;
     _velocity_closed.slot0.kD = 20;
 
@@ -84,6 +89,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("R Hopper", hopperRight.get());
     SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
     SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
+    SmartDashboard.putNumber("shootLocate", shootLocate+1);
   }
 
   /**

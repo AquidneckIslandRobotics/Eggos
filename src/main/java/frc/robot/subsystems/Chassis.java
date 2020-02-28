@@ -51,7 +51,7 @@ public class Chassis extends SubsystemBase {
     leftFollow = new TalonFX(15);
     rightLead = new TalonFX(1);
     rightFollow = new TalonFX(16);
-    pidgey = new PigeonIMU(20);
+    pidgey = new PigeonIMU(0);
 
     leftFollow.configFactoryDefault();
     leftFollow.follow(leftLead);
@@ -164,7 +164,8 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putNumber("Left Encoder Count", leftLead.getSelectedSensorPosition()); 
     SmartDashboard.putNumber("Right Encoder COUNT", rightLead.getSelectedSensorPosition()); 
 
-    SmartDashboard.putNumber("ENCODER Encoder Count", leftLead.getSelectedSensorVelocity()); 
+    SmartDashboard.putNumber("LEncoder Count", leftLead.getSelectedSensorVelocity()); 
+    SmartDashboard.putNumber("REncoder Count", rightLead.getSelectedSensorVelocity());
 
     SmartDashboard.putBoolean("On Target", onTarget()); 
     SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
