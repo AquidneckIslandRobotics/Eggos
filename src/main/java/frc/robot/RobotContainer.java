@@ -14,6 +14,7 @@ import frc.robot.commands.Climb;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.Hood;
+import frc.robot.commands.Hood2;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
@@ -92,7 +93,8 @@ public class RobotContainer {
   private Button extraButtonB = new JoystickButton(extraJoystick, 2); 
   private Button extraButtonX = new JoystickButton(extraJoystick, 3); 
   private Button extraButtonY = new JoystickButton(extraJoystick, 4);
-
+  private Button extraButtonLB = new JoystickButton(extraJoystick, 5);
+  private Button extraButtonRB = new JoystickButton(extraJoystick, 6);
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, 10);
@@ -144,6 +146,8 @@ public class RobotContainer {
     extraButtonB.whenPressed(new DriveDistanceAuto(m_chassis, -100)); 
     extraButtonX.whenPressed(new DriveDistanceAuto(m_chassis, 12)); 
     extraButtonY.whenPressed(new DriveDistanceAuto(m_chassis, -12)); 
+    extraButtonLB.whenPressed(new Hood2(m_turret, -15881));
+    extraButtonRB.whenPressed(new Hood2(m_turret, -31048));
     //RT.whileHeld(new SpinWheel(m_turret));
     //limeTime.whileHeld(new TurretLimelight(m_turret));
     //flipDirectionButton.whenPressed(new switchDirection(Robot.m_chassis)); 
@@ -151,6 +155,7 @@ public class RobotContainer {
     //MotionMagicButton.whenPressed(new MotionMagic(Robot.m_chassis, 12)); 
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
+    
 
     //Shooter Buttons
     manipulatorX.whileHeld(new HopperIntake(m_shooter));
