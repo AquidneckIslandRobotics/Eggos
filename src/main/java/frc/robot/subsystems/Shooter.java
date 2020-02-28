@@ -33,6 +33,7 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax hopperLeft = new CANSparkMax(Constants.HopperLeft, MotorType.kBrushless);
   private static CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
 
+  public int shootLocate = 0;
 
   private static TalonFXConfiguration _velocity_closed = new TalonFXConfiguration();
 
