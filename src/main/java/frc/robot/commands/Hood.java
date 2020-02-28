@@ -25,7 +25,7 @@ public class Hood extends PIDCommand {
   public Hood(int hoodAngle, Turret turret) {
     super(
         // The controller that the command will use
-        new PIDController(0.5, 0.5, 0.5),
+        new PIDController(0.25, 0.1, 0.1),
         // This should return the measurement
         turret::getHoodAngle,
         // This should return the setpoint (can also be a constant)
@@ -33,6 +33,8 @@ public class Hood extends PIDCommand {
         // This uses the output
         output -> turret.setHoodAngle(output),
         turret);
+        addRequirements(turret);
+        turret.resetEncoder();
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }

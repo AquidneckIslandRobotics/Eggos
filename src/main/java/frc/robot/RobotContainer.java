@@ -19,6 +19,7 @@ import frc.robot.commands.Drive;
 //import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.Hood;
+import frc.robot.commands.Hood2;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
@@ -91,10 +92,12 @@ public class RobotContainer {
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
+  // Triggers for inputs that are not buttons
   public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
   public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
   public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
   public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
+
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
@@ -147,6 +150,7 @@ public class RobotContainer {
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
     advancePosition.whenActive(new ShootToggle(m_shooter, false));
     reteatPosition.whenActive(new ShootToggle(m_shooter, true));
+
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
     SmartDashboard.putData(new ShootToggle(m_shooter, false));
