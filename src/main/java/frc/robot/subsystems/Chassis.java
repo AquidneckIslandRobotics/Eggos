@@ -183,6 +183,22 @@ public class Chassis extends SubsystemBase {
     rightFollow.set(ControlMode.PercentOutput, rightSpeed);
   }
 
+  public void tankDrive (double leftSpeed, double rightSpeed) {
+    if (dir == 1){
+
+    
+    leftLead.set(ControlMode.PercentOutput, leftSpeed);
+    rightLead.set(ControlMode.PercentOutput, rightSpeed);
+    leftFollow.set(ControlMode.PercentOutput, leftSpeed);
+    rightFollow.set(ControlMode.PercentOutput, rightSpeed);
+    } else{
+      leftLead.set(ControlMode.PercentOutput, rightSpeed);
+      rightLead.set(ControlMode.PercentOutput, leftSpeed);
+      leftFollow.set(ControlMode.PercentOutput, rightSpeed);
+      rightFollow.set(ControlMode.PercentOutput, leftSpeed);
+    }
+  }
+
   public void setConfig(TalonFXConfiguration config) {
     leftLead.configAllSettings(config);
     leftFollow.follow(leftLead); 

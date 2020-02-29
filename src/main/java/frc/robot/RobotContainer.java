@@ -46,6 +46,7 @@ import frc.robot.subsystems.Turret;
 import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
 
@@ -133,7 +134,7 @@ public class RobotContainer {
     
     // Button Setup
     //  Driver Buttons
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
+    m_chassis.setDefaultCommand(new TankDrive(m_chassis, drivingJoystick1, driverYeet));
     //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     
     // Button Setup
