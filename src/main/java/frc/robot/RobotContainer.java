@@ -134,7 +134,7 @@ public class RobotContainer {
     
     // Button Setup
     //  Driver Buttons
-    m_chassis.setDefaultCommand(new TankDrive(m_chassis, drivingJoystick1, driverYeet));
+    m_chassis.setDefaultCommand(new TankDrive(m_chassis, drivingJoystick1, driverRB));
     //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
     m_turret.setDefaultCommand(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
     
