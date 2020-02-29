@@ -68,7 +68,7 @@ public class TurretLimelight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(turret.getLimelightX()) < 1 && count > 100)
+    if (Math.abs(turret.getLimelightX()) < 1 && count > 50)
     return true;
     else return false; 
   }

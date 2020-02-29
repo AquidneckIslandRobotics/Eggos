@@ -59,7 +59,7 @@ public final class Constants {
     public final static int kTimeoutMs = 30; 
 	
     // Shooter and hood constants
-    public final static int [] shooterSpeed = {3800, 4100, 4550, 5500};
+    public final static int [] shooterSpeed = {3800, 4100, 4550, 5400};
     public final static int [] hoodLocate = {-15881, -24628, -31408, -33000};
     public final static double [] feedGain = {1, 1, 0.85, 0.4};
 

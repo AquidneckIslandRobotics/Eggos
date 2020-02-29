@@ -146,7 +146,7 @@ public class RobotContainer {
     //driverBack.whileHeld(new Climb(m_climber, 0.5));
     //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
-    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.75));
+    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.85));
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));
