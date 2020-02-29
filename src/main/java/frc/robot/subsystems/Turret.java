@@ -35,6 +35,7 @@ public class Turret extends SubsystemBase {
     WPI_TalonFX hood = new WPI_TalonFX(Constants.HoodAngle);
     
     public int hoodLocate = 0;
+    public int prevHoodLocate = 0;
     //public static Turret m_turret = new Turret();
   /**
    * Creates a new Turret.

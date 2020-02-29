@@ -99,6 +99,7 @@ public class RobotContainer {
   public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
   public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
   public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
+  private Trigger hoodAdjust = new Trigger((BooleanSupplier)() -> m_turret.hoodLocate != m_turret.prevHoodLocate);
 
   public Button extraLB = new JoystickButton(extraJoystick, 5);
   public Button extraRB = new JoystickButton(extraJoystick, 6);
@@ -154,6 +155,7 @@ public class RobotContainer {
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
     advancePosition.whenActive(new ShootToggle(m_shooter, m_turret, false));
     reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
+    hoodAdjust.whenActive(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
 
     SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
     SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));
@@ -176,6 +178,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return c_MotionMagic;//m_sixCellAuto;
+    return m_sixCellAuto;
   }
 }
