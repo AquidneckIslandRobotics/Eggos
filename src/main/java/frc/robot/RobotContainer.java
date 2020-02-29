@@ -101,7 +101,7 @@ public class RobotContainer {
   private Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
   private Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
   private Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
-  private Trigger hoodAdjust = new Trigger((BooleanSupplier)() -> m_turret.hoodLocate != m_turret.prevHoodLocate);
+  public Trigger hoodAdjust = new Trigger((BooleanSupplier)() -> advancePosition.get() || reteatPosition.get());
 
   public Button extraLB = new JoystickButton(extraJoystick, 5);
   public Button extraRB = new JoystickButton(extraJoystick, 6);
@@ -136,6 +136,7 @@ public class RobotContainer {
     //  Driver Buttons
     m_chassis.setDefaultCommand(new TankDrive(m_chassis, drivingJoystick1, driverYeet));
     //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
+    m_turret.setDefaultCommand(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
     
     // Button Setup
     //  Driver Buttons
@@ -158,7 +159,7 @@ public class RobotContainer {
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
     advancePosition.whenActive(new ShootToggle(m_shooter, m_turret, false));
     reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
-    hoodAdjust.whenActive(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
+    hoodAdjust.whileActiveContinuous(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
 
     if (Constants.DEBUG) SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
     if (Constants.DEBUG) SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));

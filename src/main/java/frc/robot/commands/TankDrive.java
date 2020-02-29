@@ -37,8 +37,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   double lSpeed = (Math.abs(m_joy.getY(GenericHID.Hand.kLeft)) < 0.1)?0:m_joy.getY(GenericHID.Hand.kLeft);
-   double rSpeed = (Math.abs(m_joy.getY(GenericHID.Hand.kRight)) < 0.1)?0:m_joy.getY(GenericHID.Hand.kRight);
+   double lSpeed = (Math.abs(m_joy.getY(GenericHID.Hand.kLeft)) < 0.1)?0:m_joy.getY(GenericHID.Hand.kLeft) * -1;
+   double rSpeed = (Math.abs(m_joy.getY(GenericHID.Hand.kRight)) < 0.1)?0:m_joy.getY(GenericHID.Hand.kRight) * -1;
     if (!m_butY.get()){
       lSpeed = lSpeed * 0.5;
       rSpeed = rSpeed * 0.5;

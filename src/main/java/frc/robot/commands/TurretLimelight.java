@@ -22,12 +22,13 @@ public class TurretLimelight extends CommandBase {
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
   Turret turret;
+  int count;
   /**
    * Creates a new TurretLimelight.
    */
   public TurretLimelight(Turret turret) {
     this.turret = turret;
-    addRequirements(turret);
+    //addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -35,18 +36,19 @@ public class TurretLimelight extends CommandBase {
   @Override
   public void initialize() {
     this.turret.lightsOn();
+    count = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double y = turret.getLimelightX();
-
-    if (y > 0) {
+    count++;
+    if (y > 0 + .5) {
       turret.setSpeed(-.3);
       if (Constants.DEBUG) SmartDashboard.putString("direction", "right");
     }
-    else if (y < 0) {
+    else if (y < 0 - 0.5) {
       turret.setSpeed(.3);
       if (Constants.DEBUG) SmartDashboard.putString("direction", "left");
     }
@@ -66,7 +68,7 @@ public class TurretLimelight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(turret.getLimelightX()) < 1)
+    if (Math.abs(turret.getLimelightX()) < 1 && count > 100)
     return true;
     else return false; 
   }

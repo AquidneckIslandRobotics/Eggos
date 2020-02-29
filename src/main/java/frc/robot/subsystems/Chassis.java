@@ -33,6 +33,7 @@ public class Chassis extends SubsystemBase {
   private PigeonIMU pidgey;
   private TalonFX leftLead, leftFollow, rightLead, rightFollow;
   private int dir = 1;
+  private boolean shootFront = true;
 
   // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
   // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
@@ -169,6 +170,8 @@ public class Chassis extends SubsystemBase {
 
     SmartDashboard.putBoolean("On Target", onTarget()); 
     SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
+
+    SmartDashboard.putBoolean("Shooter Front", shootFront);
     // This method will be called once per scheduler run
 
 
@@ -184,9 +187,7 @@ public class Chassis extends SubsystemBase {
   }
 
   public void tankDrive (double leftSpeed, double rightSpeed) {
-    if (dir == 1){
-
-    
+    if (shootFront){
     leftLead.set(ControlMode.PercentOutput, leftSpeed);
     rightLead.set(ControlMode.PercentOutput, rightSpeed);
     leftFollow.set(ControlMode.PercentOutput, leftSpeed);
@@ -276,8 +277,8 @@ public void stopDriveMotors() {
   }
 	
   public void switchDirection(){
-    dir*= -1;
-   
+    dir *= -1;
+    shootFront = !shootFront;
     leftLead.setInverted(!leftLead.getInverted());
     leftFollow.setInverted(!leftFollow.getInverted());
     rightLead.setInverted(!rightLead.getInverted());

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Hood2;
 import frc.robot.subsystems.Chassis;
 
 /**
@@ -57,6 +58,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Zone 4", m_robotContainer.m_shooter.shootLocate == 3);
     SmartDashboard.putBoolean("Targeted", m_robotContainer.m_turret.limelightOnTarget());
     SmartDashboard.putBoolean("Shooter Speed", m_robotContainer.m_shooter.getVelocityOnTarget());
+    SmartDashboard.putBoolean("Hood Trigger", m_robotContainer.hoodAdjust.get());
+    SmartDashboard.putNumber("Hood Setpoint",Constants.hoodLocate[m_robotContainer.m_turret.hoodLocate]);
   }
 
   /**
@@ -99,6 +102,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    // Run the hood to position
+    //(new Hood2(m_robotContainer.m_turret, Constants.hoodLocate[m_robotContainer.m_turret.hoodLocate])).schedule();
   }
 
   /**

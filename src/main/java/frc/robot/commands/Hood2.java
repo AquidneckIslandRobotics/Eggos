@@ -22,6 +22,7 @@ public class Hood2 extends CommandBase {
   public Hood2(Turret turret, double targetAngle) {
     this.turret = turret;
     this.targetAngle = targetAngle;
+    addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,7 +35,7 @@ public class Hood2 extends CommandBase {
   @Override
   public void execute() {
   double hood = turret.getHoodAngle();
-  
+  targetAngle = Constants.hoodLocate[turret.hoodLocate];
   if (Constants.DEBUG) SmartDashboard.putNumber("Curr", hood);
   if (Constants.DEBUG) SmartDashboard.putNumber("Target", targetAngle);
   if (hood == targetAngle) {
@@ -57,7 +58,8 @@ public class Hood2 extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((turret.getHoodAngle() > (targetAngle - 500)) && (turret.getHoodAngle() < (targetAngle + 500))) return true;
-    else return false;
+    //if ((turret.getHoodAngle() > (targetAngle - 500)) && (turret.getHoodAngle() < (targetAngle + 500))) return true;
+    //else return false;
+    return false;
   }
 }

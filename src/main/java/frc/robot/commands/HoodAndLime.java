@@ -19,7 +19,7 @@ public class HoodAndLime extends ParallelCommandGroup {
    * Creates a new HoodAndLime.
    */
   public HoodAndLime(Turret turret) {
-    super(new TurretLimelight(turret), new Hood2(turret, Constants.hoodLocate[turret.hoodLocate]));
+    super(new TurretLimelight(turret), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]));
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -22,7 +23,7 @@ public class SixCellAuto extends SequentialCommandGroup {
    */
   public SixCellAuto(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
-    super(new ShooterAuto(shooter), new MotionMagic(chassis, -180, takeInCells), new LimeAndShoot(shooter, turret)); 
+    super(new SetLocate(shooter, turret, 1), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new ShooterAuto(shooter), new MotionMagic(chassis, -180, takeInCells), new SetLocate(shooter, turret, 3), new LimeAndShoot(shooter, turret)); 
     // super(new FooCommand(), new BarCommand());
    // super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
   }
