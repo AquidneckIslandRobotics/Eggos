@@ -172,6 +172,7 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
 
     SmartDashboard.putBoolean("Shooter Front", shootFront);
+    SmartDashboard.putBoolean("Intake Front", !shootFront);
     // This method will be called once per scheduler run
 
 
