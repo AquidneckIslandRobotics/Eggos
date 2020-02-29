@@ -35,6 +35,8 @@ public class Shooter extends SubsystemBase {
 
   public int shootLocate = 0;
 
+  private double feedGain = 1;
+
   private static TalonFXConfiguration _velocity_closed = new TalonFXConfiguration();
 
   private int hopperCount;
@@ -68,7 +70,7 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.peakOutputForward = 1;
     _velocity_closed.peakOutputReverse = 0; // Should never go in reverse
     _velocity_closed.slot0.kF = 0.04843;//0.05;
-    _velocity_closed.slot0.kP = 0.0682;//0.02;
+    _velocity_closed.slot0.kP = 0.078;//0.02;
     _velocity_closed.slot0.kI = 0;
     _velocity_closed.slot0.kD = 0;
     
@@ -90,6 +92,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
     SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
     SmartDashboard.putNumber("shootLocate", shootLocate+1);
+    feedGain = SmartDashboard.getNumber("Feed Gain",feedGain);
   }
 
   /**
@@ -115,9 +118,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperIntake() {
-    hopperRight.set(-0.3);
-    hopperLeft.set(-0.3);
-    feed.set(1);
+    hopperRight.set(-0.3 * Constants.feedGain[shootLocate]);
+    hopperLeft.set(-0.3 * Constants.feedGain[shootLocate]);
+    feed.set(1 * Constants.feedGain[shootLocate]);
   }
 
   public void HopperOuttake() {
