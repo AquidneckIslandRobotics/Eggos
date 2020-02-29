@@ -67,12 +67,15 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.nominalOutputReverse = 0;
     _velocity_closed.peakOutputForward = 1;
     _velocity_closed.peakOutputReverse = 0; // Should never go in reverse
-    _velocity_closed.slot0.kF = 0;
-    _velocity_closed.slot0.kP = 0.20;
-    _velocity_closed.slot0.kI = 0.001;
-    _velocity_closed.slot0.kD = 20;
+    _velocity_closed.slot0.kF = 0.04843;//0.05;
+    _velocity_closed.slot0.kP = 0.0682;//0.02;
+    _velocity_closed.slot0.kI = 0;
+    _velocity_closed.slot0.kD = 0;
+    
 
     shooterWheel1.configAllSettings(_velocity_closed);
+
+    shooterWheel1.selectProfileSlot(0,0);
 
     // Music
     _instruments.add(shooterWheel1);

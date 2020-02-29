@@ -65,6 +65,7 @@ public class RobotContainer {
   // Joysticks
   public  XboxController manipulatorJoystick = new XboxController(0);
   private static XboxController drivingJoystick1 = new XboxController(1);
+  private static XboxController extraJoystick = new XboxController(3);
   
   // Buttons
   private Button driverX = new JoystickButton(drivingJoystick1, 3);
@@ -98,6 +99,8 @@ public class RobotContainer {
   public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
   public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
 
+  public Button extraLB = new JoystickButton(extraJoystick, 5);
+  public Button extraRB = new JoystickButton(extraJoystick, 6);
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
@@ -148,13 +151,16 @@ public class RobotContainer {
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
-    advancePosition.whenActive(new ShootToggle(m_shooter, false));
-    reteatPosition.whenActive(new ShootToggle(m_shooter, true));
+    advancePosition.whenActive(new ShootToggle(m_shooter, m_turret, false));
+    reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
+
+    SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
+    SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));
 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
-    SmartDashboard.putData(new ShootToggle(m_shooter, false));
-    SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, true));
+    SmartDashboard.putData(new ShootToggle(m_shooter, m_turret, false));
+    SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, m_turret, true));
 
     //Triggers
     //boolean test = drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5;
