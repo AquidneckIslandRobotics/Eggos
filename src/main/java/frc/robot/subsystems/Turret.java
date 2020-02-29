@@ -49,7 +49,7 @@ public class Turret extends SubsystemBase {
     hood.setNeutralMode(NeutralMode.Coast);
     hood.setSensorPhase(true);
     resetEncoder();
-    
+    lightsOff();
    // m_analogSensor = turretServo.;
 
     //PID Coefficients 
@@ -68,7 +68,7 @@ public class Turret extends SubsystemBase {
     m_pidController.setFF(kFF); 
     m_pidController.setOutputRange(kMinOutput, kMaxOutput); */ 
 
-    SmartDashboard.putNumber("Turret Rotations", 0); 
+    if (Constants.DEBUG) SmartDashboard.putNumber("Turret Rotations", 0); 
 
 
     //turretServo.setNeutralMode(NeutralMode.Brake);
@@ -105,7 +105,7 @@ public class Turret extends SubsystemBase {
 
     double rotations = SmartDashboard.getNumber("Turret Rotations", 0); 
    // m_pidController.setReference(rotations, ControlType.kPosition); 
-    SmartDashboard.putNumber("Turret Set Point", rotations); 
+   if (Constants.DEBUG) SmartDashboard.putNumber("Turret Set Point", rotations); 
    // SmartDashboard.putNumber("Process Variable Conversion", m_analogSensor.getPositionConversionFactor()); 
    //SmartDashboard.putNumber("Process Variable Get Pos only", m_analogSensor()); 
     //SmartDashboard.putNumber("Sensor Velocity", turretRotate.getSelectedSensorVelocity()); 
@@ -113,23 +113,23 @@ public class Turret extends SubsystemBase {
     double x = tx.getDouble(0.0);
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+    if (Constants.DEBUG) SmartDashboard.putNumber("LimelightX", x);
+    if (Constants.DEBUG) SmartDashboard.putNumber("LimelightY", y);
+    if (Constants.DEBUG) SmartDashboard.putNumber("LimelightArea", area);
 
-    SmartDashboard.putNumber("Hood Position", hood.getSelectedSensorPosition());
+    if (Constants.DEBUG) SmartDashboard.putNumber("Hood Position", hood.getSelectedSensorPosition());
    // SmartDashboard.putNumber("Turret Encoder", turretEncoder); 
     // This method will be called once per scheduler run
   }
     public void setSpeed(double speed) {
     turretRotate.set(speed);
-    SmartDashboard.putNumber("Turret Speed", speed);
+    if (Constants.DEBUG) SmartDashboard.putNumber("Turret Speed", speed);
     //turretServo.getFaults(_faults); 
   
   }
     public void stopTurret(){
     turretRotate.set(0);
-    SmartDashboard.putNumber("Turret Speed", 0);
+    if (Constants.DEBUG) SmartDashboard.putNumber("Turret Speed", 0);
   }
     public void aim(){
       double xValue = getLimelightX();
@@ -152,6 +152,11 @@ public class Turret extends SubsystemBase {
      public void setHoodSpeed(double speed) {
       hood.set(TalonFXControlMode.PercentOutput, speed);
      }
-    // This method will be called once per scheduler run
+
+     public boolean limelightOnTarget() {
+      if (Math.abs(getLimelightX()) < 1)
+      return true;
+      else return false; 
+    }
   }
 

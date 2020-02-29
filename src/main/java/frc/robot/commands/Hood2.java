@@ -35,8 +35,8 @@ public class Hood2 extends CommandBase {
   public void execute() {
   double hood = turret.getHoodAngle();
   
-  SmartDashboard.putNumber("Curr", hood);
-  SmartDashboard.putNumber("Target", targetAngle);
+  if (Constants.DEBUG) SmartDashboard.putNumber("Curr", hood);
+  if (Constants.DEBUG) SmartDashboard.putNumber("Target", targetAngle);
   if (hood == targetAngle) {
     turret.setHoodAngle(0);
   }

@@ -57,16 +57,16 @@ import frc.robot.commands.TurretPID;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // Subsystems
-  private final static Chassis m_chassis = new Chassis();
-  private final static Climber m_climber = new Climber();
-  private final static Intake m_intake = new Intake();
-  private final static Shooter m_shooter = new Shooter();
-  private final static Turret m_turret = new Turret();
+  public final Chassis m_chassis = new Chassis();
+  public final Climber m_climber = new Climber();
+  public final Intake m_intake = new Intake();
+  public final Shooter m_shooter = new Shooter();
+  public final Turret m_turret = new Turret();
   
   // Joysticks
-  public  XboxController manipulatorJoystick = new XboxController(0);
-  private static XboxController drivingJoystick1 = new XboxController(1);
-  private static XboxController extraJoystick = new XboxController(3);
+  private  XboxController manipulatorJoystick = new XboxController(0);
+  private XboxController drivingJoystick1 = new XboxController(1);
+  private XboxController extraJoystick = new XboxController(3);
   
   // Buttons
   private Button driverX = new JoystickButton(drivingJoystick1, 3);
@@ -95,10 +95,10 @@ public class RobotContainer {
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
   // Triggers for inputs that are not buttons
-  public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
-  public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
-  public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
-  public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
+  private Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
+  private Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
+  private Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
+  private Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
   private Trigger hoodAdjust = new Trigger((BooleanSupplier)() -> m_turret.hoodLocate != m_turret.prevHoodLocate);
 
   public Button extraLB = new JoystickButton(extraJoystick, 5);
@@ -157,13 +157,13 @@ public class RobotContainer {
     reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
     hoodAdjust.whenActive(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
 
-    SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
-    SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));
+    if (Constants.DEBUG) SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
+    if (Constants.DEBUG) SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));
 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
-    SmartDashboard.putData(new ShootToggle(m_shooter, m_turret, false));
-    SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, m_turret, true));
+    if (Constants.DEBUG) SmartDashboard.putData(new ShootToggle(m_shooter, m_turret, false));
+    if (Constants.DEBUG) SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, m_turret, true));
 
     //Triggers
     //boolean test = drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5;

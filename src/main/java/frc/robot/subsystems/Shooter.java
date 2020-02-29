@@ -87,12 +87,12 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("L Hopper", hopperLeft.get());
-    SmartDashboard.putNumber("R Hopper", hopperRight.get());
-    SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
-    SmartDashboard.putNumber("shootLocate", shootLocate+1);
-    feedGain = SmartDashboard.getNumber("Feed Gain",feedGain);
+    if (Constants.DEBUG) SmartDashboard.putNumber("L Hopper", hopperLeft.get());
+    if (Constants.DEBUG) SmartDashboard.putNumber("R Hopper", hopperRight.get());
+    if (Constants.DEBUG) SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
+    if (Constants.DEBUG) SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
+    if (Constants.DEBUG) SmartDashboard.putNumber("shootLocate", shootLocate+1);
+    //feedGain = SmartDashboard.getNumber("Feed Gain",feedGain);
   }
 
   /**
