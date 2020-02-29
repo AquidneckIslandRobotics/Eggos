@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-/*package frc.robot.commands;
+package frc.robot.commands;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,9 @@ public class Music extends CommandBase {
   /**
    * Creates a new Music.
    */
-  /*public Music(Shooter shooter, String name) {
+  public Music(Chassis chassis, Shooter shooter, String name) {
     m_shooter = shooter;
+    m_chassis = chassis;
     m_name = name;
     addRequirements(chassis, shooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,7 +38,7 @@ public class Music extends CommandBase {
     _instruments = m_chassis.getInstruments();
     _instruments.addAll(m_shooter.getInstruments());
     _orchestra = new Orchestra(_instruments);
-    _orchestra.loadMusic("SWIM.chrp");
+    _orchestra.loadMusic(m_name);
     _orchestra.play();
   }
 
@@ -58,4 +59,3 @@ public class Music extends CommandBase {
     return !(_orchestra.isPlaying());
   }
 }
-*/

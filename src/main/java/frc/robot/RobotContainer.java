@@ -24,6 +24,7 @@ import frc.robot.commands.HoodAndLime;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
+import frc.robot.commands.Music;
 //import frc.robot.commands.Music;
 import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.ShootAndDrive;
@@ -107,6 +108,7 @@ public class RobotContainer {
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
+  private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
 
   // ------------------------------------------
 
@@ -162,6 +164,7 @@ public class RobotContainer {
 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
+    SmartDashboard.putData("TDrift", new Music(m_chassis, m_shooter, "TD.chrp"));
     if (Constants.DEBUG) SmartDashboard.putData(new ShootToggle(m_shooter, m_turret, false));
     if (Constants.DEBUG) SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, m_turret, true));
 
