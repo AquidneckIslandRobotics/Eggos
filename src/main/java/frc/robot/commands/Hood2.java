@@ -40,10 +40,10 @@ public class Hood2 extends CommandBase {
   if (hood == targetAngle) {
     turret.setHoodAngle(0);
   }
-  else if (hood > targetAngle) {
+  else if (hood > (targetAngle + 200)) {
     turret.setHoodAngle(-.05);
   }
-  if (hood < targetAngle) {
+  if (hood < (targetAngle - 250)) {
     turret.setHoodAngle(.05);
     }
   }

@@ -20,6 +20,7 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.Hood;
 import frc.robot.commands.Hood2;
+import frc.robot.commands.HoodAndLime;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.MotionMagic;
@@ -147,7 +148,7 @@ public class RobotContainer {
     manipulatorB.whileHeld(new HopperIntake(m_shooter));
     manipulatorX.whileHeld(new IntakeInward(m_intake));
     manipulatorY.whileHeld(new DeployIntake(m_intake));
-    manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
+    manipulatorLimeLB.whileHeld(new HoodAndLime(m_turret));//TurretLimelight(m_turret));
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
