@@ -140,7 +140,7 @@ public class Chassis extends SubsystemBase {
     rightLead.configClosedLoopPeriod(0, closedLoopTimeMs, 30);
     rightLead.configClosedLoopPeriod(1, closedLoopTimeMs, 30);
 
-    _rightConfig.motionAcceleration = 6000; //(distance units per 100 ms) per second
+    _rightConfig.motionAcceleration = 7000; //(distance units per 100 ms) per second
     _rightConfig.motionCruiseVelocity = 15000; //distance units per 100 ms
 
     leftLead.configAllSettings(_leftConfig);

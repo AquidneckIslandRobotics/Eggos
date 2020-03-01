@@ -120,7 +120,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperIntake() {
-    hopperRight.set(-0.3 * Constants.feedGain[shootLocate]);
+    hopperRight.set(-0.5 * Constants.feedGain[shootLocate]);
     hopperLeft.set(-0.3 * Constants.feedGain[shootLocate]);
     feed.set(1 * Constants.feedGain[shootLocate]);
   }

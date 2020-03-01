@@ -23,6 +23,7 @@ import frc.robot.commands.Hood2;
 import frc.robot.commands.HoodAndLime;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
+import frc.robot.commands.IntakeAndHopper;
 import frc.robot.commands.MotionMagic;
 import frc.robot.commands.Music;
 //import frc.robot.commands.Music;
@@ -150,7 +151,7 @@ public class RobotContainer {
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));
-    manipulatorB.whileHeld(new HopperIntake(m_shooter));
+    manipulatorB.whileHeld(new IntakeAndHopper(m_intake, m_shooter));
     manipulatorX.whileHeld(new IntakeInward(m_intake));
     manipulatorY.whileHeld(new DeployIntake(m_intake));
     manipulatorLimeLB.whileHeld(new HoodAndLime(m_turret));//TurretLimelight(m_turret));

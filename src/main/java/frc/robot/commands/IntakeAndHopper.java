@@ -7,22 +7,20 @@
 
 package frc.robot.commands;
 
-
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LimeAndShoot extends SequentialCommandGroup {
+public class IntakeAndHopper extends ParallelCommandGroup {
   /**
-   * Creates a new LimeAndSpin.
+   * Creates a new IntakeAndHopper.
    */
-  public LimeAndShoot(Shooter shooter, Turret turret) {
+  public IntakeAndHopper(Intake takeInCells, Shooter shooter) {
+    super(new SpinIntake(takeInCells), new HopperIntake(shooter)); 
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new HoodAndLime(turret), new ShooterAuto2(shooter));
-    //super(new TurretLimelight(turret), new ShooterAuto(shooter)); 
-    }
+  }
 }

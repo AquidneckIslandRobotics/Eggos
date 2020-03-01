@@ -13,7 +13,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 
 
-public class ShooterAuto extends CommandBase {
+public class ShooterAuto2 extends CommandBase {
  private Shooter shooter;
  public double startTime; 
  //private Turret turret;
@@ -21,7 +21,7 @@ public class ShooterAuto extends CommandBase {
   /**
    * Creates a new ShooterAuto.
    */
-  public ShooterAuto(Shooter shooter) {
+  public ShooterAuto2(Shooter shooter) {
     this.shooter = shooter;
    // this.turret = turret;
     addRequirements(shooter);
@@ -41,7 +41,7 @@ public class ShooterAuto extends CommandBase {
     
   //  turret.aim();
     shooter.startWheel(5000);
-   if( Timer.getFPGATimestamp() > startTime + 1)
+   if( Timer.getFPGATimestamp() > startTime + 0.5)
        shooter.autoHopper();
 
     //shoot 3 balls at beginning(initiation line)
@@ -60,7 +60,7 @@ public class ShooterAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(Timer.getFPGATimestamp() > startTime + 2); 
+    return(Timer.getFPGATimestamp() > startTime + 5); 
     
   }
 }
