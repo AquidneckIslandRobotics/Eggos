@@ -29,10 +29,10 @@ public class ShootToggle extends CommandBase {
   @Override
   public void initialize() {
     if(m_forward){
-      if (m_shooter.shootLocate >= 3) m_shooter.shootLocate = 3;
+      if (m_shooter.shootLocate >= 4) m_shooter.shootLocate = 4;
       else m_shooter.shootLocate++;
       
-      if (m_turret.hoodLocate >= 3) m_turret.hoodLocate = 3;
+      if (m_turret.hoodLocate >= 4) m_turret.hoodLocate = 4;
       else m_turret.hoodLocate++;
     }else{
       if(m_shooter.shootLocate <=0) m_shooter.shootLocate = 0;

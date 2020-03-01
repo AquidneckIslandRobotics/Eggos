@@ -56,6 +56,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Zone 2", m_robotContainer.m_shooter.shootLocate == 1);
     SmartDashboard.putBoolean("Zone 3", m_robotContainer.m_shooter.shootLocate == 2);
     SmartDashboard.putBoolean("Zone 4", m_robotContainer.m_shooter.shootLocate == 3);
+    SmartDashboard.putBoolean("Zone 5", m_robotContainer.m_shooter.shootLocate == 4);
     SmartDashboard.putBoolean("Targeted", m_robotContainer.m_turret.limelightOnTarget());
     SmartDashboard.putBoolean("Shooter Speed", m_robotContainer.m_shooter.getVelocityOnTarget());
     SmartDashboard.putBoolean("Hood Trigger", m_robotContainer.hoodAdjust.get());
