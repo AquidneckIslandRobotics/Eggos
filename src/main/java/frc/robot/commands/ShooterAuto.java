@@ -45,8 +45,6 @@ public class ShooterAuto extends CommandBase {
        shooter.autoHopper();
 
     //shoot 3 balls at beginning(initiation line)
-
-
   }
 
   // Called once the command ends or is interrupted.
@@ -60,7 +58,7 @@ public class ShooterAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(Timer.getFPGATimestamp() > startTime + 2); 
+    return false; 
     
   }
 }
