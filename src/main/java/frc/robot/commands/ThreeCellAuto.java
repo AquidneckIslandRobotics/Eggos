@@ -17,14 +17,13 @@ import frc.robot.subsystems.Turret;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class SixCellAuto extends SequentialCommandGroup {
+public class ThreeCellAuto extends SequentialCommandGroup {
   /**
-   * Creates a new SixCellAuto.
+   * Creates a new ThreeCellAuto.
    */
-  public SixCellAuto(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
+  public ThreeCellAuto(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
-    super(new SetLocate(shooter, turret, 1), new HoodandShootAuto(shooter, turret), new MotionMagic(chassis, -180, takeInCells), new SetLocate(shooter, turret, 3), new LimeAndShoot(shooter, turret)); 
     // super(new FooCommand(), new BarCommand());
-   // super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
+    super(new SetLocate(shooter, turret, 1), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new ShooterAuto(shooter), new MotionMagic(chassis, -36, takeInCells));
   }
 }

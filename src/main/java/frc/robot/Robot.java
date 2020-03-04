@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Hood2;
 import frc.robot.subsystems.Chassis;
 
 /**
@@ -51,6 +52,15 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putBoolean("Zone 1", m_robotContainer.m_shooter.shootLocate == 0);
+    SmartDashboard.putBoolean("Zone 2", m_robotContainer.m_shooter.shootLocate == 1);
+    SmartDashboard.putBoolean("Zone 3", m_robotContainer.m_shooter.shootLocate == 2);
+    SmartDashboard.putBoolean("Zone 4", m_robotContainer.m_shooter.shootLocate == 3);
+    SmartDashboard.putBoolean("Zone 5", m_robotContainer.m_shooter.shootLocate == 4);
+    SmartDashboard.putBoolean("Targeted", m_robotContainer.m_turret.limelightOnTarget());
+    SmartDashboard.putBoolean("Shooter Speed", m_robotContainer.m_shooter.getVelocityOnTarget());
+    SmartDashboard.putBoolean("Hood Trigger", m_robotContainer.hoodAdjust.get());
+    SmartDashboard.putNumber("Hood Setpoint",Constants.hoodLocate[m_robotContainer.m_turret.hoodLocate]);
   }
 
   /**
@@ -93,6 +103,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    // Run the hood to position
+    //(new Hood2(m_robotContainer.m_turret, Constants.hoodLocate[m_robotContainer.m_turret.hoodLocate])).schedule();
   }
 
   /**

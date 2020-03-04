@@ -31,9 +31,13 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void IntakeInward() {
-    rightIntake.set(0.85);
-    leftIntake.set(-0.85);
+    rightIntake.set(0.75);
+    leftIntake.set(-0.75);
     solenoid.set(Value.kForward);
+  }
+  public void SpinIntake() {
+    rightIntake.set(.1); 
+    leftIntake.set(-.1); 
   }
 
   public void DeployIntake() {

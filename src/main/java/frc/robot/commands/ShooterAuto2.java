@@ -7,43 +7,60 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
-public class switchDirection extends CommandBase {
-  private Chassis drive;
+
+public class ShooterAuto2 extends CommandBase {
+ private Shooter shooter;
+ public double startTime; 
+ //private Turret turret;
 
   /**
-   * Creates a new switchDirection.
+   * Creates a new ShooterAuto.
    */
-  public switchDirection(Chassis drive) {
-    this.drive = drive;
-    //addRequirements(drive);
-    //addRequirements(m_subsystem);
+  public ShooterAuto2(Shooter shooter) {
+    this.shooter = shooter;
+   // this.turret = turret;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive.switchDirection();
+    startTime = Timer.getFPGATimestamp(); 
+    //start at rotation 0
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
+  //  turret.aim();
+    shooter.startWheel(5000);
+   if( Timer.getFPGATimestamp() > startTime + 1.25)
+       shooter.autoHopper();
+
+    //shoot 3 balls at beginning(initiation line)
+
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.stopHopper();
+    shooter.stopWheel();
+   // turret.stopTurret();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return(Timer.getFPGATimestamp() > startTime + 5); 
+    
   }
 }

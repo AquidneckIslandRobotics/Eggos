@@ -33,6 +33,7 @@ public class Chassis extends SubsystemBase {
   private PigeonIMU pidgey;
   private TalonFX leftLead, leftFollow, rightLead, rightFollow;
   private int dir = 1;
+  private boolean shootFront = true;
 
   // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
   // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
@@ -139,7 +140,7 @@ public class Chassis extends SubsystemBase {
     rightLead.configClosedLoopPeriod(0, closedLoopTimeMs, 30);
     rightLead.configClosedLoopPeriod(1, closedLoopTimeMs, 30);
 
-    _rightConfig.motionAcceleration = 6000; //(distance units per 100 ms) per second
+    _rightConfig.motionAcceleration = 7000; //(distance units per 100 ms) per second
     _rightConfig.motionCruiseVelocity = 15000; //distance units per 100 ms
 
     leftLead.configAllSettings(_leftConfig);
@@ -169,6 +170,9 @@ public class Chassis extends SubsystemBase {
 
     SmartDashboard.putBoolean("On Target", onTarget()); 
     SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
+
+    SmartDashboard.putBoolean("Shooter Front", shootFront);
+    SmartDashboard.putBoolean("Intake Front", !shootFront);
     // This method will be called once per scheduler run
 
 
@@ -181,6 +185,20 @@ public class Chassis extends SubsystemBase {
     rightLead.set(ControlMode.PercentOutput, rightSpeed);
     leftFollow.set(ControlMode.PercentOutput, leftSpeed);
     rightFollow.set(ControlMode.PercentOutput, rightSpeed);
+  }
+
+  public void tankDrive (double leftSpeed, double rightSpeed) {
+    if (shootFront){
+    leftLead.set(ControlMode.PercentOutput, leftSpeed);
+    rightLead.set(ControlMode.PercentOutput, rightSpeed);
+    leftFollow.set(ControlMode.PercentOutput, leftSpeed);
+    rightFollow.set(ControlMode.PercentOutput, rightSpeed);
+    } else{
+      leftLead.set(ControlMode.PercentOutput, rightSpeed);
+      rightLead.set(ControlMode.PercentOutput, leftSpeed);
+      leftFollow.set(ControlMode.PercentOutput, rightSpeed);
+      rightFollow.set(ControlMode.PercentOutput, leftSpeed);
+    }
   }
 
   public void setConfig(TalonFXConfiguration config) {
@@ -260,8 +278,8 @@ public void stopDriveMotors() {
   }
 	
   public void switchDirection(){
-    dir*= -1;
-   
+    dir *= -1;
+    shootFront = !shootFront;
     leftLead.setInverted(!leftLead.getInverted());
     leftFollow.setInverted(!leftFollow.getInverted());
     rightLead.setInverted(!rightLead.getInverted());

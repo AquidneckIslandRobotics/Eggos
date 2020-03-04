@@ -16,6 +16,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final boolean DEBUG = true;
+
     //Driving Motors 
     public static final int LeftLeader = 14; 
     public static final int LeftFollower = 15; 
@@ -45,16 +47,21 @@ public final class Constants {
     public static final int Climber = 12; 
 
     //Gains stuff
-	public final static Gains kGains_Distanc = new Gains( 0.2, 0.0,  0.0, 0.2,            100,  1.00 );
-	public final static Gains kGains_Turning = new Gains( 2.0, 0.0,  4.0, 0.0,            200,  1.00 );
-	public final static Gains kGains_Velocit = new Gains( 0.1, 0.0, 20.0, 1023.0/6800.0,  300,  0.50 );
-	public final static Gains kGains_MotProf = new Gains( 1.0, 0.0,  0.0, 1023.0/6800.0,  400,  1.00 );
+    public final static Gains kGains_Distanc = new Gains( 0.2, 0.0,  0.0, 0.2,            100,  1.00 );
+    public final static Gains kGains_Turning = new Gains( 2.0, 0.0,  4.0, 0.0,            200,  1.00 );
+    public final static Gains kGains_Velocit = new Gains( 0.1, 0.0, 20.0, 1023.0/6800.0,  300,  0.50 );
+    public final static Gains kGains_MotProf = new Gains( 1.0, 0.0,  0.0, 1023.0/6800.0,  400,  1.00 );
   
     public final static double kNeutralDeadband = 0.001;
 
     public final static int pidgey = 22; 
     public final static int kPigeonUnitsPerRotation = 8192; 
     public final static int kTimeoutMs = 30; 
+	
+    // Shooter and hood constants
+    public final static int [] shooterSpeed = {3800, 4400, 5000, 5700, 6000};
+    public final static int [] hoodLocate = {-15881, -24628, -29000, -31000, -29000};
+    public final static double [] feedGain = {1, 1, 0.85, 0.4, 0.4};
 
     // Deadbands
     public final static double kVelocityDeadband = ((100 * 2048) / 600); // 100 RPM to Click Per 100ms

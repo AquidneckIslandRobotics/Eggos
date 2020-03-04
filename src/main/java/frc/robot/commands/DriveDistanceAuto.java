@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 //import frc.robot.RobotContainer;
 import frc.robot.subsystems.Chassis;
@@ -53,7 +54,8 @@ public class DriveDistanceAuto extends CommandBase {
      //m_drive.resetEncoder();
    // initialLeftEncoderPosition = Robot.m_chassis.getLeftEncoder(); 
    // initialRightEncoderPosition = Robot.m_chassis.getRightEncoder(); 
-    SmartDashboard.putNumber("Initial Encoder", initialRightEncoderPosition); 
+    
+    if (Constants.DEBUG) SmartDashboard.putNumber("Initial Encoder", initialRightEncoderPosition); 
     currentVelocity = 0; 
     }
 
@@ -90,7 +92,7 @@ public class DriveDistanceAuto extends CommandBase {
   public boolean isFinished() {
     //return false; 
    // if (Robot.m_chassis.getRightEncoder() > initialRightEncoderPosition + m_distance) {
-      SmartDashboard.putNumber("Velocity", 0); 
+      if (Constants.DEBUG) SmartDashboard.putNumber("Velocity", 0); 
       return true; 
  //   }
  //   else {

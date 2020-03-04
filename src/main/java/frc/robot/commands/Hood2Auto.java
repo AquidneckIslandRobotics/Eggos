@@ -7,43 +7,59 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Turret;
+import frc.robot.Constants;
 
-public class switchDirection extends CommandBase {
-  private Chassis drive;
+public class Hood2Auto extends CommandBase {
+  Turret turret;
+  double targetAngle;
 
   /**
-   * Creates a new switchDirection.
+   * Creates a new Hood2.
    */
-  public switchDirection(Chassis drive) {
-    this.drive = drive;
-    //addRequirements(drive);
-    //addRequirements(m_subsystem);
+  public Hood2Auto(Turret turret, double targetAngle) {
+    this.turret = turret;
+    this.targetAngle = targetAngle;
+    addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive.switchDirection();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+  double hood = turret.getHoodAngle();
+  targetAngle = Constants.hoodLocate[turret.hoodLocate];
+  if (Constants.DEBUG) SmartDashboard.putNumber("Curr", hood);
+  if (Constants.DEBUG) SmartDashboard.putNumber("Target", targetAngle);
+  if (hood == targetAngle) {
+    turret.setHoodAngle(0);
+  }
+  else if (hood > (targetAngle + 200)) {
+    turret.setHoodAngle(-.05);
+  }
+  if (hood < (targetAngle - 250)) {
+    turret.setHoodAngle(.05);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turret.setHoodAngle(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if ((turret.getHoodAngle() > (targetAngle - 500)) && (turret.getHoodAngle() < (targetAngle + 500))) return true;
+    else return false;
+    //return false;
   }
 }

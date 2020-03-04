@@ -41,7 +41,7 @@ public class ShooterAuto extends CommandBase {
     
   //  turret.aim();
     shooter.startWheel(5000);
-   if( Timer.getFPGATimestamp() > startTime + 2 )
+   if( Timer.getFPGATimestamp() > startTime + 1)
        shooter.autoHopper();
 
     //shoot 3 balls at beginning(initiation line)
@@ -60,7 +60,7 @@ public class ShooterAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(Timer.getFPGATimestamp() > startTime + 5); 
+    return(Timer.getFPGATimestamp() > startTime + 2); 
     
   }
 }

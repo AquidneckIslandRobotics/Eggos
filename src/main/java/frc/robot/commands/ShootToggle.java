@@ -9,15 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
 public class ShootToggle extends CommandBase {
   private Shooter m_shooter;
+  private Turret m_turret;
   private boolean m_forward;
   /**
    * Creates a new ShootToggle.
    */
-  public ShootToggle(Shooter shooter, boolean forward) {
+  public ShootToggle(Shooter shooter, Turret turret, boolean forward) {
     m_shooter = shooter;
+    m_turret = turret;
     m_forward = forward;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,11 +29,17 @@ public class ShootToggle extends CommandBase {
   @Override
   public void initialize() {
     if(m_forward){
-      if (m_shooter.shootLocate >= 3) m_shooter.shootLocate = 3;
+      if (m_shooter.shootLocate >= 4) m_shooter.shootLocate = 4;
       else m_shooter.shootLocate++;
+      
+      if (m_turret.hoodLocate >= 4) m_turret.hoodLocate = 4;
+      else m_turret.hoodLocate++;
     }else{
       if(m_shooter.shootLocate <=0) m_shooter.shootLocate = 0;
       else m_shooter.shootLocate--;
+      
+      if (m_turret.hoodLocate <= 0) m_turret.hoodLocate = 0;
+      else m_turret.hoodLocate--;
     }
   }
 

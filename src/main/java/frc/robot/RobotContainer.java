@@ -20,9 +20,12 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistanceAuto;
 import frc.robot.commands.Hood;
 import frc.robot.commands.Hood2;
+import frc.robot.commands.HoodAndLime;
 import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
+import frc.robot.commands.IntakeAndHopper;
 import frc.robot.commands.MotionMagic;
+import frc.robot.commands.Music;
 //import frc.robot.commands.Music;
 import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.ShootAndDrive;
@@ -44,6 +47,7 @@ import frc.robot.subsystems.Turret;
 import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
 
@@ -56,15 +60,16 @@ import frc.robot.commands.TurretPID;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // Subsystems
-  private final static Chassis m_chassis = new Chassis();
-  private final static Climber m_climber = new Climber();
-  private final static Intake m_intake = new Intake();
-  private final static Shooter m_shooter = new Shooter();
-  private final static Turret m_turret = new Turret();
+  public final Chassis m_chassis = new Chassis();
+  public final Climber m_climber = new Climber();
+  public final Intake m_intake = new Intake();
+  public final Shooter m_shooter = new Shooter();
+  public final Turret m_turret = new Turret();
   
   // Joysticks
-  public  XboxController manipulatorJoystick = new XboxController(0);
-  private static XboxController drivingJoystick1 = new XboxController(1);
+  private  XboxController manipulatorJoystick = new XboxController(0);
+  private XboxController drivingJoystick1 = new XboxController(1);
+  private XboxController extraJoystick = new XboxController(3);
   
   // Buttons
   private Button driverX = new JoystickButton(drivingJoystick1, 3);
@@ -93,15 +98,19 @@ public class RobotContainer {
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
   // Triggers for inputs that are not buttons
-  public Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
-  public Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
-  public Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
-  public Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
+  private Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
+  private Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
+  private Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
+  private Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
+  public Trigger hoodAdjust = new Trigger((BooleanSupplier)() -> advancePosition.get() || reteatPosition.get());
 
+  public Button extraLB = new JoystickButton(extraJoystick, 5);
+  public Button extraRB = new JoystickButton(extraJoystick, 6);
 
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
+  private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
 
   // ------------------------------------------
 
@@ -126,8 +135,9 @@ public class RobotContainer {
     
     // Button Setup
     //  Driver Buttons
-    m_chassis.setDefaultCommand(new Drive(m_chassis, drivingJoystick1, driverRB, driverYeet));
+    m_chassis.setDefaultCommand(new TankDrive(m_chassis, drivingJoystick1, driverRB));
     //m_shooter.setDefaultCommand(new Music(m_shooter, ""));
+    m_turret.setDefaultCommand(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
     
     // Button Setup
     //  Driver Buttons
@@ -137,24 +147,29 @@ public class RobotContainer {
     //driverBack.whileHeld(new Climb(m_climber, 0.5));
     //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
-    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.75));
+    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.85));
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));
-    manipulatorB.whileHeld(new HopperIntake(m_shooter));
+    manipulatorB.whileHeld(new IntakeAndHopper(m_intake, m_shooter));
     manipulatorX.whileHeld(new IntakeInward(m_intake));
     manipulatorY.whileHeld(new DeployIntake(m_intake));
-    manipulatorLimeLB.whileHeld(new TurretLimelight(m_turret));
+    manipulatorLimeLB.whileHeld(new HoodAndLime(m_turret));//TurretLimelight(m_turret));
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
-    advancePosition.whenActive(new ShootToggle(m_shooter, false));
-    reteatPosition.whenActive(new ShootToggle(m_shooter, true));
+    advancePosition.whenActive(new ShootToggle(m_shooter, m_turret, false));
+    reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
+    hoodAdjust.whileActiveContinuous(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
+
+    if (Constants.DEBUG) SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
+    if (Constants.DEBUG) SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));
 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
-    SmartDashboard.putData(new ShootToggle(m_shooter, false));
-    SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, true));
+    SmartDashboard.putData("TDrift", new Music(m_chassis, m_shooter, "TD.chrp"));
+    if (Constants.DEBUG) SmartDashboard.putData(new ShootToggle(m_shooter, m_turret, false));
+    if (Constants.DEBUG) SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, m_turret, true));
 
     //Triggers
     //boolean test = drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5;
@@ -169,6 +184,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return c_MotionMagic;//m_sixCellAuto;
+    return m_sixCellAuto;
   }
 }

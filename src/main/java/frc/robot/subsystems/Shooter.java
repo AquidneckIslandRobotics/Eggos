@@ -33,17 +33,16 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax hopperLeft = new CANSparkMax(Constants.HopperLeft, MotorType.kBrushless);
   private static CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
 
+  public int shootLocate = 0;
+
+  private double feedGain = 1;
 
   private static TalonFXConfiguration _velocity_closed = new TalonFXConfiguration();
 
   private int hopperCount;
   private boolean hopperDir = true; // true = forwards, false = reverse
 
-  public int shootLocate = 0;
-  public int [] shooterSpeed = {3800, 4100, 4550, 5500};
-  public int [] hoodLocate = {-15881, -24628, -31408, -33000};
-
-  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
+    private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
   /**
    * Creates a new Shooter.
    */
@@ -70,12 +69,15 @@ public class Shooter extends SubsystemBase {
     _velocity_closed.nominalOutputReverse = 0;
     _velocity_closed.peakOutputForward = 1;
     _velocity_closed.peakOutputReverse = 0; // Should never go in reverse
-    _velocity_closed.slot0.kF = 0;
-    _velocity_closed.slot0.kP = 0.20;
-    _velocity_closed.slot0.kI = 0.001;
-    _velocity_closed.slot0.kD = 20;
+    _velocity_closed.slot0.kF = 0.04843;//0.05;
+    _velocity_closed.slot0.kP = 0.078;//0.02;
+    _velocity_closed.slot0.kI = 0;
+    _velocity_closed.slot0.kD = 0;
+    
 
     shooterWheel1.configAllSettings(_velocity_closed);
+
+    shooterWheel1.selectProfileSlot(0,0);
 
     // Music
     _instruments.add(shooterWheel1);
@@ -85,11 +87,14 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("L Hopper", hopperLeft.get());
-    SmartDashboard.putNumber("R Hopper", hopperRight.get());
-    SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
-    SmartDashboard.putNumber("shootLocate", shootLocate+1);
+    if (Constants.DEBUG) SmartDashboard.putNumber("L Hopper", hopperLeft.get());
+    if (Constants.DEBUG) SmartDashboard.putNumber("R Hopper", hopperRight.get());
+    //if (Constants.DEBUG) SmartDashboard.putNumber("Turret Wheel Velocity", shooterWheel1.getSelectedSensorVelocity());
+    if (Constants.DEBUG) SmartDashboard.putNumber("output Current", feed.getOutputCurrent());
+    if (Constants.DEBUG) SmartDashboard.putNumber("shootLocate", shootLocate+1);
+    SmartDashboard.putNumber("Target Velocity", Constants.shooterSpeed[shootLocate]);
+    SmartDashboard.putNumber("Shooter Velocity", ((double)shooterWheel1.getSelectedSensorVelocity() * (600.0 / 2048.0)));
+    //feedGain = SmartDashboard.getNumber("Feed Gain",feedGain);
   }
 
   /**
@@ -115,9 +120,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperIntake() {
-    hopperRight.set(-0.3);
-    hopperLeft.set(-0.3);
-    feed.set(1);
+    hopperRight.set(-0.5 * Constants.feedGain[shootLocate]);
+    hopperLeft.set(-0.3 * Constants.feedGain[shootLocate]);
+    feed.set(1 * Constants.feedGain[shootLocate]);
   }
 
   public void HopperOuttake() {

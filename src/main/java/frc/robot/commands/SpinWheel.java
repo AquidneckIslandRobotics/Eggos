@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
 public class SpinWheel extends CommandBase {
@@ -29,7 +30,7 @@ public class SpinWheel extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.startWheel(m_shooter.shooterSpeed[m_shooter.shootLocate]);
+    m_shooter.startWheel(Constants.shooterSpeed[m_shooter.shootLocate]);
   }
 
   // Called once the command ends or is interrupted.
