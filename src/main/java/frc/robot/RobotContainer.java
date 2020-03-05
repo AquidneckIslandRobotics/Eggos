@@ -50,6 +50,7 @@ import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
 
@@ -184,8 +185,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  private final TurnPID tpid = new TurnPID(m_chassis, -45);
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_eightCellAuto;
+    //return m_eightCellAuto;
+    return tpid;
   }
 }

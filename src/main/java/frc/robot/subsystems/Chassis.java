@@ -171,6 +171,8 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putBoolean("On Target", onTarget()); 
     SmartDashboard.putNumber("Target Error", leftLead.getClosedLoopError()); 
 
+    SmartDashboard.putNumber("Heading", getAngle());
+
     SmartDashboard.putBoolean("Shooter Front", shootFront);
     SmartDashboard.putBoolean("Intake Front", !shootFront);
     // This method will be called once per scheduler run
@@ -272,9 +274,10 @@ public void stopDriveMotors() {
   }
 	
   public double getAngle() {
-    //double[] ypr = new double[3];
-    //pidgey.getYawPitchRoll(ypr);
-    return rightLead.getSelectedSensorPosition(1);
+    double[] ypr = new double[3];
+    pidgey.getYawPitchRoll(ypr);
+    return ypr[0];
+    //return rightLead.getSelectedSensorPosition(1);
   }
 	
   public void switchDirection(){

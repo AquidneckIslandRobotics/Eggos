@@ -21,16 +21,18 @@ public class TurnPID extends PIDCommand {
   public TurnPID(Chassis chassis, double heading) {
     super(
         // The controller that the command will use
-        new PIDController(0.2, 0, 0),
+        new PIDController(0.02, 0, 0),
         // This should return the measurement
         chassis::getAngle,
         // This should return the setpoint (can also be a constant)
          heading,
         // This uses the output
         output -> {
-          chassis.tankDrive(output, -output);
+          chassis.tankDrive(-output, output);
           // Use the output here
         });
+        addRequirements(chassis);
+        getController().setTolerance(5);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }

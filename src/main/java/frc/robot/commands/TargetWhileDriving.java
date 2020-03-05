@@ -19,8 +19,8 @@ public class TargetWhileDriving extends ParallelCommandGroup {
   /**
    * Creates a new ShootWhileDriving.
    */
-  public TargetWhileDriving(Chassis chassis, Turret turret) {
-    super(new TurretLimelightAuto(turret),new MotionMagicWithoutIntake(chassis, -180));
+  public TargetWhileDriving(Chassis chassis, Turret turret, double distance) {
+    super(new TurretLimelightAuto(turret),new MotionMagicWithoutIntake(chassis, distance));
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }

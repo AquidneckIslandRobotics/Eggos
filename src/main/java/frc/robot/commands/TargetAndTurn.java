@@ -19,7 +19,7 @@ public class TargetAndTurn extends SequentialCommandGroup {
    * Creates a new EightCellAutoPart3.
    */
   public TargetAndTurn(Chassis chassis, Turret turret) {
-   super(new TargetWhileDriving(chassis, turret), new TurnPID(chassis, 45));
+   super(new TargetWhileDriving(chassis, turret, -180), new TargetWhileDriving(chassis, turret, 100), new TurnPID(chassis, -45));
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }
