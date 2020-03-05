@@ -9,55 +9,49 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Chassis;
 
-
-public class ShooterAuto extends CommandBase {
- private Shooter shooter;
- public double startTime; 
- //private Turret turret;
-
+public class MotionMagicWithoutIntake extends CommandBase {
+  private Chassis m_subsystem;
+  private double m_clicks;
+  private boolean firstRun = true; 
+  private double driveTimer; 
   /**
-   * Creates a new ShooterAuto.
+   * Creates a new MotionMagic.
    */
-  public ShooterAuto(Shooter shooter) {
-    this.shooter = shooter;
-   // this.turret = turret;
-    addRequirements(shooter);
+  public MotionMagicWithoutIntake(Chassis chassis, double distance) {
+    addRequirements(chassis);
+    m_subsystem = chassis;
+    m_clicks = (distance * 1564.5); // per inch presumably 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startTime = Timer.getFPGATimestamp(); 
-    //start at rotation 0
+    //m_subsystem.setConfig(m_subsystem._motion_magic);
+    m_subsystem.zeroAllSensors();
+    driveTimer = Timer.getFPGATimestamp(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-  //  turret.aim();
-    shooter.startWheel(5000);
-   if( Timer.getFPGATimestamp() > startTime + 1)
-       shooter.autoHopper();
-
-    //shoot 3 balls at beginning(initiation line)
+    m_subsystem.setSetpoint(m_clicks, 0);
+   if(Timer.getFPGATimestamp() > driveTimer + 5)
+    firstRun = false; 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopHopper();
-    shooter.stopWheel();
-   // turret.stopTurret();
-  }
+    m_subsystem.stopDriveMotors();
+   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; 
+    return !firstRun && m_subsystem.onTarget(); 
+
   }
 }

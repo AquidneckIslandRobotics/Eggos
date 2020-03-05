@@ -7,22 +7,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Constants;
-import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class HoodandShootAuto extends ParallelCommandGroup {
+public class TargetAndTurn extends SequentialCommandGroup {
   /**
-   * Creates a new HoodandShootAuto.
+   * Creates a new EightCellAutoPart3.
    */
-  public HoodandShootAuto(Shooter shooter, Turret turret) {
-    super(new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new ShooterAutoTimed(shooter)); 
-    //This is only used in six cell auto because it calls shooter and eight cell auto is already running shooter.
-        // Add your commands in the super() call, e.g.
+  public TargetAndTurn(Chassis chassis, Turret turret) {
+   super(new TargetWhileDriving(chassis, turret), new TurnPID(chassis, 45));
+    // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }
 }

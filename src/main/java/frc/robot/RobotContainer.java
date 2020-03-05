@@ -32,6 +32,7 @@ import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.ShootAndDrive;
 import frc.robot.commands.ShootToggle;
 import frc.robot.commands.ShooterAuto;
+import frc.robot.commands.ShooterAutoTimed;
 import frc.robot.commands.SixCellAuto;
 import frc.robot.commands.UnClimb;
 import frc.robot.commands.switchDirection;
