@@ -42,6 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IntakeInward;
+import frc.robot.commands.IntakeOutward;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.commands.TurretTurn;
@@ -96,10 +97,12 @@ public class RobotContainer {
   private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
+  
 
   // Triggers for inputs that are not buttons
   private Trigger climbTriggerL = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kLeft) > .5);
   private Trigger climbTriggerR = new Trigger((BooleanSupplier)() -> drivingJoystick1.getTriggerAxis(Hand.kRight) > .5);
+  private Trigger outwardTriggerL = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getTriggerAxis(Hand.kLeft) > .25);
   private Trigger advancePosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 0);
   private Trigger reteatPosition = new Trigger((BooleanSupplier)() -> manipulatorJoystick.getPOV() == 180);
   public Trigger hoodAdjust = new Trigger((BooleanSupplier)() -> advancePosition.get() || reteatPosition.get());
@@ -148,6 +151,7 @@ public class RobotContainer {
     //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
     climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.85));
+    outwardTriggerL.whileActiveOnce(new IntakeOutward(-0.75));
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));

@@ -35,6 +35,11 @@ public class Intake extends SubsystemBase {
     leftIntake.set(-0.75);
     solenoid.set(Value.kForward);
   }
+  public void IntakeOutward() {
+    rightIntake.set(-0.75);
+    leftIntake.set(0.75);
+    solenoid.set(Value.kForward);
+  }
   public void SpinIntake() {
     rightIntake.set(.1); 
     leftIntake.set(-.1); 
