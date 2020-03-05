@@ -185,10 +185,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  private final TurnPID tpid = new TurnPID(m_chassis, -45);
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return m_eightCellAuto;
-    return tpid;
+    return m_eightCellAuto;
   }
 }
