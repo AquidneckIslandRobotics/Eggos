@@ -18,6 +18,7 @@ import frc.robot.commands.DeployIntake;
 import frc.robot.commands.Drive;
 //import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
+import frc.robot.commands.EightCellAuto;
 import frc.robot.commands.Hood;
 import frc.robot.commands.Hood2;
 import frc.robot.commands.HoodAndLime;
@@ -111,7 +112,7 @@ public class RobotContainer {
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
-
+  private final EightCellAuto m_eightCellAuto = new EightCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   // ------------------------------------------
 
   /**
@@ -184,6 +185,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_sixCellAuto;
+    return m_eightCellAuto;
   }
 }
