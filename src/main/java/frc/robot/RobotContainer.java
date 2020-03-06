@@ -18,6 +18,7 @@ import frc.robot.commands.DeployIntake;
 import frc.robot.commands.Drive;
 //import frc.robot.commands.DriveAndSpinGroup;
 import frc.robot.commands.DriveDistanceAuto;
+import frc.robot.commands.EightCellAuto;
 import frc.robot.commands.Hood;
 import frc.robot.commands.Hood2;
 import frc.robot.commands.HoodAndLime;
@@ -31,6 +32,7 @@ import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.ShootAndDrive;
 import frc.robot.commands.ShootToggle;
 import frc.robot.commands.ShooterAuto;
+import frc.robot.commands.ShooterAutoTimed;
 import frc.robot.commands.SixCellAuto;
 import frc.robot.commands.UnClimb;
 import frc.robot.commands.switchDirection;
@@ -42,12 +44,14 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IntakeInward;
+import frc.robot.commands.IntakeOutward;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
 
@@ -94,6 +98,7 @@ public class RobotContainer {
   private Button manipulatorY = new JoystickButton(manipulatorJoystick, 4);
   private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
   private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
+  private Button manipulatorStart = new JoystickButton(manipulatorJoystick, 8);
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
 
@@ -111,7 +116,7 @@ public class RobotContainer {
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
-
+  private final EightCellAuto m_eightCellAuto = new EightCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   // ------------------------------------------
 
   /**
@@ -147,7 +152,7 @@ public class RobotContainer {
     //driverBack.whileHeld(new Climb(m_climber, 0.5));
     //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
-    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 0.85));
+    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 1));
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));
@@ -158,6 +163,7 @@ public class RobotContainer {
     manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
+    manipulatorStart.whileHeld(new IntakeOutward(m_intake));
     advancePosition.whenActive(new ShootToggle(m_shooter, m_turret, false));
     reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
     hoodAdjust.whileActiveContinuous(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
@@ -184,6 +190,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_sixCellAuto;
+    return m_eightCellAuto;
   }
 }
