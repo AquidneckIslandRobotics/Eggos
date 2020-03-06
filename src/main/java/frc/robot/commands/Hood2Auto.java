@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Turret;
@@ -38,14 +37,14 @@ public class Hood2Auto extends CommandBase {
   targetAngle = Constants.hoodLocate[turret.hoodLocate];
   if (Constants.DEBUG) SmartDashboard.putNumber("Curr", hood);
   if (Constants.DEBUG) SmartDashboard.putNumber("Target", targetAngle);
-  if (hood == targetAngle) {
-    turret.setHoodAngle(0);
+  if (hood > (targetAngle + 1600)) {
+    turret.setHoodAngle(-.1);
   }
-  else if (hood > (targetAngle + 200)) {
-    turret.setHoodAngle(-.05);
-  }
-  if (hood < (targetAngle - 250)) {
-    turret.setHoodAngle(.05);
+ else if (hood < (targetAngle - 1600)) {
+    turret.setHoodAngle(.1);
+    }
+    else {
+      turret.setHoodAngle(0);
     }
   }
 

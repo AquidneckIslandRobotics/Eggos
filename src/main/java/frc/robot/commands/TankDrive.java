@@ -40,10 +40,12 @@ public class TankDrive extends CommandBase {
    double lSpeed = (Math.abs(m_joy.getY(GenericHID.Hand.kLeft)) < 0.1)?0:m_joy.getY(GenericHID.Hand.kLeft) * -1;
    double rSpeed = (Math.abs(m_joy.getY(GenericHID.Hand.kRight)) < 0.1)?0:m_joy.getY(GenericHID.Hand.kRight) * -1;
     if (!m_butY.get()){
-      lSpeed = lSpeed * 0.6;
-      rSpeed = rSpeed * 0.6;
+      lSpeed = lSpeed * 0.70;
+      rSpeed = rSpeed * 0.70;
       
       //rotation = rotation * 0.5;
+    } else {
+      rSpeed = lSpeed;//Use left stick for yeet
     }
     m_chassis.tankDrive(lSpeed, rSpeed);
   }
