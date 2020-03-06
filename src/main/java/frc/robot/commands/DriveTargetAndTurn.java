@@ -6,9 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,9 +21,9 @@ public class DriveTargetAndTurn extends ParallelCommandGroup {
   /**
    * Creates a new TargetIntakeAndTurn.
    */
-  public DriveTargetAndTurn(Chassis chassis, Intake takeInCells, Turret turret) {
+  public DriveTargetAndTurn(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new TurretLimelightAuto(turret), new DriveTwiceAndTurn(chassis));
+    super(new SetLocate(shooter, turret, 3), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]),new TurretLimelightAuto(turret), new DriveTwiceAndTurn(chassis));
   }
 }
