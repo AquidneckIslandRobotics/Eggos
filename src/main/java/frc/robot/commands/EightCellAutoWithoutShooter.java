@@ -24,7 +24,7 @@ public class EightCellAutoWithoutShooter extends SequentialCommandGroup {
    */
   public EightCellAutoWithoutShooter(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
-    super(new SetLocate(shooter, turret, 1), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new WaitCommand(2), new TargetIntakeAndTurn(chassis, takeInCells, turret)); 
+    super(new SetLocate(shooter, turret, 1), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new WaitCommand(2), new DriveTargetAndTurn(chassis, takeInCells, turret)); 
     // super(new FooCommand(), new BarCommand());
    // super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
 

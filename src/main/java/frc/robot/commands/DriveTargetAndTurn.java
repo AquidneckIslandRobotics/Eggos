@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
@@ -15,13 +14,13 @@ import frc.robot.subsystems.Turret;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TargetIntakeAndTurn extends ParallelCommandGroup {
+public class DriveTargetAndTurn extends ParallelCommandGroup {
   /**
    * Creates a new TargetIntakeAndTurn.
    */
-  public TargetIntakeAndTurn(Chassis chassis, Intake takeInCells, Turret turret) {
+  public DriveTargetAndTurn(Chassis chassis, Intake takeInCells, Turret turret) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new IntakeInward(takeInCells), new TargetAndTurn(chassis, turret)) ;
+    super(new TurretLimelightAuto(turret), new DriveTwiceAndTurn(chassis));
   }
 }

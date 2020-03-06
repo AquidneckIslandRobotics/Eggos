@@ -9,18 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TargetAndTurn extends SequentialCommandGroup {
+public class DriveTwiceAndTurn extends SequentialCommandGroup {
   /**
-   * Creates a new EightCellAutoPart3.
+   * Creates a new DriveTwiceAndTurn.
    */
-  public TargetAndTurn(Chassis chassis, Turret turret) {
-   super(new TargetWhileDriving(chassis, turret, -180), new TargetWhileDriving(chassis, turret, 100), new TurnPID(chassis, -45));
+  public DriveTwiceAndTurn(Chassis chassis) {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
+    // super(new FooCommand(), new BarCommand());
+    super(new MotionMagicWithoutIntake(chassis, -180), new MotionMagicWithoutIntake(chassis, 100), new TurnPID(chassis, -45));
   }
 }
