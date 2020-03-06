@@ -12,8 +12,9 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeOutward extends CommandBase {
   private Intake intake;
+ 
   /**
-   * Creates a new IntakeOutward.
+   * Creates a new IntakeInward.
    */
   public IntakeOutward(Intake intake) {
     this.intake = intake;
@@ -21,10 +22,8 @@ public class IntakeOutward extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public IntakeOutward(double d) {
-}
 
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
@@ -40,10 +39,10 @@ public class IntakeOutward extends CommandBase {
   public void end(boolean interrupted) {
     intake.StopIntake();
   }
-
+ 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+   return false; 
   }
 }
