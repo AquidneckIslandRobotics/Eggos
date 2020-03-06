@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
@@ -28,16 +29,30 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Current(L)", leftIntake.getOutputCurrent());
+    SmartDashboard.putNumber("Current(R)", rightIntake.getOutputCurrent());
     // This method will be called once per scheduler run
   }
   public void IntakeInward() {
     rightIntake.set(0.75);
     leftIntake.set(-0.75);
     solenoid.set(Value.kForward);
+//    SmartDashboard.putNumber("Volt(V)", leftIntake.getBusVoltage());
+  //  SmartDashboard.putNumber("Volt(V)", rightIntake.getBusVoltage());
+  }
+  public void IntakeOutward() {
+    rightIntake.set(-0.75);
+    leftIntake.set(0.75);
+    solenoid.set(Value.kForward);
+    //SmartDashboard.putNumber("Volt(V)", leftIntake.getBusVoltage());
+    //SmartDashboard.putNumber("Volt(V)", rightIntake.getBusVoltage());
   }
   public void SpinIntake() {
     rightIntake.set(.1); 
     leftIntake.set(-.1); 
+//    SmartDashboard.putNumber("Volt(V)", leftIntake.getBusVoltage());
+  //  SmartDashboard.putNumber("Volt(V)", rightIntake.getBusVoltage());
+
   }
 
   public void DeployIntake() {
