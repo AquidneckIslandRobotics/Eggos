@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -20,6 +21,7 @@ public class Intake extends SubsystemBase {
   CANSparkMax rightIntake = new CANSparkMax(Constants.RightIntake, MotorType.kBrushless);
   CANSparkMax leftIntake = new CANSparkMax(Constants.LeftIntake, MotorType.kBrushless);
   DoubleSolenoid solenoid = new DoubleSolenoid(0,1);
+  Compressor comp = new Compressor();
   /**
    * Creates a new Intake.
    */
@@ -63,6 +65,11 @@ public class Intake extends SubsystemBase {
     rightIntake.set(0);
     leftIntake.set(0);
     solenoid.set(Value.kReverse);
+  }
+
+  public void setComt(boolean enabled) {
+    if (enabled) comp.start();
+    else comp.stop();
   }
 }
 // Just trying to get this to commit

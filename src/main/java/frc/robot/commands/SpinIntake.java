@@ -31,12 +31,14 @@ public class SpinIntake extends CommandBase {
   @Override
   public void execute() {
     takeInCells.SpinIntake();
+    takeInCells.setComt(false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     takeInCells.StopIntake();
+    takeInCells.setComt(true);
   }
 
   // Returns true when the command should end.

@@ -9,16 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+
 
 public class Climb extends CommandBase {
   Climber m_climber;
+  Intake intake;
   double m_power;
   /**
    * Creates a new Climb.
    */
-  public Climb(Climber climber, double power) {
+  public Climb(Climber climber, double power, Intake intake) {
     m_climber = climber;
     m_power = power;
+    this.intake = intake;
     addRequirements(climber);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -32,6 +36,7 @@ public class Climb extends CommandBase {
   @Override
   public void execute() {
     m_climber.startClimb(m_power);
+    this.intake.setComt(false);
   }
 
   // Called once the command ends or is interrupted.

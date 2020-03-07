@@ -51,6 +51,7 @@ import frc.robot.commands.TurretTurn;
 import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.ThreeCellAuto;
 import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
@@ -117,6 +118,7 @@ public class RobotContainer {
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
   private final EightCellAuto m_eightCellAuto = new EightCellAuto(m_chassis, m_intake, m_shooter, m_turret);
+  private final ThreeCellAuto m_threeCellAuto = new ThreeCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   // ------------------------------------------
 
   /**
@@ -152,7 +154,7 @@ public class RobotContainer {
     //driverBack.whileHeld(new Climb(m_climber, 0.5));
     //driverStart.whileHeld(new Climb(m_climber, 0.75));
 
-    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 1));
+    climbTriggerL.and(climbTriggerR).whileActiveOnce(new Climb(m_climber, 1, m_intake));
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));

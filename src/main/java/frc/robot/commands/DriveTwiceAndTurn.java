@@ -20,6 +20,6 @@ public class DriveTwiceAndTurn extends SequentialCommandGroup {
   public DriveTwiceAndTurn(Chassis chassis) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new MotionMagicWithoutIntake(chassis, -180), new MotionMagicWithoutIntake(chassis, 100), new TurnPID(chassis, -50), new MotionMagicWithoutIntake(chassis, -70) );
+    super(new MotionMagicWithoutIntake(chassis, -192), new MotionMagicWithoutIntake(chassis, 112)); //new TurnPID(chassis, -50), new MotionMagicWithoutIntake(chassis, -70) );
   }
 }

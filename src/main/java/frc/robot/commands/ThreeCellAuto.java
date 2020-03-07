@@ -24,6 +24,7 @@ public class ThreeCellAuto extends SequentialCommandGroup {
   public ThreeCellAuto(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new SetLocate(shooter, turret, 1), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new ShooterAuto(shooter), new MotionMagic(chassis, -36, takeInCells));
+    // super(new ShooterAuto(shooter), new IntakeInward(takeInCells), new EightCellAutoWithoutShooter(chassis, takeInCells, shooter, turret));
+    super(new SetLocate(shooter, turret, 1), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]), new ShooterAutoTimed(shooter), new MotionMagic(chassis, -36, takeInCells));
   }
 }
