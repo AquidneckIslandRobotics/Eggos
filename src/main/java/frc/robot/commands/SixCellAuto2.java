@@ -7,21 +7,22 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DriveTwiceAndTurn extends SequentialCommandGroup {
+public class SixCellAuto2 extends ParallelCommandGroup {
   /**
-   * Creates a new DriveTwiceAndTurn.
+   * Creates a new EightCellAuto1.
    */
-  public DriveTwiceAndTurn(Chassis chassis, Shooter shooter) {
+  public SixCellAuto2(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
+    super(new ShooterAuto(shooter), new IntakeInward(takeInCells), new SixCellAutoWithoutShooter2(chassis, takeInCells, shooter, turret));
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    super(new MotionMagicWithoutIntake(chassis, -180), new MotionMagicWithoutIntake(chassis, 112)); //new WaitCommand(1), new TurnPID(chassis, shooter, -50), new MotionMagicWithoutIntake(chassis, -50));
+    // super(new FooCommand(), new BarCommand());super();
   }
 }

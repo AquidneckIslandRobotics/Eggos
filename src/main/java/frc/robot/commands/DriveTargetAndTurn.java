@@ -24,6 +24,6 @@ public class DriveTargetAndTurn extends ParallelCommandGroup {
   public DriveTargetAndTurn(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new SetLocate(shooter, turret, 3), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]),new TurretLimelightAuto(turret), new DriveTwiceAndTurn(chassis));
+    super(new SetLocate(shooter, turret, 3), new Hood2Auto(turret, Constants.hoodLocate[turret.hoodLocate]),new TurretLimelightAuto(turret), new DriveTwiceAndTurn(chassis, shooter));
   }
 }

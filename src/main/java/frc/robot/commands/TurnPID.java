@@ -10,6 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,7 +20,7 @@ public class TurnPID extends PIDCommand {
   /**
    * Creates a new TurnPID.
    */
-  public TurnPID(Chassis chassis, double heading) {
+  public TurnPID(Chassis chassis, Shooter shooter, double heading) {
     super(
         // The controller that the command will use
         new PIDController(0.02, 0, 0),
@@ -32,6 +34,7 @@ public class TurnPID extends PIDCommand {
           // Use the output here
         });
         addRequirements(chassis);
+        shooter.feedEnable = false;
         getController().setTolerance(5);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.

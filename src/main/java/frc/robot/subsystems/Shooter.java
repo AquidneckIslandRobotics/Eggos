@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
 
   public int shootLocate = 0;
-
+public boolean feedEnable = true;
   private double feedGain = 1;
 
   private static TalonFXConfiguration _velocity_closed = new TalonFXConfiguration();
@@ -94,6 +94,7 @@ public class Shooter extends SubsystemBase {
     if (Constants.DEBUG) SmartDashboard.putNumber("shootLocate", shootLocate+1);
     SmartDashboard.putNumber("Target Velocity", Constants.shooterSpeed[shootLocate]);
     SmartDashboard.putNumber("Shooter Velocity", ((double)shooterWheel1.getSelectedSensorVelocity() * (600.0 / 2048.0)));
+    SmartDashboard.putBoolean("feedEnable", feedEnable);
     //feedGain = SmartDashboard.getNumber("Feed Gain",feedGain);
   }
 
@@ -120,9 +121,14 @@ public class Shooter extends SubsystemBase {
   }
 
   public void HopperIntake() {
+   // if(feedEnable) {
     hopperRight.set(-0.5 * Constants.feedGain[shootLocate]);
     hopperLeft.set(-0.3 * Constants.feedGain[shootLocate]);
     feed.set(1 * Constants.feedGain[shootLocate]);
+  /*  }
+    else {
+      stopHopper();
+    }*/
   }
 
   public void HopperOuttake() {

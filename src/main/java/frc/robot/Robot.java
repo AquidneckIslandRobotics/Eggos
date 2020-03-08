@@ -103,6 +103,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.m_shooter.feedEnable = true;
     // Run the hood to position
     //(new Hood2(m_robotContainer.m_turret, Constants.hoodLocate[m_robotContainer.m_turret.hoodLocate])).schedule();
   }

@@ -34,6 +34,7 @@ import frc.robot.commands.ShootToggle;
 import frc.robot.commands.ShooterAuto;
 import frc.robot.commands.ShooterAutoTimed;
 import frc.robot.commands.SixCellAuto;
+import frc.robot.commands.SixCellAuto2;
 import frc.robot.commands.UnClimb;
 import frc.robot.commands.switchDirection;
 import frc.robot.subsystems.Chassis;
@@ -52,6 +53,7 @@ import frc.robot.commands.TurretTarget;
 import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ThreeCellAuto;
+import frc.robot.commands.ThreeCellAuto2;
 import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
@@ -119,6 +121,8 @@ public class RobotContainer {
   private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
   private final EightCellAuto m_eightCellAuto = new EightCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   private final ThreeCellAuto m_threeCellAuto = new ThreeCellAuto(m_chassis, m_intake, m_shooter, m_turret);
+  private final SixCellAuto2 m_sixCellAuto2 = new SixCellAuto2(m_chassis, m_intake, m_shooter, m_turret);
+  private final ThreeCellAuto2 m_threeCellAuto2 = new ThreeCellAuto2(m_chassis, m_intake, m_shooter, m_turret);
   // ------------------------------------------
 
   /**
@@ -192,6 +196,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_eightCellAuto;
+    return m_sixCellAuto2;
   }
 }
