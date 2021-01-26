@@ -257,7 +257,7 @@ public void stopDriveMotors() {
     return Math.abs(leftLead.getClosedLoopError()) < 1000;
   }
 
-  public int getError() {
+  public double getError() {
     return leftLead.getClosedLoopError();
   }
 
