@@ -37,7 +37,7 @@ import frc.robot.commands.HopperIntake;
 import frc.robot.commands.HopperOuttake;
 import frc.robot.commands.IntakeAndHopper;
 import frc.robot.commands.MotionMagic;
-import frc.robot.commands.Music;
+//import frc.robot.commands.Music;
 //import frc.robot.commands.Music;
 import frc.robot.commands.AutoShootVelocity;
 import frc.robot.commands.ShootAndDrive;
@@ -84,7 +84,7 @@ public class RobotContainer {
   public final Intake m_intake = new Intake();
   public final Shooter m_shooter = new Shooter();
   public final Turret m_turret = new Turret();
-  public final Drive m_drive = new Drive();
+  //public final Drive m_drive = new Drive();
   
   // Joysticks
   private  XboxController manipulatorJoystick = new XboxController(0);
@@ -131,7 +131,7 @@ public class RobotContainer {
   // Commands
   private final MotionMagic c_MotionMagic = new MotionMagic(m_chassis, -180, m_intake);
   private final SixCellAuto m_sixCellAuto = new SixCellAuto(m_chassis, m_intake, m_shooter, m_turret);
-  private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
+  //private final Music m_music = new Music(m_chassis, m_shooter, "TD.chrp");
   private final EightCellAuto m_eightCellAuto = new EightCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   private final ThreeCellAuto m_threeCellAuto = new ThreeCellAuto(m_chassis, m_intake, m_shooter, m_turret);
   private final SixCellAuto2 m_sixCellAuto2 = new SixCellAuto2(m_chassis, m_intake, m_shooter, m_turret);
@@ -192,7 +192,7 @@ public class RobotContainer {
 
     // SmartDashboard Buttons
     SmartDashboard.putData(new UnClimb(m_climber));
-    SmartDashboard.putData("TDrift", new Music(m_chassis, m_shooter, "TD.chrp"));
+    //SmartDashboard.putData("TDrift", new Music(m_chassis, m_shooter, "TD.chrp"));
     if (Constants.DEBUG) SmartDashboard.putData(new ShootToggle(m_shooter, m_turret, false));
     if (Constants.DEBUG) SmartDashboard.putData("shootRetreat", new ShootToggle(m_shooter, m_turret, true));
 
@@ -256,22 +256,22 @@ public class RobotContainer {
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
-        m_Drive::getPose,
+        m_chassis::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
         new SimpleMotorFeedforward(Constants.ksVolts,
                                    Constants.kvVoltSecondsPerMeter,
                                    Constants.kaVoltSecondsSquaredPerMeter),
         Constants.kDriveKinematics,
-        m_Drive::getWheelSpeeds,
+        m_chassis::getWheelSpeeds,
         new PIDController(Constants.kPDriveVel, 0, 0),
         new PIDController(Constants.kPDriveVel, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_Drive::tankDriveVolts,
-        m_Drive
+        m_chassis::tankDriveVolts,
+        m_chassis
     );
 
     // Reset odometry to the starting pose of the trajectory.
-    m_Drive.resetOdometry(exampleTrajectory.getInitialPose());
+    m_chassis.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return ramseteCommand.andThen(() -> m_Drive.tankDriveVolts(0, 0));

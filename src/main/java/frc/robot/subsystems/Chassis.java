@@ -19,21 +19,27 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
   private PigeonIMU pidgey;
-  private TalonFX leftLead, leftFollow, rightLead, rightFollow;
+  private WPI_TalonFX leftLead, leftFollow, rightLead, rightFollow;
   private int dir = 1;
   private boolean shootFront = true;
+
 
   // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
   // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
@@ -42,16 +48,22 @@ public class Chassis extends SubsystemBase {
   public TalonFXConfiguration _leftConfig = new TalonFXConfiguration(); 
   public TalonFXConfiguration _rightConfig = new TalonFXConfiguration(); 
 	
-  private ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
+  private ArrayList<WPI_TalonFX> _instruments = new ArrayList<WPI_TalonFX>();
+
+  // The robot's drive
+  private final DifferentialDrive m_drive = new DifferentialDrive(leftLead, rightLead);
+
+  // Odometry class for tracking robot pose
+  private final DifferentialDriveOdometry m_odometry;
 
   /**
    * Creates a new Chassis.
    */
   public Chassis() {
-    leftLead = new TalonFX(14);
-    leftFollow = new TalonFX(15);
-    rightLead = new TalonFX(1);
-    rightFollow = new TalonFX(16);
+    leftLead = new WPI_TalonFX(14);
+    leftFollow = new WPI_TalonFX(15);
+    rightLead = new WPI_TalonFX(1);
+    rightFollow = new WPI_TalonFX(16);
     pidgey = new PigeonIMU(0);
 
     leftFollow.configFactoryDefault();
@@ -151,9 +163,12 @@ public class Chassis extends SubsystemBase {
 	  
     // Music
     _instruments.add(leftLead);
-    _instruments.add((TalonFX)leftFollow);
+    _instruments.add((WPI_TalonFX)leftFollow);
     _instruments.add(rightLead);
-    _instruments.add((TalonFX)rightFollow);
+    _instruments.add((WPI_TalonFX)rightFollow);
+
+    //odometry?
+    m_odometry = new DifferentialDriveOdometry(new Rotation2d(getAngle()));
   }
 
 
@@ -177,9 +192,22 @@ public class Chassis extends SubsystemBase {
     SmartDashboard.putBoolean("Intake Front", !shootFront);
     // This method will be called once per scheduler run
 
+    //more odometry
+    m_odometry.update(new Rotation2d(getAngle()), leftLead.getSelectedSensorPosition(), rightLead.getSelectedSensorPosition());
 
   }
 
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(leftLead.getSelectedSensorVelocity(), rightLead.getSelectedSensorVelocity());
+  }
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftLead.setVoltage(leftVolts);
+    rightLead.setVoltage(-rightVolts);
+    m_drive.feed();
+  }
   public void curvatureDrive(double speed, double rotation, boolean quickTurn) {
     double leftSpeed = speed - rotation * dir;//(quickTurn ? -rotation : speed - (speed != 0 ? rotation : 0));
     double rightSpeed = speed + rotation *dir;//(quickTurn ? rotation : speed + (speed != 0 ? rotation : 0));
@@ -294,7 +322,7 @@ public void stopDriveMotors() {
     rightLead.set(ControlMode.PercentOutput, 0); 
   }
 	
-  public ArrayList<TalonFX> getInstruments() {
+  public ArrayList<WPI_TalonFX> getInstruments() {
 	return _instruments;	  
   }
 }
