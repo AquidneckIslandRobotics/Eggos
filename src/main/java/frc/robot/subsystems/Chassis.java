@@ -293,7 +293,12 @@ public void stopDriveMotors() {
     leftLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 
     rightLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 
   }
-	
+  
+  public void resetOdometry(Pose2d pose) {
+    resetEncoder();
+    m_odometry.resetPosition(pose, new Rotation2d(getAngle()));
+  }
+  
   public void zeroAllSensors() {
     leftLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 
     rightLead.getSensorCollection().setIntegratedSensorPosition(0, 30); 

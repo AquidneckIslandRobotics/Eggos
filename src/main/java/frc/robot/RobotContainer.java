@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -274,6 +274,6 @@ public class RobotContainer {
     m_chassis.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_Drive.tankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> m_chassis.tankDriveVolts(0, 0));
   }
 }
