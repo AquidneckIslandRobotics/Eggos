@@ -24,6 +24,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.networktables.*;
+//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -40,6 +42,10 @@ public class Chassis extends SubsystemBase {
   private int dir = 1;
   private boolean shootFront = true;
 
+  private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  private static NetworkTableEntry tx = table.getEntry("tx");
+  private static NetworkTableEntry ty = table.getEntry("ty");
+  private static NetworkTableEntry ta = table.getEntry("ta");
 
   // public Encoder rightEncoder = new Encoder(Constants.EncoderRA, Constants.EncoderRB);
   // public Encoder leftEncoder = new Encoder(Constants.EncoderLA, Constants.EncoderLB);
@@ -329,6 +335,11 @@ public void stopDriveMotors() {
 	
   public ArrayList<WPI_TalonFX> getInstruments() {
 	return _instruments;	  
+  }
+  public String camera2Path(){
+    
+    String poof = "erebet";
+    return poof;
   }
 }
 // " hey buddy if you could just switch these motors to the other dirction that'd be great"
