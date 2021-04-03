@@ -39,10 +39,10 @@ public class Hood2 extends CommandBase {
   if (Constants.DEBUG) SmartDashboard.putNumber("Curr", hood);
   if (Constants.DEBUG) SmartDashboard.putNumber("Target", targetAngle);
   
- if (hood > (targetAngle + 1600)) {
+ if (hood > (targetAngle + 1000)) { // change this number if the Hood Angle presets are not high enough 
     turret.setHoodAngle(-.1);
   }
- else if (hood < (targetAngle - 1600)) {
+ else if (hood < (targetAngle - 1000)) { // chnage this number if the Hood Angle presets are not right - Isabella 3/31/2021
     turret.setHoodAngle(.1);
     }
     else {

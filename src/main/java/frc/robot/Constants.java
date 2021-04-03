@@ -64,7 +64,7 @@ public final class Constants {
 	
     // Shooter and hood constants
     public final static int [] shooterSpeed = {3800, 4500, 5000, 5700, 6000};
-    public final static int [] hoodLocate = {-28000, -31000, -37000, -50000, -58000};
+    public final static int [] hoodLocate = {-20000, -28000, -31000, -37000, -50000, -58000};// added new preset, need to add to smart dashboard if need be(3/24/2021)
     public final static double [] feedGain = {1, 1, 0.85, 0.4, 0.4};
 
     // Deadbands
