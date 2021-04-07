@@ -57,7 +57,7 @@ public class Chassis extends SubsystemBase {
   private ArrayList<WPI_TalonFX> _instruments = new ArrayList<WPI_TalonFX>();
 
   // The robot's drive
-  private final DifferentialDrive m_drive = new DifferentialDrive(leftLead, rightLead);
+  private final DifferentialDrive m_drive;
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
@@ -71,6 +71,7 @@ public class Chassis extends SubsystemBase {
     rightLead = new WPI_TalonFX(1);
     rightFollow = new WPI_TalonFX(16);
     pidgey = new PigeonIMU(0);
+    m_drive = new DifferentialDrive(leftLead, rightLead);
 
     leftFollow.configFactoryDefault();
     leftFollow.follow(leftLead);

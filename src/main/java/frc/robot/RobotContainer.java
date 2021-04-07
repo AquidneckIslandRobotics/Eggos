@@ -12,7 +12,14 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
+import com.revrobotics.CANSparkMax;
+
+import org.ejml.equation.ParseError;
+
 import edu.wpi.first.wpilibj.trajectory.*;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -74,6 +81,7 @@ import frc.robot.commands.ThreeCellAuto2;
 import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
+import org.json.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -90,7 +98,11 @@ public class RobotContainer {
   public final Shooter m_shooter = new Shooter();
   public final Turret m_turret = new Turret();
   //public final Drive m_drive = new Drive();
-  
+  // Table stuff for the trajectory thing
+  private static NetworkTable table = NetworkTableInstance.getDefault().getTable("ML");
+  private static NetworkTableEntry boxes = table.getEntry("boxes");
+  private static NetworkTableEntry nb = table.getEntry("nb_objects");
+  private static NetworkTableEntry object_class = table.getEntry("object_classes");
   // Joysticks
   private  XboxController manipulatorJoystick = new XboxController(0);
   private XboxController drivingJoystick1 = new XboxController(1);
@@ -258,11 +270,47 @@ public class RobotContainer {
     //     // Pass config
     //     config
     // );
+    double[] box = boxes.getDoubleArray(new double[] {0.0});
+    SmartDashboard.putNumber("box1", box[0]);
+    SmartDashboard.putNumber("box2", box[1]);
+    SmartDashboard.putNumber("box3", box[2]);
+    SmartDashboard.putNumber("box4", box[3]);
+    Double object = nb.getDouble(0);
+    SmartDashboard.putString("nb_objects", object);
+    String[] object_c = object_class.getStringArray(new string[] {""});
+    SmartDashboard.putString("object_class", object_c);    
         String trajectoryJSON = m_chassis.camera2Path();
     Trajectory trajectory = new Trajectory();
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    //
+
+    double xValue;
+
+    for (int i = 0; i < object; i++) {
+      if (object_c[i].equals("Power_Cell")) {
+        xValue = box[i*4]; // will probably change from a double to an array list of doubles
+      }
+    }
+
+
+  try {
+      Path trajectoryPath;
+
+      NetworkTable coralTable = NetworkTableInstance.getDefault().getTable("ML");
+      String coralOutput = coralTable.getEntry("detections").getString("");
+
+      if(xValue >= 0 && xValue < 80) {
+        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } else if(xValue >= 80 && xValue < 160) {
+        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } else if(xValue >= 160 && xValue < 240) {
+        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } else {
+        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      }
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
