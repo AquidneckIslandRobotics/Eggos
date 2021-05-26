@@ -32,6 +32,7 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax hopperRight = new CANSparkMax(Constants.HopperRight, MotorType.kBrushless);
   private static CANSparkMax hopperLeft = new CANSparkMax(Constants.HopperLeft, MotorType.kBrushless);
   private static CANSparkMax feed = new CANSparkMax(Constants.Feed, MotorType.kBrushless);
+  private static CANSparkMax feedTwo = new CANSparkMax(Constants.FeedTwo, MotorType.kBrushless);
 
   public int shootLocate = 0;
 public boolean feedEnable = true;
@@ -143,6 +144,9 @@ public boolean feedEnable = true;
     feed.set(0);
     hopperDir = true;
     hopperCount = 0;
+  }
+  public void topFeed(double speed){
+    feedTwo.set(speed);
   }
   /**
    * Method to set the velocity control of shooter wheels

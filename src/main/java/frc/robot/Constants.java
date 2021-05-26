@@ -39,6 +39,7 @@ public final class Constants {
     public static final int HopperRight = 9; 
     public static final int HopperLeft = 6;   
     public static final int Feed = 10; 
+    public static final int FeedTwo = 12;
 
     //Intake Motors
     public static final int RightIntake = 7; 
@@ -48,7 +49,7 @@ public final class Constants {
     public static final int ControlPanel = 11; 
   
     //Climbing 
-    public static final int Climber = 12; 
+    public static final int Climber = 78;//changed because of conflict in PDP slots (would have been 12)
 
     //Gains stuff
     public final static Gains kGains_Distanc = new Gains( 0.2, 0.0,  0.0, 0.2,            100,  1.00 );

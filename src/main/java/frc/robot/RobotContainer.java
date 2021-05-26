@@ -78,10 +78,11 @@ import frc.robot.commands.SpinWheel;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ThreeCellAuto;
 import frc.robot.commands.ThreeCellAuto2;
+import frc.robot.commands.TopFeed;
 import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
-import org.json.*;
+//import org.json.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -131,6 +132,7 @@ public class RobotContainer {
   private Button manipulatorY = new JoystickButton(manipulatorJoystick, 4);
   private Button manipulatorLimeLB = new JoystickButton(manipulatorJoystick, 5);
   private Button manipulatorRB = new JoystickButton(manipulatorJoystick, 6);
+  private Button manipulatorSelect = new JoystickButton(manipulatorJoystick, 7);
   private Button manipulatorStart = new JoystickButton(manipulatorJoystick, 8);
   private Button manipulatorL3 = new JoystickButton(manipulatorJoystick, 9);//Joystick press
   private Button manipulatorR3 = new JoystickButton(manipulatorJoystick, 10);//Joystick press
@@ -203,7 +205,7 @@ public class RobotContainer {
     advancePosition.whenActive(new ShootToggle(m_shooter, m_turret, false));
     reteatPosition.whenActive(new ShootToggle(m_shooter, m_turret, true));
     hoodAdjust.whileActiveContinuous(new Hood2(m_turret, Constants.hoodLocate[m_turret.hoodLocate]));
-
+    manipulatorSelect.whileHeld(new TopFeed(m_shooter));
     if (Constants.DEBUG) SmartDashboard.putData("Hood 1", new Hood2(m_turret, Constants.hoodLocate[0]));
     if (Constants.DEBUG) SmartDashboard.putData("Hood 4",new Hood2(m_turret, Constants.hoodLocate[3]));
 
@@ -276,44 +278,44 @@ public class RobotContainer {
     SmartDashboard.putNumber("box3", box[2]);
     SmartDashboard.putNumber("box4", box[3]);
     Double object = nb.getDouble(0);
-    SmartDashboard.putString("nb_objects", object);
-    String[] object_c = object_class.getStringArray(new string[] {""});
-    SmartDashboard.putString("object_class", object_c);    
+    //SmartDashboard.putString("nb_objects", object);
+    //String[] object_c = object_class.getStringArray(new string[] {""});
+    //SmartDashboard.putString("object_class", object_c);    
         String trajectoryJSON = m_chassis.camera2Path();
     Trajectory trajectory = new Trajectory();
     //
 
     double xValue;
 
-    for (int i = 0; i < object; i++) {
-      if (object_c[i].equals("Power_Cell")) {
-        xValue = box[i*4]; // will probably change from a double to an array list of doubles
-      }
-    }
+    // for (int i = 0; i < object; i++) {
+    //   if (object_c[i].equals("Power_Cell")) {
+    //     xValue = box[i*4]; // will probably change from a double to an array list of doubles
+    //   }
+    // }
 
 
-  try {
-      Path trajectoryPath;
+  // try {
+  //     Path trajectoryPath;
 
-      NetworkTable coralTable = NetworkTableInstance.getDefault().getTable("ML");
-      String coralOutput = coralTable.getEntry("detections").getString("");
+  //     NetworkTable coralTable = NetworkTableInstance.getDefault().getTable("ML");
+  //     String coralOutput = coralTable.getEntry("detections").getString("");
 
-      if(xValue >= 0 && xValue < 80) {
-        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } else if(xValue >= 80 && xValue < 160) {
-        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } else if(xValue >= 160 && xValue < 240) {
-        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } else {
-        trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      }
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
+  //     // if(xValue >= 0 && xValue < 80) {
+  //     //   trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     //   trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //     // } else if(xValue >= 80 && xValue < 160) {
+  //     //   trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     //   trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //     // } else if(xValue >= 160 && xValue < 240) {
+  //     //   trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     //   trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //     // } else {
+  //     //   trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     //   trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //     // }
+  //   } catch (IOException ex) {
+  //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+  //   }
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,
         m_chassis::getPose,
