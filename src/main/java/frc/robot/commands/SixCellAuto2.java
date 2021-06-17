@@ -21,7 +21,7 @@ public class SixCellAuto2 extends ParallelCommandGroup {
    * Creates a new EightCellAuto1.
    */
   public SixCellAuto2(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
-    super(new ShooterAuto(shooter), new IntakeInward(takeInCells), new SixCellAutoWithoutShooter2(chassis, takeInCells, shooter, turret));
+    super(new ShooterAuto(shooter), new IntakeInward(takeInCells), new SixCellAutoWithoutShooter2(chassis, takeInCells, shooter, turret), new TopFeed(shooter));
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }

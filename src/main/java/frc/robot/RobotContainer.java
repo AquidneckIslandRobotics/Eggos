@@ -57,6 +57,8 @@ import frc.robot.commands.ThreeCellAuto2;
 import frc.robot.commands.TurnPID;
 import frc.robot.commands.TurretLimelight;
 import frc.robot.commands.TurretPID;
+import frc.robot.commands.TopFeed; 
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -162,11 +164,11 @@ public class RobotContainer {
 
     // Manipulator Buttons
     manipulatorA.whileHeld(new HopperOuttake(m_shooter));
-    manipulatorB.whileHeld(new IntakeAndHopper(m_intake, m_shooter));
+    manipulatorB.whileHeld(new TopFeed(m_shooter));
     manipulatorX.whileHeld(new IntakeInward(m_intake));
     manipulatorY.whileHeld(new DeployIntake(m_intake));
     manipulatorLimeLB.whileHeld(new HoodAndLime(m_turret));//TurretLimelight(m_turret));
-    manipulatorRB.whileHeld(new SpinWheel(m_shooter));//AutoShootVelocity(m_shooter, m_turret, 5000));//
+    manipulatorRB.whileHeld((new SpinWheel(m_shooter)).alongWith(new IntakeAndHopper(m_intake, m_shooter)));//AutoShootVelocity(m_shooter, m_turret, 5000));//
     manipulatorL3.whileHeld(new TurretTurn(m_turret, .5));
     manipulatorR3.whileHeld(new TurretTurn(m_turret, -.5));
     manipulatorStart.whileHeld(new IntakeOutward(m_intake));

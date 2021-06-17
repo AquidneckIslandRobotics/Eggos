@@ -24,6 +24,7 @@ public class SixCellAuto extends SequentialCommandGroup {
   public SixCellAuto(Chassis chassis, Intake takeInCells, Shooter shooter, Turret turret) {
     // Add your commands in the super() call, e.g.
     super(new SetLocate(shooter, turret, 1), new HoodandShootAuto(shooter, turret), new MotionMagic(chassis, -186, takeInCells), new SetLocate(shooter, turret, 3), new LimeAndShoot(shooter, turret)); 
+    //new TopFeed(shooter)); 
     // super(new FooCommand(), new BarCommand());
    // super(new ShooterAuto(shooter, turret), new DriveAndSpinGroup(), );
   }
